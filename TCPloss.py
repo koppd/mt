@@ -35,12 +35,13 @@ def myNetwork():
     h4 = net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
 
     info( '*** Add links\n')
-    net.addLink(h1, s1)
+    h1s1 = {'delay':'20ms','loss':0,'max_queue_size':3}
+    net.addLink(h1, s1, cls=TCLink , **h1s1)
 ##    h2s1 = {'delay':'500ms','loss':5}
 ##    net.addLink(h2, s1, cls=TCLink , **h2s1)
 ##    h3s1 = {'delay':'250ms','loss':5}
 ##    net.addLink(h3, s1, cls=TCLink , **h3s1)
-    h4s1 = {'delay':'250ms','loss':1}
+    h4s1 = {'delay':'20ms','loss':5,'max_queue_size':20}
     net.addLink(h4, s1, cls=TCLink , **h4s1)
 
     info( '\n*** Starting network\n')
