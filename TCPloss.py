@@ -74,7 +74,7 @@ def myNetwork():
     info( '***************************\n')
     info( '****** Anleitung **********\n')
     print "Geben Sie folgenden Befehl im xterm Fenster ein:"
-    print "wget -O /dev/null 10.0.0.1/bigfile"
+    print "wget -O /dev/null 10.0.0.1/smallfile"
     info( '***************************\n')
         
 
@@ -97,5 +97,5 @@ def myNetwork():
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
-    myNetwork()sudo spyder 
+    myNetwork()
 
