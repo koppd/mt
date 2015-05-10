@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed May  6 11:04:05 2015
+# Created: Sun May 10 15:37:26 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -82,6 +82,14 @@ class Ui_MainWindow(object):
         self.spinBox_2.setSingleStep(50)
         self.spinBox_2.setProperty("value", 250)
         self.spinBox_2.setObjectName("spinBox_2")
+        self.label_11 = QtGui.QLabel(self.tab)
+        self.label_11.setGeometry(QtCore.QRect(20, 240, 91, 21))
+        self.label_11.setObjectName("label_11")
+        self.spinBox_3 = QtGui.QSpinBox(self.tab)
+        self.spinBox_3.setGeometry(QtCore.QRect(120, 240, 71, 22))
+        self.spinBox_3.setMinimum(1)
+        self.spinBox_3.setProperty("value", 3)
+        self.spinBox_3.setObjectName("spinBox_3")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -142,6 +150,7 @@ class Ui_MainWindow(object):
         self.label_8.setText(QtGui.QApplication.translate("MainWindow", "Configuration:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_9.setText(QtGui.QApplication.translate("MainWindow", "Delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("MainWindow", "Paket loss: (%)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("MainWindow", "Queue length", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "TCP paket loss", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "NAT", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QtGui.QApplication.translate("MainWindow", "ARP", None, QtGui.QApplication.UnicodeUTF8))
