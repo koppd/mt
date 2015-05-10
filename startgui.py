@@ -2,6 +2,7 @@
 import sys
 from PySide import QtCore, QtGui
 from mainwindow import Ui_MainWindow
+import TCPloss
 
 
 
@@ -17,7 +18,9 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.ui.pushButton.clicked.connect(self.btn1clicked)
   
     def btn1clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+        TCPloss.myNetwork()
+        
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

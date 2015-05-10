@@ -83,8 +83,8 @@ def myNetwork():
 #    ws.kill()
 #    http.kill()
     
-    print "gucke ob HTTP noch laeuft", http
-    print "gucke ob'wireshark noch laeuft", ws
+    #print "gucke ob HTTP noch laeuft", http
+    #print "gucke ob'wireshark noch laeuft", ws
     
 #    h4.terminate()
 #    h1.terminate()
@@ -97,5 +97,5 @@ def myNetwork():
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
-    myNetwork()
+    myNetwork()sudo spyder 
 
