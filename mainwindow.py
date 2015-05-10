@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun May 10 20:19:07 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.2
+# Created: Sun May 10 13:34:36 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -16,7 +16,7 @@ class Ui_MainWindow(object):
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.tabWidget = QtGui.QTabWidget(self.centralWidget)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 531, 431))
+        self.tabWidget.setGeometry(QtCore.QRect(0, 10, 531, 431))
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtGui.QWidget()
         self.tab.setObjectName("tab")
@@ -90,6 +90,12 @@ class Ui_MainWindow(object):
         self.spinBox_3.setMinimum(1)
         self.spinBox_3.setProperty("value", 3)
         self.spinBox_3.setObjectName("spinBox_3")
+        self.label_12 = QtGui.QLabel(self.tab)
+        self.label_12.setGeometry(QtCore.QRect(20, 370, 52, 16))
+        self.label_12.setObjectName("label_12")
+        self.label_13 = QtGui.QLabel(self.tab)
+        self.label_13.setGeometry(QtCore.QRect(70, 370, 281, 16))
+        self.label_13.setObjectName("label_13")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -105,7 +111,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_3, "")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 555, 20))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 555, 19))
         self.menuBar.setObjectName("menuBar")
         self.menuHallo = QtGui.QMenu(self.menuBar)
         self.menuHallo.setObjectName("menuHallo")
@@ -118,11 +124,15 @@ class Ui_MainWindow(object):
         self.statusBar = QtGui.QStatusBar(MainWindow)
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
+        self.actionExit = QtGui.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.menuHallo.addAction(self.actionExit)
         self.menuBar.addAction(self.menuHallo.menuAction())
         self.menuBar.addAction(self.menuInfo.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
+        QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL("activated()"), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -151,6 +161,8 @@ class Ui_MainWindow(object):
         self.label_9.setText(QtGui.QApplication.translate("MainWindow", "Delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("MainWindow", "Paket loss: (%)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_11.setText(QtGui.QApplication.translate("MainWindow", "Queue length", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_12.setText(QtGui.QApplication.translate("MainWindow", "Step 3:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_13.setText(QtGui.QApplication.translate("MainWindow", "Stop mininet in the main terminal with \"exit\"", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "TCP paket loss", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "NAT", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QtGui.QApplication.translate("MainWindow", "ARP", None, QtGui.QApplication.UnicodeUTF8))
@@ -158,4 +170,5 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("MainWindow", "BGP", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHallo.setTitle(QtGui.QApplication.translate("MainWindow", "Menue", None, QtGui.QApplication.UnicodeUTF8))
         self.menuInfo.setTitle(QtGui.QApplication.translate("MainWindow", "Info", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
 
