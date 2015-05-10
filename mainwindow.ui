@@ -179,7 +179,7 @@ p, li { white-space: pre-wrap; }
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../temp2/shutter/Auswahl_007.bmp</pixmap>
+       <pixmap>TCPlost.png</pixmap>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit">

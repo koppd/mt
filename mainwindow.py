@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun May 10 15:37:26 2015
+# Created: Sun May 10 20:19:07 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         self.label_7.setGeometry(QtCore.QRect(260, 30, 231, 181))
         self.label_7.setMinimumSize(QtCore.QSize(0, 0))
         self.label_7.setText("")
-        self.label_7.setPixmap(QtGui.QPixmap("../temp2/shutter/Auswahl_007.bmp"))
+        self.label_7.setPixmap(QtGui.QPixmap("TCPlost.png"))
         self.label_7.setObjectName("label_7")
         self.lineEdit = QtGui.QLineEdit(self.tab)
         self.lineEdit.setGeometry(QtCore.QRect(70, 340, 281, 22))
