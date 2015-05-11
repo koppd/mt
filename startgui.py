@@ -19,7 +19,8 @@ class ControlMainWindow(QtGui.QMainWindow):
   
     def btn1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
-        TCPloss.myNetwork()
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        TCPloss.myNetwork(delay=self.ui.TCPloss_delay.value(), loss=self.ui.TCPloss_loss.value(), swin=self.ui.TCPloss_swin.value())
         
 
 if __name__ == '__main__':
