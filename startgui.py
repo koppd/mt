@@ -3,7 +3,7 @@ import sys
 from PySide import QtCore, QtGui
 from mainwindow import Ui_MainWindow
 import TCPloss
-
+import dhcp
 
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -15,12 +15,24 @@ class ControlMainWindow(QtGui.QMainWindow):
         #self.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.btn1clicked)
 
 #new style
-        self.ui.pushButton.clicked.connect(self.btn1clicked)
+        self.ui.TCPloss_Step1.clicked.connect(self.tcp1clicked)
+        self.ui.DHCP_Step1.clicked.connect(self.dhcp1clicked)
+
   
-    def btn1clicked(self):
+    def tcp1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
-        TCPloss.myNetwork(delay=self.ui.TCPloss_delay.value(), loss=self.ui.TCPloss_loss.value(), swin=self.ui.TCPloss_swin.value())
+        TCPloss.myNetwork( delay=self.ui.TCPloss_delay.value(), 
+                          loss=self.ui.TCPloss_loss.value(), 
+                          swin=self.ui.TCPloss_swin.value() )
+
+    def dhcp1clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        dhcp.myNetwork( delay = self.ui.TCPloss_delay.value(), 
+                       fresh_daemon_leases = self.ui.DHCP_daemon_leases.isChecked(), 
+                       fresh_client_leases = self.ui.DHCP_client_leases.isChecked(),
+                       MAC_random = self.ui.DHCP_random_MAC.isChecked() )
         
 
 if __name__ == '__main__':

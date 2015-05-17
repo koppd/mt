@@ -85,8 +85,8 @@ def myNetwork():
 
 #extra Links, diese haben als Interface: h1-eth1
 #IP Adresse dafue ist: None.
-    net.addLink(h1, s1)
-    net.addLink(h2, s1)
+#    net.addLink(h1, s1)
+#    net.addLink(h2, s1)
 # mit dhclient -d -v h2-eth1 werden auf h2 DHCP Discover Nachrichten verschickt. (UDP)
     CLI(net)
     net.stop()
