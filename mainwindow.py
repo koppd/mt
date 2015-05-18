@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun May 17 12:31:25 2015
+# Created: Mon May 18 12:30:35 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
         self.groupBox.setGeometry(QtCore.QRect(10, 180, 251, 111))
         self.groupBox.setObjectName("groupBox")
         self.label_9 = QtGui.QLabel(self.groupBox)
-        self.label_9.setGeometry(QtCore.QRect(10, 20, 91, 21))
+        self.label_9.setGeometry(QtCore.QRect(10, 20, 141, 21))
         self.label_9.setObjectName("label_9")
         self.TCPloss_delay = QtGui.QSpinBox(self.groupBox)
         self.TCPloss_delay.setGeometry(QtCore.QRect(170, 20, 61, 21))
@@ -116,7 +116,7 @@ class Ui_MainWindow(object):
         self.groupBox_7.setGeometry(QtCore.QRect(10, 180, 251, 141))
         self.groupBox_7.setObjectName("groupBox_7")
         self.label_14 = QtGui.QLabel(self.groupBox_7)
-        self.label_14.setGeometry(QtCore.QRect(10, 20, 91, 21))
+        self.label_14.setGeometry(QtCore.QRect(10, 20, 131, 21))
         self.label_14.setObjectName("label_14")
         self.DHCP_delay = QtGui.QSpinBox(self.groupBox_7)
         self.DHCP_delay.setGeometry(QtCore.QRect(170, 20, 61, 21))
@@ -136,7 +136,7 @@ class Ui_MainWindow(object):
         self.DHCP_client_leases.setObjectName("DHCP_client_leases")
         self.DHCP_random_MAC = QtGui.QCheckBox(self.groupBox_7)
         self.DHCP_random_MAC.setGeometry(QtCore.QRect(10, 110, 201, 19))
-        self.DHCP_random_MAC.setChecked(True)
+        self.DHCP_random_MAC.setChecked(False)
         self.DHCP_random_MAC.setObjectName("DHCP_random_MAC")
         self.groupBox_8 = QtGui.QGroupBox(self.tab_2)
         self.groupBox_8.setGeometry(QtCore.QRect(10, 330, 521, 131))
@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Configuration", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_9.setText(QtGui.QApplication.translate("MainWindow", "Delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setText(QtGui.QApplication.translate("MainWindow", "Link delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("MainWindow", "Paket loss: (%)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_11.setText(QtGui.QApplication.translate("MainWindow", "Queue length: (sender)", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("MainWindow", "Instructions", None, QtGui.QApplication.UnicodeUTF8))
@@ -228,7 +228,8 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Link:</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- 20ms delay </p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- 5% paket loss</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- 5% paket loss</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- Sender queue length</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("MainWindow", "Picture", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "TCP paket loss", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_5.setTitle(QtGui.QApplication.translate("MainWindow", "Description", None, QtGui.QApplication.UnicodeUTF8))
@@ -239,15 +240,15 @@ class Ui_MainWindow(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Hosts:</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">h1: running a DHCP daemon</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">h2: wireshark</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">h2: xterm window to request an IP address (dhclient)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">h2: xterm window to request an IP address via dhclient</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Link:</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- 20ms delay </p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_6.setTitle(QtGui.QApplication.translate("MainWindow", "Picture", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_7.setTitle(QtGui.QApplication.translate("MainWindow", "Configuration", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_14.setText(QtGui.QApplication.translate("MainWindow", "Delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
-        self.DHCP_daemon_leases.setText(QtGui.QApplication.translate("MainWindow", "Use fresh server lease file", None, QtGui.QApplication.UnicodeUTF8))
-        self.DHCP_client_leases.setText(QtGui.QApplication.translate("MainWindow", "Use fresh client lease file", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_14.setText(QtGui.QApplication.translate("MainWindow", "Link delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
+        self.DHCP_daemon_leases.setText(QtGui.QApplication.translate("MainWindow", "Use new server lease file", None, QtGui.QApplication.UnicodeUTF8))
+        self.DHCP_client_leases.setText(QtGui.QApplication.translate("MainWindow", "Use new client lease file", None, QtGui.QApplication.UnicodeUTF8))
         self.DHCP_random_MAC.setText(QtGui.QApplication.translate("MainWindow", "Use random MAC addresses", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_8.setTitle(QtGui.QApplication.translate("MainWindow", "Instructions", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Step 1:", None, QtGui.QApplication.UnicodeUTF8))
