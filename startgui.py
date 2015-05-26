@@ -17,6 +17,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 #new style
         self.ui.TCPloss_Step1.clicked.connect(self.tcp1clicked)
         self.ui.DHCP_Step1.clicked.connect(self.dhcp1clicked)
+        self.ui.DHCP_Step2.clicked.connect(self.dhcp2clicked)
+        self.ui.DHCP_Exit.clicked.connect(self.dhcpExitclicked)
 
   
     def tcp1clicked(self):
@@ -29,11 +31,23 @@ class ControlMainWindow(QtGui.QMainWindow):
     def dhcp1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
-        dhcp.myNetwork( delay = self.ui.TCPloss_delay.value(), 
+        self.scen = dhcp.netDHCP()
+        
+        self.scen.myNetwork( delay = self.ui.TCPloss_delay.value(), 
                        fresh_daemon_leases = self.ui.DHCP_daemon_leases.isChecked(), 
                        fresh_client_leases = self.ui.DHCP_client_leases.isChecked(),
                        MAC_random = self.ui.DHCP_random_MAC.isChecked() )
         
+    def dhcp2clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.startClient(  )
+
+    def dhcpExitclicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.stopClient(  )
+
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

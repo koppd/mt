@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Mon May 18 12:30:35 2015
+# Created: Tue May 26 05:49:03 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -152,20 +152,26 @@ class Ui_MainWindow(object):
         self.label_6.setGeometry(QtCore.QRect(20, 50, 52, 16))
         self.label_6.setObjectName("label_6")
         self.label_17 = QtGui.QLabel(self.groupBox_8)
-        self.label_17.setGeometry(QtCore.QRect(80, 50, 281, 16))
+        self.label_17.setGeometry(QtCore.QRect(220, 50, 281, 16))
         self.label_17.setObjectName("label_17")
         self.lineEdit_2 = QtGui.QLineEdit(self.groupBox_8)
-        self.lineEdit_2.setGeometry(QtCore.QRect(80, 70, 431, 22))
+        self.lineEdit_2.setGeometry(QtCore.QRect(220, 70, 291, 22))
         font = QtGui.QFont()
         font.setFamily("Monospace")
         self.lineEdit_2.setFont(font)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_18 = QtGui.QLabel(self.groupBox_8)
-        self.label_18.setGeometry(QtCore.QRect(80, 100, 281, 16))
+        self.label_18.setGeometry(QtCore.QRect(220, 100, 281, 16))
         self.label_18.setObjectName("label_18")
         self.label_19 = QtGui.QLabel(self.groupBox_8)
         self.label_19.setGeometry(QtCore.QRect(20, 100, 52, 16))
         self.label_19.setObjectName("label_19")
+        self.DHCP_Step2 = QtGui.QPushButton(self.groupBox_8)
+        self.DHCP_Step2.setGeometry(QtCore.QRect(80, 50, 111, 24))
+        self.DHCP_Step2.setObjectName("DHCP_Step2")
+        self.DHCP_Exit = QtGui.QPushButton(self.groupBox_8)
+        self.DHCP_Exit.setGeometry(QtCore.QRect(80, 100, 77, 24))
+        self.DHCP_Exit.setObjectName("DHCP_Exit")
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtGui.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -258,6 +264,8 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setText(QtGui.QApplication.translate("MainWindow", "dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn h2-eth0", None, QtGui.QApplication.UnicodeUTF8))
         self.label_18.setText(QtGui.QApplication.translate("MainWindow", "Stop mininet in the main terminal with \"exit\"", None, QtGui.QApplication.UnicodeUTF8))
         self.label_19.setText(QtGui.QApplication.translate("MainWindow", "Step 3:", None, QtGui.QApplication.UnicodeUTF8))
+        self.DHCP_Step2.setText(QtGui.QApplication.translate("MainWindow", "Execute dhclient", None, QtGui.QApplication.UnicodeUTF8))
+        self.DHCP_Exit.setText(QtGui.QApplication.translate("MainWindow", "Stop demo", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "DHCP", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QtGui.QApplication.translate("MainWindow", "ARP", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QtGui.QApplication.translate("MainWindow", "NAT", None, QtGui.QApplication.UnicodeUTF8))
