@@ -16,6 +16,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 #new style
         self.ui.TCPloss_Step1.clicked.connect(self.tcp1clicked)
+        self.ui.TCPloss_Step2.clicked.connect(self.tcp2clicked)
+        self.ui.TCPloss_Exit.clicked.connect(self.tcpExitclicked)
+
         self.ui.DHCP_Step1.clicked.connect(self.dhcp1clicked)
         self.ui.DHCP_Step2.clicked.connect(self.dhcp2clicked)
         self.ui.DHCP_Exit.clicked.connect(self.dhcpExitclicked)
@@ -24,9 +27,23 @@ class ControlMainWindow(QtGui.QMainWindow):
     def tcp1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
-        TCPloss.myNetwork( delay=self.ui.TCPloss_delay.value(), 
+        self.scen = TCPloss.netTCPloss()
+                
+        self.scen.myNetwork( delay=self.ui.TCPloss_delay.value(), 
                           loss=self.ui.TCPloss_loss.value(), 
                           swin=self.ui.TCPloss_swin.value() )
+
+    def tcp2clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.startDownload( )
+
+    def tcpExitclicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.stopNet( )
+
+
 
     def dhcp1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
@@ -41,12 +58,12 @@ class ControlMainWindow(QtGui.QMainWindow):
     def dhcp2clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
-        self.scen.startClient(  )
+        self.scen.startClient( )
 
     def dhcpExitclicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
-        self.scen.stopClient(  )
+        self.scen.stopNet( )
 
 
 if __name__ == '__main__':

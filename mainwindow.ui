@@ -24,11 +24,11 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>TCP paket loss</string>
+      <string>TCP packet loss</string>
      </attribute>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
@@ -147,7 +147,7 @@
        <rect>
         <x>10</x>
         <y>300</y>
-        <width>371</width>
+        <width>511</width>
         <height>131</height>
        </rect>
       </property>
@@ -199,20 +199,20 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>210</x>
          <y>50</y>
          <width>281</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>Copy this text and paste it in xterm window</string>
+        <string>This command will be executed:</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>210</x>
          <y>70</y>
          <width>281</width>
          <height>22</height>
@@ -224,20 +224,10 @@
         </font>
        </property>
        <property name="text">
-        <string>wget -O /dev/null 10.0.0.1/bigfile</string>
+        <string>wget -O /dev/null 10.0.0.1/smallfile</string>
        </property>
-      </widget>
-      <widget class="QLabel" name="label_13">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>100</y>
-         <width>281</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Stop mininet in the main terminal with &quot;exit&quot;</string>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="label_12">
@@ -251,6 +241,32 @@
        </property>
        <property name="text">
         <string>Step 3:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="TCPloss_Step2">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>50</y>
+         <width>111</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Start download</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="TCPloss_Exit">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>100</y>
+         <width>77</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Stop demo</string>
        </property>
       </widget>
      </widget>
@@ -566,7 +582,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Copy this text and paste it in xterm window</string>
+        <string>This command wil be executed:</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_2">
@@ -586,18 +602,8 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn h2-eth0</string>
        </property>
-      </widget>
-      <widget class="QLabel" name="label_18">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>100</y>
-         <width>281</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Stop mininet in the main terminal with &quot;exit&quot;</string>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="label_19">

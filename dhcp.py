@@ -149,7 +149,7 @@ class netDHCP():
 #        self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn h2-eth0'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
-    def stopClient( self ):
+    def stopNet( self ):
 #        cleanUpScreens() 
         self.h1.cmd("pkill dhcpd")
         self.h2.cmd("pkill dhclient")

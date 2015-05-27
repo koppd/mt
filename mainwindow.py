@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue May 26 05:49:03 2015
+# Created: Wed May 27 01:32:57 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.TCPloss_swin.setProperty("value", 3)
         self.TCPloss_swin.setObjectName("TCPloss_swin")
         self.groupBox_2 = QtGui.QGroupBox(self.tab)
-        self.groupBox_2.setGeometry(QtCore.QRect(10, 300, 371, 131))
+        self.groupBox_2.setGeometry(QtCore.QRect(10, 300, 511, 131))
         self.groupBox_2.setObjectName("groupBox_2")
         self.label_2 = QtGui.QLabel(self.groupBox_2)
         self.label_2.setGeometry(QtCore.QRect(20, 20, 52, 23))
@@ -65,20 +65,24 @@ class Ui_MainWindow(object):
         self.label_3.setGeometry(QtCore.QRect(20, 50, 52, 16))
         self.label_3.setObjectName("label_3")
         self.label_4 = QtGui.QLabel(self.groupBox_2)
-        self.label_4.setGeometry(QtCore.QRect(80, 50, 281, 16))
+        self.label_4.setGeometry(QtCore.QRect(210, 50, 281, 16))
         self.label_4.setObjectName("label_4")
         self.lineEdit = QtGui.QLineEdit(self.groupBox_2)
-        self.lineEdit.setGeometry(QtCore.QRect(80, 70, 281, 22))
+        self.lineEdit.setGeometry(QtCore.QRect(210, 70, 281, 22))
         font = QtGui.QFont()
         font.setFamily("Monospace")
         self.lineEdit.setFont(font)
+        self.lineEdit.setReadOnly(True)
         self.lineEdit.setObjectName("lineEdit")
-        self.label_13 = QtGui.QLabel(self.groupBox_2)
-        self.label_13.setGeometry(QtCore.QRect(80, 100, 281, 16))
-        self.label_13.setObjectName("label_13")
         self.label_12 = QtGui.QLabel(self.groupBox_2)
         self.label_12.setGeometry(QtCore.QRect(20, 100, 52, 16))
         self.label_12.setObjectName("label_12")
+        self.TCPloss_Step2 = QtGui.QPushButton(self.groupBox_2)
+        self.TCPloss_Step2.setGeometry(QtCore.QRect(80, 50, 111, 24))
+        self.TCPloss_Step2.setObjectName("TCPloss_Step2")
+        self.TCPloss_Exit = QtGui.QPushButton(self.groupBox_2)
+        self.TCPloss_Exit.setGeometry(QtCore.QRect(80, 100, 77, 24))
+        self.TCPloss_Exit.setObjectName("TCPloss_Exit")
         self.groupBox_3 = QtGui.QGroupBox(self.tab)
         self.groupBox_3.setGeometry(QtCore.QRect(10, 0, 251, 171))
         self.groupBox_3.setObjectName("groupBox_3")
@@ -159,10 +163,8 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Monospace")
         self.lineEdit_2.setFont(font)
+        self.lineEdit_2.setReadOnly(True)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.label_18 = QtGui.QLabel(self.groupBox_8)
-        self.label_18.setGeometry(QtCore.QRect(220, 100, 281, 16))
-        self.label_18.setObjectName("label_18")
         self.label_19 = QtGui.QLabel(self.groupBox_8)
         self.label_19.setGeometry(QtCore.QRect(20, 100, 52, 16))
         self.label_19.setObjectName("label_19")
@@ -204,7 +206,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuInfo.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL("activated()"), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -218,10 +220,11 @@ class Ui_MainWindow(object):
         self.label_2.setText(QtGui.QApplication.translate("MainWindow", "Step 1:", None, QtGui.QApplication.UnicodeUTF8))
         self.TCPloss_Step1.setText(QtGui.QApplication.translate("MainWindow", "Start setup", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Step 2:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Copy this text and paste it in xterm window", None, QtGui.QApplication.UnicodeUTF8))
-        self.lineEdit.setText(QtGui.QApplication.translate("MainWindow", "wget -O /dev/null 10.0.0.1/bigfile", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_13.setText(QtGui.QApplication.translate("MainWindow", "Stop mininet in the main terminal with \"exit\"", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("MainWindow", "This command will be executed:", None, QtGui.QApplication.UnicodeUTF8))
+        self.lineEdit.setText(QtGui.QApplication.translate("MainWindow", "wget -O /dev/null 10.0.0.1/smallfile", None, QtGui.QApplication.UnicodeUTF8))
         self.label_12.setText(QtGui.QApplication.translate("MainWindow", "Step 3:", None, QtGui.QApplication.UnicodeUTF8))
+        self.TCPloss_Step2.setText(QtGui.QApplication.translate("MainWindow", "Start download", None, QtGui.QApplication.UnicodeUTF8))
+        self.TCPloss_Exit.setText(QtGui.QApplication.translate("MainWindow", "Stop demo", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("MainWindow", "Description", None, QtGui.QApplication.UnicodeUTF8))
         self.textEdit.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -237,7 +240,7 @@ class Ui_MainWindow(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- 5% paket loss</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">- Sender queue length</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("MainWindow", "Picture", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "TCP paket loss", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "TCP packet loss", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_5.setTitle(QtGui.QApplication.translate("MainWindow", "Description", None, QtGui.QApplication.UnicodeUTF8))
         self.textEdit_2.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -260,9 +263,8 @@ class Ui_MainWindow(object):
         self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Step 1:", None, QtGui.QApplication.UnicodeUTF8))
         self.DHCP_Step1.setText(QtGui.QApplication.translate("MainWindow", "Start setup", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("MainWindow", "Step 2:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_17.setText(QtGui.QApplication.translate("MainWindow", "Copy this text and paste it in xterm window", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_17.setText(QtGui.QApplication.translate("MainWindow", "This command wil be executed:", None, QtGui.QApplication.UnicodeUTF8))
         self.lineEdit_2.setText(QtGui.QApplication.translate("MainWindow", "dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn h2-eth0", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_18.setText(QtGui.QApplication.translate("MainWindow", "Stop mininet in the main terminal with \"exit\"", None, QtGui.QApplication.UnicodeUTF8))
         self.label_19.setText(QtGui.QApplication.translate("MainWindow", "Step 3:", None, QtGui.QApplication.UnicodeUTF8))
         self.DHCP_Step2.setText(QtGui.QApplication.translate("MainWindow", "Execute dhclient", None, QtGui.QApplication.UnicodeUTF8))
         self.DHCP_Exit.setText(QtGui.QApplication.translate("MainWindow", "Stop demo", None, QtGui.QApplication.UnicodeUTF8))
