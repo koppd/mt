@@ -4,6 +4,7 @@ from PySide import QtCore, QtGui
 from mainwindow import Ui_MainWindow
 import TCPloss
 import dhcp
+import ftp
 
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -22,6 +23,10 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.ui.DHCP_Step1.clicked.connect(self.dhcp1clicked)
         self.ui.DHCP_Step2.clicked.connect(self.dhcp2clicked)
         self.ui.DHCP_Exit.clicked.connect(self.dhcpExitclicked)
+
+        self.ui.FTP_Step1.clicked.connect(self.ftp1clicked)
+        self.ui.FTP_Step2.clicked.connect(self.ftp2clicked)
+        self.ui.FTP_Exit.clicked.connect(self.ftpExitclicked)
 
   
     def tcp1clicked(self):
@@ -44,7 +49,6 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.scen.stopNet( )
 
 
-
     def dhcp1clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
@@ -61,6 +65,25 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.scen.startClient( )
 
     def dhcpExitclicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.stopNet( )
+
+
+    def ftp1clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen = ftp.netFTP()
+        
+        self.scen.myNetwork( delay = self.ui.FTP_delay.value(), 
+                       anon = self.ui.FTP_anon.isChecked() )
+        
+    def ftp2clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.startDownload( )
+
+    def ftpExitclicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
         self.scen.stopNet( )
