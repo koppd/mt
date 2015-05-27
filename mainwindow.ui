@@ -649,17 +649,27 @@ p, li { white-space: pre-wrap; }
     </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
-      <string>ARP</string>
+      <string>FTP</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_5">
      <attribute name="title">
-      <string>NAT</string>
+      <string>Mail</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>BGP</string>
+      <string>DNS</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_6">
+     <attribute name="title">
+      <string>SIP</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_7">
+     <attribute name="title">
+      <string>HTTP</string>
      </attribute>
     </widget>
    </widget>
