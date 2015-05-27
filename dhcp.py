@@ -8,12 +8,10 @@ Created on Tue May 12 02:04:12 2015
 File dhcpd_mn.conf has to be copied into /etc/dhcp/
 it's not possible to use any other directory for the dhcpd program than 
 /etc/dhcp (even with option -cf) because AppArmor would not accept it.
-It will resure any access with an "access denied".
+It will refuse any access with an "access denied".
 Sol 1: disable AppArmor or create exceptions
 Sol 2: copy the .conf file automatically (implemented)
 
-ToDO:
-fixed MAC
 """
 
 from mininet.net import Mininet
@@ -61,15 +59,10 @@ class netDHCP():
         self.h2 = self.net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
     
         info( '*** Add links\n')
-    #    h1s1_delay = str(delay) + 'ms'
         self.h1s1 = {'delay':str(delay) + 'ms'}
         self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
         self.h2s1 = {'delay':str(delay) + 'ms'}
         self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h2s1)
-    ##    h3s1 = {'delay':'250ms','loss':5}
-    ##    net.addLink(h3, s1, cls=TCLink , **h3s1)
-    ##    h4s1 = {'delay':str(delay) + 'ms','loss':loss}
-    ##    net.addLink(h4, s1, cls=TCLink , **h4s1)
     
         info( '\n*** Starting network\n')
         self.net.build()
@@ -126,21 +119,6 @@ class netDHCP():
     
 #        CLI(self.net)
     
-#        self.h1.cmd("pkill dhcpd")
-        
-    #    ws.kill()
-    #    http.kill()
-        
-        #print "gucke ob HTTP noch laeuft", http
-        #print "gucke ob'wireshark noch laeuft", ws
-        
-    #    h4.terminate()
-    #    h1.terminate()
-        #print os.killpg(ws.pid, signal.SIGTERM)
-        
-#        cleanUpScreens()   #beendet alle xterm und wireshark Fenster
-        
-#        self.net.stop()
     
     def startClient( self ):
 #        self.h2.cmd( ['wireshark -i h2-eth0 -k -Y bootp.dhcp==1 &'], shell=True, printPid=True) 
