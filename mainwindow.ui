@@ -562,7 +562,7 @@ p, li { white-space: pre-wrap; }
               </font>
              </property>
              <property name="text">
-              <string>...</string>
+              <string>python ftpclient.py -s 10.0.0.1 -p 21 -u mininet -pw mininet</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>

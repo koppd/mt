@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed May 27 03:02:33 2015
+# Created: Thu May 28 10:14:07 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -429,7 +429,7 @@ class Ui_MainWindow(object):
         self.groupBox_13.setTitle(QtGui.QApplication.translate("MainWindow", "Instructions", None, QtGui.QApplication.UnicodeUTF8))
         self.label_18.setText(QtGui.QApplication.translate("MainWindow", "Step 1:", None, QtGui.QApplication.UnicodeUTF8))
         self.FTP_Step1.setText(QtGui.QApplication.translate("MainWindow", "Start setup", None, QtGui.QApplication.UnicodeUTF8))
-        self.lineEdit_3.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.lineEdit_3.setText(QtGui.QApplication.translate("MainWindow", "python ftpclient.py -s 10.0.0.1 -p 21 -u mininet -pw mininet", None, QtGui.QApplication.UnicodeUTF8))
         self.label_20.setText(QtGui.QApplication.translate("MainWindow", "Step 3:", None, QtGui.QApplication.UnicodeUTF8))
         self.FTP_Exit.setText(QtGui.QApplication.translate("MainWindow", "Stop demo", None, QtGui.QApplication.UnicodeUTF8))
         self.FTP_Step2.setText(QtGui.QApplication.translate("MainWindow", "Start file download", None, QtGui.QApplication.UnicodeUTF8))

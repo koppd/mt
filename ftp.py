@@ -77,83 +77,6 @@ class netFTP():
         self.vsftp = self.h1.cmd( ['vsftpd &'], shell=True, printPid=True) #, preexec_fn=os.setsid )
         print "pid vsftpd: ", self.vsftp
 
-
-    def connect( self, host, port):
-        """connect to the server
-            params:
-                host: the server host
-                port: the server port (normally 110)
-            returns: a socket that is connected to the server
-        """
-        clientSocket = socket(AF_INET, SOCK_STREAM)
-        print "Verbdungsaufbau... ", host, int(port)
-        clientSocket.connect((host, int(port)))
-        # FIXME hier das OK pruefen
-        
-        print "warte auf Begruessungsnachricht..."
-        toRecv = clientSocket.recv(1024)
-        toRecv = toRecv.decode(encoding='UTF-8')
-        print "empfangen nach connect:", toRecv
-        
-        return clientSocket
-    
-    def send_user( self, clientSocket, user):
-        """ send the USER command """
-    
-        toSend = bytes("USER " + user + "\r\n", encoding="utf-8")
-        clientSocket.send(toSend)
-    
-        toRecv = clientSocket.recv(1024)
-        toRecv = toRecv.decode(encoding='UTF-8')
-        print "empfangen nach USER:", toRecv
-        # FIXME hier das OK pruefen
-        if toRecv == "+OK\r\n":
-            return 0
-        else:
-            return 1
-    
-    def send_pass( self, clientSocket, password):
-        """ send the PASS command """
-        
-        toSend = "PASS " + password + "\r\n"
-        clientSocket.send(bytes(toSend, encoding="utf-8"))
-    
-        toRecv = clientSocket.recv(1024)
-        # FIXME hier das OK pruefen
-        print "empfangen nach PASS:", toRecv
-        toRecv = toRecv.decode(encoding='UTF-8')
-        
-        return 0
-
-
-    def send_cwd( self, clientSocket, directory):
-        """ send the CWD command """
-        
-        toSend = "CWD " + directory + "\r\n"
-        clientSocket.send(bytes(toSend, encoding="utf-8"))
-    
-        toRecv = clientSocket.recv(1024)
-        # FIXME hier das OK pruefen
-        print "empfangen nach CWD:", toRecv
-        toRecv = toRecv.decode(encoding='UTF-8')
-        
-        return 0
-
-
-    def send_retr( self, clientSocket, filename):
-        """ send the RETR command """
-        pass
-    
-
-    def close_connection( self, clientSocket):
-        """ close the connection """
-    
-        clientSocket.send(b"QUIT\r\n")
-        toRecv = clientSocket.recv(1024)
-        # FIXME hier das OK pruefen
-        print "empfangen nach QUIT:", toRecv 
-        clientSocket.close()
-
     
     def startDownload( self ):    
 #        display, tunnel = tunnelX11( self.h2, None )
@@ -165,30 +88,11 @@ class netFTP():
         if 1==2:
             CLI(self.net)
         else:
-# Erzeuge Socket
-            print "create socket..."
-            clientSocket = self.connect(self.h1.IP(), 21)
+            info( '******* show xterm on h2\n')
+            display, tunnel = tunnelX11( self.h2, None )
+#        self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+            self.FTPc = self.h2.popen( ['xterm', '-title', 'FTP_Client', '-display ' + display, '-e', 'env TERM=ansi python ftpclient.py -s 10.0.0.1 -p 21 -u mininet -pw mininet'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
-# Verbinde mit FTP-Server
-
-# sende Username
-            self.send_user(clientSocket, "mininet")
-
-# sende Passwort
-            self.send_pass(clientSocket, "mininet")
-
-# wechsle Verzeichnis
-            self.send_cwd(clientSocket, "mininet")
-            self.send_cwd(clientSocket, "demo")
-
-# Download Datei
-#           send_retr(clientSocket, "ftp_downloadfile")
-
-
-# Verabschieden und beende Verbindung
-            self.send_quit(clientSocket)
-            self.close_connection(clientSocket)
-       
     
     def stopNet( self ):
         self.h2.cmd("pkill wireshark")
