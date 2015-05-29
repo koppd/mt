@@ -11,6 +11,7 @@ import signal
 import argparse
 import sys
 from socket import *
+import re
 
 def connect( host, port):
     """connect to the server
@@ -73,10 +74,88 @@ def send_cwd( clientSocket, directory):
     
     return 0
 
+def send_syst(clientSocket):
+    """ send the SYST command """
+    
+    toSend = "SYST" + "\r\n"
+    clientSocket.send(toSend.encode('UTF-8'))
 
-def send_retr( clientSocket, filename):
+    toRecv = clientSocket.recv(1024)
+    # FIXME hier das OK pruefen
+    print "empfangen nach SYST:", toRecv
+    toRecv = toRecv.decode(encoding='UTF-8')
+    
+    return 0
+
+def send_type(clientSocket):
+    """ send the TYPE command """
+    
+    toSend = "TYPE I" + "\r\n"
+    clientSocket.send(toSend.encode('UTF-8'))
+
+    toRecv = clientSocket.recv(1024)
+    # FIXME hier das OK pruefen
+    print "empfangen nach TYPE I:", toRecv
+    toRecv = toRecv.decode(encoding='UTF-8')
+    
+    return 0
+
+def send_port( clientSocket ):
     """ send the RETR command """
-    pass
+    
+    send_syst(clientSocket)    
+    send_type(clientSocket)
+    
+    dataSocket = socket(AF_INET, SOCK_STREAM)
+    dataSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+# localhost geht nicht. Fehlercode 500, weil angebliche eine NAT aktiv ist.    
+    dataSocket.bind(('192.168.56.4', 0))
+    dataSocket.listen(1)
+
+    localIP = dataSocket.getsockname()[0]
+    localport = dataSocket.getsockname()[1]
+    print "Chosen local IP:", localIP
+    print "Chosen local port:", localport
+    
+    localIPtext = re.sub('\.', ',', localIP)
+    localPortHi = int(localport / 256)
+    localPortLow = localport % 256
+    localPortText = str(localPortHi) + ',' + str(localPortLow)
+    toSend = "PORT " + localIPtext + ',' + localPortText + "\r\n"
+    print "send this PORT command: ", toSend    
+    clientSocket.send(toSend.encode('UTF-8'))
+
+    toRecv = clientSocket.recv(1024)
+    # FIXME hier das OK pruefen
+    print "empfangen nach PORT:", toRecv
+    toRecv = toRecv.decode(encoding='UTF-8')
+
+    return dataSocket
+
+
+def send_retr( clientSocket, dataport, filename):
+    """ send the RETR command """
+    
+    toSend = "RETR " + filename +"\r\n"
+    clientSocket.send(toSend.encode('UTF-8'))
+
+    toRecv = clientSocket.recv(1024)
+    # FIXME hier das OK pruefen
+    print "empfangen nach RETR Teil 1:", toRecv
+    toRecv = toRecv.decode(encoding='UTF-8')
+        
+#empfange Datei
+    (connectionSocket, connectionSocket_addr) = dataport.accept()
+    receivedMessage = connectionSocket.recv(5024)
+    print len(receivedMessage)
+    
+    toRecv = clientSocket.recv(1024)
+    # FIXME hier das OK pruefen
+    print "empfangen nach RETR Teil 2:", toRecv
+    toRecv = toRecv.decode(encoding='UTF-8')
+ 
+    
+    return 0
 
 
 def close_connection( clientSocket):
@@ -116,7 +195,8 @@ def startRealDownload(server, port, user, password):
         send_cwd(clientSocket, "demo")
 
 # Download Datei
-#           send_retr(clientSocket, "ftp_downloadfile")
+        dataport = send_port(clientSocket)
+        send_retr(clientSocket, dataport, "ftp_downloadfile")
 
 
 # Verabschieden und beende Verbindung
