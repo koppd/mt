@@ -96,6 +96,7 @@ class netFTP():
     
     def stopNet( self ):
         self.h2.cmd("pkill wireshark")
+        self.h2.cmd("pkill vsftpd")
         # simpleHTTP muss auch beendet werden. Steht in self.http drinnen.
         # muss evtl. generisch über ps -aux |grep SimpleHTTPServer beendet werden.
         self.net.stop()
