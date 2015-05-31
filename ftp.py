@@ -91,7 +91,7 @@ class netFTP():
             info( '******* show xterm on h2\n')
             display, tunnel = tunnelX11( self.h2, None )
 #        self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-            self.FTPc = self.h2.popen( ['xterm', '-title', 'FTP_Client', '-display ' + display, '-e', 'env TERM=ansi python ftpclient.py -s 10.0.0.1 -p 21 -u mininet -pw mininet'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+            self.FTPc = self.h2.popen( ['xterm', '-title', 'FTP_Client', '-display ' + display, '-e', 'env TERM=ansi python ftpclient.py -s 10.0.0.1 -lip 10.0.0.2 -p 21 -u mininet -pw mininet'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
     
     def stopNet( self ):

@@ -100,7 +100,7 @@ def send_type(clientSocket):
     
     return 0
 
-def send_port( clientSocket ):
+def send_port( clientSocket, localip ):
     """ send the RETR command """
     
     send_syst(clientSocket)    
@@ -109,7 +109,7 @@ def send_port( clientSocket ):
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 # localhost geht nicht. Fehlercode 500, weil angebliche eine NAT aktiv ist.    
-    dataSocket.bind(('192.168.56.4', 0))
+    dataSocket.bind((localip, 0))
     dataSocket.listen(1)
 
     localIP = dataSocket.getsockname()[0]
@@ -181,7 +181,7 @@ def close_connection( clientSocket):
     clientSocket.close()
 
 
-def startRealDownload(server, port, user, password):    
+def startRealDownload(server, localip, port, user, password):    
 #        display, tunnel = tunnelX11( self.h2, None )
 ##        self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 #        self.p1 = self.h2.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
@@ -208,13 +208,16 @@ def startRealDownload(server, port, user, password):
         send_cwd(clientSocket, "demo")
 
 # Download Datei
-        dataport = send_port(clientSocket)
+        dataport = send_port(clientSocket, localip)
         send_retr(clientSocket, dataport, "ftp_downloadfile")
 
 
 # Verabschieden und beende Verbindung
         close_connection(clientSocket)
-   
+
+        raw_input("Enter drücken zum Schliessen des Fensters. ")   
+        
+        return 0
 
 if __name__ == '__main__':
     #setLogLevel( 'info' )
@@ -234,6 +237,11 @@ if __name__ == '__main__':
                         help="The IP of the mail server. "
                              "(Default: '10.0.0.1')",
                         default="10.0.0.1")
+    parser.add_argument("-lip",
+                        "--localip",
+                        help="The IP of the local host. "
+                             "(Default: '192.168.56.4')", #stupid
+                        default="192.168.56.4")
     parser.add_argument("-p",
                         "--port",
                         help="Port the FTP server is listening on. "
@@ -254,6 +262,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     exit(startRealDownload(server=args.server,
+                      localip=args.localip,     
                       port=args.port,
                       user=args.user,
                       password=args.password))
+    
