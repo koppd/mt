@@ -146,7 +146,20 @@ def send_retr( clientSocket, dataport, filename):
         
 #empfange Datei
     (connectionSocket, connectionSocket_addr) = dataport.accept()
-    receivedMessage = connectionSocket.recv(5024)
+    receivedMessage = ''
+#    connectionSocket.setblocking(0)   #non-blocking
+    connectionSocket.settimeout(1000)    
+    notFinished = True    
+    while notFinished:
+        try:        
+            buf = connectionSocket.recv(1000)            
+            if len(buf) > 0:
+                receivedMessage += buf
+                print "Bislang erhalten:", len(receivedMessage)
+            else:
+                notFinished = False 
+        except:
+            notFinished = False            
     print len(receivedMessage)
     
     toRecv = clientSocket.recv(1024)
