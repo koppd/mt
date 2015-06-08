@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Thu May 28 10:14:07 2015
+# Created: Mon Jun  8 13:17:47 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -226,11 +226,11 @@ class Ui_MainWindow(object):
         self.FTP_delay.setProperty("value", 20)
         self.FTP_delay.setObjectName("FTP_delay")
         self.formLayout_4.setWidget(0, QtGui.QFormLayout.FieldRole, self.FTP_delay)
-        self.FTP_anon = QtGui.QCheckBox(self.groupBox_12)
-        self.FTP_anon.setChecked(True)
-        self.FTP_anon.setTristate(False)
-        self.FTP_anon.setObjectName("FTP_anon")
-        self.formLayout_4.setWidget(1, QtGui.QFormLayout.SpanningRole, self.FTP_anon)
+        self.FTP_pasv = QtGui.QCheckBox(self.groupBox_12)
+        self.FTP_pasv.setChecked(True)
+        self.FTP_pasv.setTristate(False)
+        self.FTP_pasv.setObjectName("FTP_pasv")
+        self.formLayout_4.setWidget(1, QtGui.QFormLayout.SpanningRole, self.FTP_pasv)
         self.gridLayout_3.addWidget(self.groupBox_12, 1, 0, 1, 1)
         self.groupBox_9 = QtGui.QGroupBox(self.tab_FTP)
         self.groupBox_9.setObjectName("groupBox_9")
@@ -274,23 +274,6 @@ class Ui_MainWindow(object):
         self.label_22.setObjectName("label_22")
         self.gridLayout_6.addWidget(self.label_22, 1, 2, 1, 1)
         self.gridLayout_3.addWidget(self.groupBox_13, 2, 0, 1, 2)
-        self.lineEdit_4 = QtGui.QLineEdit(self.tab_FTP)
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(126, 125, 124))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        self.lineEdit_4.setPalette(palette)
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.lineEdit_4.setFont(font)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout_3.addWidget(self.lineEdit_4, 1, 1, 1, 1)
         self.tabWidget.addTab(self.tab_FTP, "")
         self.tab_Mail = QtGui.QWidget()
         self.tab_Mail.setObjectName("tab_Mail")
@@ -413,7 +396,7 @@ class Ui_MainWindow(object):
         self.groupBox_10.setTitle(QtGui.QApplication.translate("MainWindow", "Picture", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_12.setTitle(QtGui.QApplication.translate("MainWindow", "Configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.label_16.setText(QtGui.QApplication.translate("MainWindow", "Link delay: (ms)", None, QtGui.QApplication.UnicodeUTF8))
-        self.FTP_anon.setText(QtGui.QApplication.translate("MainWindow", "User is anonymous", None, QtGui.QApplication.UnicodeUTF8))
+        self.FTP_pasv.setText(QtGui.QApplication.translate("MainWindow", "Verwende \"passive mode\" (statt \"active mode\") (FIXME)", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_9.setTitle(QtGui.QApplication.translate("MainWindow", "Description", None, QtGui.QApplication.UnicodeUTF8))
         self.textEdit_3.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -435,7 +418,6 @@ class Ui_MainWindow(object):
         self.FTP_Step2.setText(QtGui.QApplication.translate("MainWindow", "Start file download", None, QtGui.QApplication.UnicodeUTF8))
         self.label_21.setText(QtGui.QApplication.translate("MainWindow", "Step 2:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_22.setText(QtGui.QApplication.translate("MainWindow", "This command wil be executed:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lineEdit_4.setText(QtGui.QApplication.translate("MainWindow", "Under construction!", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_FTP), QtGui.QApplication.translate("MainWindow", "FTP", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_Mail), QtGui.QApplication.translate("MainWindow", "Mail", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_DNS), QtGui.QApplication.translate("MainWindow", "DNS", None, QtGui.QApplication.UnicodeUTF8))

@@ -490,9 +490,9 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="1" column="0" colspan="2">
-            <widget class="QCheckBox" name="FTP_anon">
+            <widget class="QCheckBox" name="FTP_pasv">
              <property name="text">
-              <string>User is anonymous</string>
+              <string>Verwende &quot;passive mode&quot; (statt &quot;active mode&quot;) (FIXME)</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -605,55 +605,6 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_4">
-          <property name="palette">
-           <palette>
-            <active>
-             <colorrole role="Text">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>0</green>
-                <blue>0</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </active>
-            <inactive>
-             <colorrole role="Text">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>0</green>
-                <blue>0</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </inactive>
-            <disabled>
-             <colorrole role="Text">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>126</red>
-                <green>125</green>
-                <blue>124</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </disabled>
-           </palette>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Under construction!</string>
-          </property>
          </widget>
         </item>
        </layout>

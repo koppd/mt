@@ -76,7 +76,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.scen = ftp.netFTP()
         
         self.scen.myNetwork( delay = self.ui.FTP_delay.value(), 
-                       anon = self.ui.FTP_anon.isChecked() )
+                       pasv = self.ui.FTP_pasv.isChecked() )
         
     def ftp2clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
