@@ -5,6 +5,7 @@ from mainwindow import Ui_MainWindow
 import TCPloss
 import dhcp
 import ftp
+import voip
 
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -27,6 +28,10 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.ui.FTP_Step1.clicked.connect(self.ftp1clicked)
         self.ui.FTP_Step2.clicked.connect(self.ftp2clicked)
         self.ui.FTP_Exit.clicked.connect(self.ftpExitclicked)
+
+        self.ui.VoIP_Step1.clicked.connect(self.voip1clicked)
+        self.ui.VoIP_Step2.clicked.connect(self.voip2clicked)
+        self.ui.VoIP_Exit.clicked.connect(self.voipExitclicked)
 
   
     def tcp1clicked(self):
@@ -76,7 +81,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.scen = ftp.netFTP()
         
         self.scen.myNetwork( delay = self.ui.FTP_delay.value(), 
-                       anon = self.ui.FTP_anon.isChecked() )
+                       pasv = self.ui.FTP_pasv.isChecked() )
         
     def ftp2clicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
@@ -84,6 +89,24 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.scen.startDownload( )
 
     def ftpExitclicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.stopNet( )
+
+
+    def voip1clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen = voip.netVoIP()
+        
+        self.scen.myNetwork( delay = self.ui.VoIP_delay.value())
+        
+    def voip2clicked(self):
+        #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
+#        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
+        self.scen.startPhones( )
+
+    def voipExitclicked(self):
         #QtGui.QMessageBox.information(self, "Hello", "Button 1 clicked!")
 #        print self.ui.TCPloss_delay.value(), self.ui.TCPloss_loss.value(), self.ui.TCPloss_swin.value()
         self.scen.stopNet( )

@@ -36,7 +36,7 @@ from socket import *
 
 class netFTP():
 
-    def myNetwork( self, delay=20, anon=False ):
+    def myNetwork( self, delay=20, pasv=False ):
         self.net = Mininet( topo=None,
                        build=False,
                        ipBase='10.0.0.0/8')

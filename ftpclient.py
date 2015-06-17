@@ -211,10 +211,8 @@ def startRealDownload(server, localip, port, user, password):
         dataport = send_port(clientSocket, localip)
         send_retr(clientSocket, dataport, "ftp_downloadfile")
 
-
 # Verabschieden und beende Verbindung
         close_connection(clientSocket)
-
         raw_input("Enter drücken zum Schliessen des Fensters. ")   
         
         return 0
