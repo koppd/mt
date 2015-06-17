@@ -9,8 +9,10 @@ Description:
 
 
 ToDO:
-
-
+- in Mininet's Ubuntu wird der vsftp Server beim Booten gestartet. 
+Dies sollte unterbunden werden, obwohl dies anscheinend keinen
+Einfluss auf den Internetdemonstrator hat.
+- 
 """
 
 from mininet.net import Mininet

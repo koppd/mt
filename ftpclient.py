@@ -166,7 +166,7 @@ def send_retr( clientSocket, dataport, filename):
     # FIXME hier das OK pruefen
     print "empfangen nach RETR Teil 2:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
- 
+#  ToDo: FTP-Data Port schließen
     
     return 0
 
