@@ -360,6 +360,8 @@
     <property name="title">
      <string>Menu</string>
     </property>
+    <addaction name="actionConfigure_Layout"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
@@ -380,6 +382,11 @@
   <action name="actionCheck_configuration">
    <property name="text">
     <string>Check configuration</string>
+   </property>
+  </action>
+  <action name="actionConfigure_Layout">
+   <property name="text">
+    <string>Configure Layout</string>
    </property>
   </action>
  </widget>
