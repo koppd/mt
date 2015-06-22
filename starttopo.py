@@ -20,7 +20,101 @@ class NodeConfig(QtGui.QDialog):
         uic.loadUi('node.ui', self)
         print "nodeconfig init...)"
 
+class RouterConfig(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(RouterConfig, self).__init__(parent)
+#        super(ControlMainWindow, self).__init__(parent)
+#        self.ui = Ui_MainWindow()
+#        self.ui.setupUi(self)
 
+        uic.loadUi('confRouter.ui', self)
+        print "confRouter init...)"
+
+        HEADERS = ( "Link to", "Delay in ms",  "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all' )
+#treeWidget = treeInterfaces
+        self.treeInterfaces.setColumnCount( len(HEADERS) )
+        self.treeInterfaces.setHeaderLabels( HEADERS )
+
+        # ----------------
+        # Add Custom QTreeWidgetItem
+        # ----------------
+        ## Add Items:        
+        for name in [ 'host1', 'host2', 'host3', 'router1', 'router2', 'router4' ]:
+            item = CustomTreeItem( self.treeInterfaces, name )
+
+         ## Set Columns Width to match content:
+        for column in range( self.treeInterfaces.columnCount() ):
+            self.treeInterfaces.resizeColumnToContents( column )
+
+# ------------------------------------------------------------------------------
+# Custom QTreeWidgetItem
+# ------------------------------------------------------------------------------
+class CustomTreeItem( QtGui.QTreeWidgetItem ):
+    '''
+    Custom QTreeWidgetItem with Widgets
+    '''
+ 
+    def __init__( self, parent, name ):
+        '''
+        parent (QTreeWidget) : Item's QTreeWidget parent.
+        name   (str)         : Item's name. just an example.
+        '''
+ 
+        ## Init super class ( QtGui.QTreeWidgetItem )
+        super( CustomTreeItem, self ).__init__( parent )
+ 
+        ## Column 0 - Text:
+        self.setText( 0, name )
+
+        ## Column 1 - Slider:
+        self.delay1 = QtGui.QSlider( orientation = Qt.Horizontal)
+        self.delay1.setValue( 0 )
+        self.treeWidget().setItemWidget( self, 1, self.delay1 )
+
+        ## Column 2 - SpinBox:
+        self.delay2 = QtGui.QSpinBox()
+        self.delay2.setValue( 0 )
+        self.treeWidget().setItemWidget( self, 2, self.delay2 )
+
+        ## Column 3 - Slider:
+        self.loss1 = QtGui.QSlider( orientation = Qt.Horizontal)
+        self.loss1.setValue( 0 )
+        self.treeWidget().setItemWidget( self, 3, self.loss1 )
+
+        ## Column 4 - SpinBox:
+        self.loss2 = QtGui.QSpinBox()
+        self.loss2.setValue( 0 )
+        self.treeWidget().setItemWidget( self, 4, self.loss2 )
+
+        ## Column 5 - Button:
+        self.button = QtGui.QPushButton()
+        self.button.setText( "button %s" %name )
+        self.treeWidget().setItemWidget( self, 5, self.button )
+ 
+        ## Signals
+        self.treeWidget().connect( self.button, QtCore.SIGNAL("clicked()"), self.buttonPressed )
+ 
+    @property
+    def name(self):
+        '''
+        Return name ( 1st column text )
+        '''
+        return self.text(0)
+ 
+    @property
+    def value(self):
+        '''
+        Return value ( 2nd column int)
+        '''
+        return self.delay1.value() 
+ 
+    def buttonPressed(self):
+        '''
+        Triggered when Item's button pressed.
+        an example of using the Item's own values.
+        '''
+        print "This Item name:%s value:%i" %( self.name,
+                                              self.value )
  
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -52,6 +146,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.updateProcesses()
 
+        self.debug1.clicked.connect(self.getHostList)
+
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
@@ -64,6 +160,19 @@ class ControlMainWindow(QtGui.QMainWindow):
 ##        pen.setStyle(QtCore.Qt.DashLine) #DashDotLine  DotLine DashDotDotLine CustomDashLine
 ##        qp.setPen(pen)
 ##        qp.drawLine(20, 80, 250, 85)
+
+    def getHostList(self):
+        print "getHostList"
+        hostList = []
+        lineEdits = self.TopoArea.findChildren(QtGui.QWidget)        
+        for i in lineEdits:
+            if i.objectName()[:4] == 'Host':
+                hostList.append( (i,i.objectName()) )
+                print i.objectName()
+
+        print hostList
+        print         
+        #hostList.sort( QObject.objectName() )      
 
     def updateProcesses(self):
         tree = self.runningServices  # replace every 'tree' with your QTreeWidget
@@ -153,8 +262,11 @@ class ControlMainWindow(QtGui.QMainWindow):
         pass
 
     def Router01clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        pass
+#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+        myNode = RouterConfig()
+        print ("nodeconfig vor show")
+        myNode.exec_()
+#        pass
 
     def Router02clicked(self):
         QtGui.QMessageBox.information(self, "Hello", "Router 2 clicked!")
