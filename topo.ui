@@ -6,202 +6,265 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
-    <height>578</height>
+    <width>783</width>
+    <height>752</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="Host01">
+   <widget class="QWidget" name="TopoArea" native="true">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>90</y>
-      <width>91</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Host02">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>190</y>
-      <width>91</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Host03">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>300</y>
-      <width>91</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Host04">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
+      <x>10</x>
       <y>10</y>
-      <width>91</width>
-      <height>71</height>
+      <width>711</width>
+      <height>461</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
+    <widget class="QToolButton" name="Host06">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>290</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Host02">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>200</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Router02">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>140</y>
+       <width>80</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Host04">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>10</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Router01">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>220</y>
+       <width>80</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Router03">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>220</y>
+       <width>80</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Host05">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>110</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Host03">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>340</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Host01">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>100</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Router04">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>310</y>
+       <width>80</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLabel" name="Router1">
+   <widget class="QPushButton" name="pbExit">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>230</y>
-      <width>91</width>
-      <height>61</height>
+      <x>20</x>
+      <y>480</y>
+      <width>511</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/router-symbol.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Router2">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>140</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/router-symbol.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Router3">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>320</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/router-symbol.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Router4">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>220</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/router-symbol.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Host05">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>120</y>
-      <width>91</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Host06">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>300</y>
-      <width>91</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>picture/computer.svg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
+     <string>Exit</string>
     </property>
    </widget>
   </widget>
@@ -210,8 +273,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>857</width>
-     <height>31</height>
+     <width>783</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
