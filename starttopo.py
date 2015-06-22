@@ -162,24 +162,24 @@ class ControlMainWindow(QtGui.QMainWindow):
 ##        qp.drawLine(20, 80, 250, 85)
 
     def getHostList(self):
-        print "getHostList"
         hostList = []
         lineEdits = self.TopoArea.findChildren(QtGui.QWidget)        
         for i in lineEdits:
             if i.objectName()[:4] == 'Host':
-                hostList.append( (i,i.objectName()) )
-                print i.objectName()
+                hostList.append(i)
 
-        print hostList
-        print         
-        #hostList.sort( QObject.objectName() )      
+        hostSorted = sorted(hostList, key=lambda student: student.objectName())
+        for host in hostSorted:
+            print host.objectName()
+
+        return hostSorted
 
     def updateProcesses(self):
         tree = self.runningServices  # replace every 'tree' with your QTreeWidget
         plist = []        
-        for i in range(1, 7):
-            plist.append('Host '+str(i))
-            
+        for host in self.getHostList():
+            plist.append(str(host.objectName()))
+
         clist=['Child 1','Child 2']
 #        treeWidget=QtGui.QTreeWidget(self)
 #        treeWidget.setGeometry(QtCore.QRect(50,50,150,140))
