@@ -6,274 +6,310 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>783</width>
-    <height>752</height>
+    <width>876</width>
+    <height>585</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="TopoArea" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>711</width>
-      <height>461</height>
-     </rect>
-    </property>
-    <widget class="QToolButton" name="Host06">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>290</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Host02">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>200</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Router02">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>140</y>
-       <width>80</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Host04">
-     <property name="geometry">
-      <rect>
-       <x>310</x>
-       <y>10</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Router01">
-     <property name="geometry">
-      <rect>
-       <x>170</x>
-       <y>220</y>
-       <width>80</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Router03">
-     <property name="geometry">
-      <rect>
-       <x>450</x>
-       <y>220</y>
-       <width>80</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Host05">
-     <property name="geometry">
-      <rect>
-       <x>560</x>
-       <y>110</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Host03">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>340</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Host01">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>40</y>
-       <width>100</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="Router04">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>310</y>
-       <width>80</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="pbExit">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>480</y>
-      <width>511</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Exit</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="1" column="1">
+     <widget class="QTreeWidget" name="runningServices">
+      <property name="minimumSize">
+       <size>
+        <width>180</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>180</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="autoExpandDelay">
+       <number>13</number>
+      </property>
+      <property name="allColumnsShowFocus">
+       <bool>true</bool>
+      </property>
+      <property name="columnCount">
+       <number>2</number>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>100</number>
+      </attribute>
+      <attribute name="headerMinimumSectionSize">
+       <number>100</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string notr="true">2</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Running processes:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>Restart network</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>Stop network</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" rowspan="8">
+     <widget class="QWidget" name="TopoArea" native="true">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="2">
+        <widget class="QToolButton" name="Host04">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4" rowspan="3">
+        <widget class="QToolButton" name="Host05">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QToolButton" name="Router02">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" rowspan="3">
+        <widget class="QToolButton" name="Host02">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QToolButton" name="Router01">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QToolButton" name="Router03">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="4" rowspan="2">
+        <widget class="QToolButton" name="Host06">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QToolButton" name="Host03">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QToolButton" name="Router04">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QToolButton" name="Host01">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Global configuration</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Random MAC addresses</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Start network</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="8" column="0" colspan="2">
+     <widget class="QPushButton" name="pbExit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Exit</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>783</width>
+     <width>876</width>
      <height>20</height>
     </rect>
    </property>
@@ -283,12 +319,24 @@
     </property>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="actionCheck_configuration"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuDebug"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionCheck_configuration">
+   <property name="text">
+    <string>Check configuration</string>
    </property>
   </action>
  </widget>

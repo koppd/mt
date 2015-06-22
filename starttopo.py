@@ -10,6 +10,19 @@ from PyQt4.QtGui import *
 #from mainwindow import Ui_MainWindow
 
 
+class NodeConfig(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(NodeConfig, self).__init__(parent)
+#        super(ControlMainWindow, self).__init__(parent)
+#        self.ui = Ui_MainWindow()
+#        self.ui.setupUi(self)
+
+        uic.loadUi('node.ui', self)
+        print "nodeconfig init...)"
+
+
+ 
+
 class ControlMainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
@@ -17,6 +30,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        self.ui.setupUi(self)
 
         uic.loadUi('topo.ui', self)
+
 
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
@@ -36,6 +50,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.pbExit.clicked.connect(self.pbExitclicked)
 
+        self.updateProcesses()
+
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
@@ -48,6 +64,26 @@ class ControlMainWindow(QtGui.QMainWindow):
 ##        pen.setStyle(QtCore.Qt.DashLine) #DashDotLine  DotLine DashDotDotLine CustomDashLine
 ##        qp.setPen(pen)
 ##        qp.drawLine(20, 80, 250, 85)
+
+    def updateProcesses(self):
+        tree = self.runningServices  # replace every 'tree' with your QTreeWidget
+        plist = []        
+        for i in range(1, 7):
+            plist.append('Host '+str(i))
+            
+        clist=['Child 1','Child 2']
+#        treeWidget=QtGui.QTreeWidget(self)
+#        treeWidget.setGeometry(QtCore.QRect(50,50,150,140))
+        tree.setHeaderLabels(["Node", "PID"])
+
+
+        for parent in plist:
+            pitems=QtGui.QTreeWidgetItem(tree)
+            pitems.setText(0,parent)
+            for child in clist:
+                citems=QtGui.QTreeWidgetItem(pitems)
+                citems.setText(0,child)
+        
 
     def pbExitclicked(self):
         exit(0)
@@ -90,7 +126,10 @@ class ControlMainWindow(QtGui.QMainWindow):
  
   
     def Host01clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
+        myNode = NodeConfig()
+        print ("nodeconfig vor show")
+        myNode.exec_()
+#        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
         pass
 
     def Host02clicked(self):
@@ -134,5 +173,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mySW = ControlMainWindow()
+#    myNode = NodeConfig()    
     mySW.show()
+#    myNode.show()
     sys.exit(app.exec_())
