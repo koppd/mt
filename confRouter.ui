@@ -42,7 +42,7 @@
     <string>Select Router:</string>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
+  <widget class="QListWidget" name="listRouter">
    <property name="geometry">
     <rect>
      <x>10</x>

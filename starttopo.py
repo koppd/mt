@@ -10,15 +10,18 @@ from PyQt4.QtGui import *
 #from mainwindow import Ui_MainWindow
 
 
-class NodeConfig(QtGui.QDialog):
+class HostConfig(QtGui.QDialog):
     def __init__(self, parent=None):
-        super(NodeConfig, self).__init__(parent)
+        super(HostConfig, self).__init__(parent)
 #        super(ControlMainWindow, self).__init__(parent)
 #        self.ui = Ui_MainWindow()
 #        self.ui.setupUi(self)
 
         uic.loadUi('node.ui', self)
-        print "nodeconfig init...)"
+        print "hostconfig init...)"
+        
+        for host in mySW.getHostList():
+            self.listHost.addItem(host.objectName())
 
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -29,6 +32,10 @@ class RouterConfig(QtGui.QDialog):
 
         uic.loadUi('confRouter.ui', self)
         print "confRouter init...)"
+
+        for router in mySW.getRouterList():
+            self.listRouter.addItem(router.objectName())
+
 
         HEADERS = ( "Link to", "Delay in ms",  "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all' )
 #treeWidget = treeInterfaces
@@ -174,6 +181,19 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         return hostSorted
 
+    def getRouterList(self):
+        routerList = []
+        lineEdits = self.TopoArea.findChildren(QtGui.QWidget)        
+        for i in lineEdits:
+            if i.objectName()[:6] == 'Router':
+                routerList.append(i)
+
+        routerSorted = sorted(routerList, key=lambda student: student.objectName())
+        for router in routerSorted:
+            print router.objectName()
+
+        return routerSorted
+
     def updateProcesses(self):
         tree = self.runningServices  # replace every 'tree' with your QTreeWidget
         plist = []        
@@ -183,7 +203,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         clist=['Child 1','Child 2']
 #        treeWidget=QtGui.QTreeWidget(self)
 #        treeWidget.setGeometry(QtCore.QRect(50,50,150,140))
-        tree.setHeaderLabels(["Node", "PID"])
+        tree.setHeaderLabels(["Host", "PID"])
 
 
         for parent in plist:
@@ -235,9 +255,9 @@ class ControlMainWindow(QtGui.QMainWindow):
  
   
     def Host01clicked(self):
-        myNode = NodeConfig()
-        print ("nodeconfig vor show")
-        myNode.exec_()
+        myHost = HostConfig()
+        print ("hostconfig vor show")
+        myHost.exec_()
 #        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
         pass
 
@@ -263,9 +283,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def Router01clicked(self):
 #        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        myNode = RouterConfig()
-        print ("nodeconfig vor show")
-        myNode.exec_()
+        myRouter = RouterConfig()
+        print ("routerconfig vor show")
+        myRouter.exec_()
 #        pass
 
     def Router02clicked(self):
