@@ -307,39 +307,33 @@
       <property name="title">
        <string>Debug</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="debug1">
-            <property name="text">
-             <string>getHostList</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="debug2">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="debug3">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="debug4">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="debug1">
+         <property name="text">
+          <string>getHostList</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="debug2">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="debug3">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="debug4">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
         </widget>
        </item>
       </layout>
