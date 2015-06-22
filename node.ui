@@ -116,11 +116,11 @@
      <x>180</x>
      <y>50</y>
      <width>351</width>
-     <height>261</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -400,6 +400,19 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>290</y>
+     <width>351</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open xterm</string>
+   </property>
+  </widget>
   <zorder>buttonBox</zorder>
   <zorder>listHost</zorder>
   <zorder>label</zorder>
@@ -407,6 +420,7 @@
   <zorder>label_2</zorder>
   <zorder>widget_2</zorder>
   <zorder>tabWidget</zorder>
+  <zorder>pushButton_5</zorder>
  </widget>
  <resources/>
  <connections>
