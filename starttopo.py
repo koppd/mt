@@ -245,10 +245,13 @@ class ControlMainWindow(QtGui.QMainWindow):
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-
-        self.drawMultiLinesObj(qp, self.Router01, self.Host01, self.Host02, self.Host03)
+# Links
+        self.drawMultiLinesObj(qp, self.Switch01, self.Router01, self.Host01, self.Host02, self.Host03)
+# Oben
         self.drawMultiLinesObj(qp, self.Router02, self.Host04, self.Router01, self.Router02, self.Router03, self.Router04)
+# Rechts
         self.drawMultiLinesObj(qp, self.Router03, self.Host05, self.Host06)
+# Unten
         self.drawMultiLinesObj(qp, self.Router04, self.Router01, self.Router03)
 
         qp.end()
