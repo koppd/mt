@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>833</width>
-    <height>525</height>
+    <width>761</width>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configure Router</string>
+   <string>Configure Switch</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>350</y>
-     <width>471</width>
+     <y>330</y>
+     <width>641</width>
      <height>32</height>
     </rect>
    </property>
@@ -32,54 +32,62 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
+     <x>30</x>
+     <y>10</y>
      <width>111</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Select Router:</string>
+    <string>Select Switch:</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listRouter">
+  <widget class="QListWidget" name="listHost">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>40</y>
+     <x>20</x>
+     <y>30</y>
      <width>161</width>
      <height>281</height>
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>290</y>
+     <width>351</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open xterm</string>
+   </property>
+  </widget>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>40</y>
-     <width>541</width>
-     <height>281</height>
+     <x>190</x>
+     <y>30</y>
+     <width>521</width>
+     <height>251</height>
     </rect>
    </property>
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Routing table</string>
-    </attribute>
-   </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>Interfaces/Links</string>
+     <string>Links</string>
     </attribute>
     <widget class="QTreeWidget" name="treeInterfaces">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>10</y>
-       <width>531</width>
-       <height>221</height>
+       <width>511</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="columnCount">
@@ -118,38 +126,5 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
