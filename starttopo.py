@@ -23,6 +23,7 @@ class HostConfig(QtGui.QDialog):
         for host in mySW.getNodeList("Host"):
             self.listHost.addItem(host.objectName())
 
+            
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(RouterConfig, self).__init__(parent)
@@ -226,8 +227,8 @@ class ControlMainWindow(QtGui.QMainWindow):
                 anyList.append(i)
 
         listSorted = sorted(anyList, key=lambda temp: temp.objectName())
-        for node in listSorted:
-            print node.objectName()
+#        for node in listSorted:
+#            print node.objectName()
 
         return listSorted
 
@@ -296,6 +297,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showHostWindow(self, Hostnumber) :
         myHost = HostConfig()
         print ("hostconfig vor show")
+        myHost.listHost.setCurrentRow(Hostnumber - 1)
         myHost.exec_()
 #        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
 
@@ -321,6 +323,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showRouterWindow(self, Routernumber) :
         myRouter = RouterConfig()
         print ("routerconfig vor show")
+        myRouter.listRouter.setCurrentRow(Routernumber - 1)
         myRouter.exec_()
 
     def Router01clicked(self):
@@ -340,6 +343,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showSwitchWindow(self, Switchnumber) :
         mySwitch = SwitchConfig()
         print ("switchconfig vor show")
+        mySwitch.listSwitch.setCurrentRow(Switchnumber - 1)
         mySwitch.exec_()
 
     def Switch01clicked(self):
@@ -350,6 +354,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showLinkWindow(self, Linknumber) :
         myLink = LinkConfig()
         print ("linkconfig vor show")
+        myLink.listLink.setCurrentRow(Linknumber - 1)
         myLink.exec_()
 
     def Link01clicked(self):
