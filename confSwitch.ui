@@ -42,7 +42,7 @@
     <string>Select Switch:</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listHost">
+  <widget class="QListWidget" name="listSwitch">
    <property name="geometry">
     <rect>
      <x>20</x>

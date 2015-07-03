@@ -53,7 +53,7 @@
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="bpStartMN">
       <property name="text">
        <string>Start network</string>
       </property>
@@ -127,7 +127,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="cbRandomMAC">
          <property name="text">
           <string>Random MAC addresses</string>
          </property>
@@ -150,14 +150,14 @@
      </widget>
     </item>
     <item row="5" column="1">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="bpStopMN">
       <property name="text">
        <string>Stop network</string>
       </property>
      </widget>
     </item>
     <item row="6" column="1">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="bpRestartMN">
       <property name="text">
        <string>Restart network</string>
       </property>
@@ -168,9 +168,6 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="2" column="6">
         <widget class="QToolButton" name="Router02">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
@@ -184,7 +181,7 @@
         </widget>
        </item>
        <item row="6" column="5">
-        <widget class="QPushButton" name="pushButton_14">
+        <widget class="QPushButton" name="Link10">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -201,7 +198,7 @@
         </widget>
        </item>
        <item row="3" column="10">
-        <widget class="QPushButton" name="pushButton_9">
+        <widget class="QPushButton" name="Link06">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -221,7 +218,7 @@
         <widget class="QWidget" name="widget_4" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="Link12">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -242,9 +239,6 @@
        </item>
        <item row="7" column="0">
         <widget class="QToolButton" name="Host03">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -259,9 +253,6 @@
        </item>
        <item row="4" column="9">
         <widget class="QToolButton" name="Router03">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
@@ -276,9 +267,6 @@
        </item>
        <item row="4" column="0">
         <widget class="QToolButton" name="Host02">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -292,7 +280,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="Link01">
          <property name="text">
           <string/>
          </property>
@@ -303,7 +291,7 @@
         </widget>
        </item>
        <item row="3" column="5">
-        <widget class="QPushButton" name="pushButton_13">
+        <widget class="QPushButton" name="Link08">
          <property name="text">
           <string/>
          </property>
@@ -314,7 +302,7 @@
         </widget>
        </item>
        <item row="6" column="10">
-        <widget class="QPushButton" name="pushButton_11">
+        <widget class="QPushButton" name="Link07">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -332,9 +320,6 @@
        </item>
        <item row="2" column="11">
         <widget class="QToolButton" name="Host05">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -372,9 +357,6 @@
        </item>
        <item row="7" column="6">
         <widget class="QToolButton" name="Router04">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
@@ -389,9 +371,6 @@
        </item>
        <item row="4" column="4">
         <widget class="QToolButton" name="Router01">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
@@ -405,7 +384,7 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="Link03">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -423,9 +402,6 @@
        </item>
        <item row="0" column="6">
         <widget class="QToolButton" name="Host04">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -439,7 +415,7 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="Link02">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -456,7 +432,7 @@
         </widget>
        </item>
        <item row="3" column="8">
-        <widget class="QPushButton" name="pushButton_12">
+        <widget class="QPushButton" name="Link09">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -474,9 +450,6 @@
        </item>
        <item row="2" column="0">
         <widget class="QToolButton" name="Host01">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -490,7 +463,7 @@
         </widget>
        </item>
        <item row="6" column="8">
-        <widget class="QPushButton" name="pushButton_15">
+        <widget class="QPushButton" name="Link11">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -516,7 +489,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="Link05">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -536,7 +509,7 @@
         </widget>
        </item>
        <item row="4" column="3">
-        <widget class="QPushButton" name="pushButton_16">
+        <widget class="QPushButton" name="Link04">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -554,9 +527,6 @@
        </item>
        <item row="7" column="11">
         <widget class="QToolButton" name="Host06">
-         <property name="text">
-          <string>...</string>
-         </property>
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>

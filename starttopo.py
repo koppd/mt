@@ -17,10 +17,10 @@ class HostConfig(QtGui.QDialog):
 #        self.ui = Ui_MainWindow()
 #        self.ui.setupUi(self)
 
-        uic.loadUi('node.ui', self)
+        uic.loadUi('confHost.ui', self)
         print "hostconfig init...)"
-        
-        for host in mySW.getHostList():
+
+        for host in mySW.getNodeList("Host"):
             self.listHost.addItem(host.objectName())
 
 class RouterConfig(QtGui.QDialog):
@@ -33,7 +33,7 @@ class RouterConfig(QtGui.QDialog):
         uic.loadUi('confRouter.ui', self)
         print "confRouter init...)"
 
-        for router in mySW.getRouterList():
+        for router in mySW.getNodeList("Router"):
             self.listRouter.addItem(router.objectName())
 
 
@@ -45,13 +45,43 @@ class RouterConfig(QtGui.QDialog):
         # ----------------
         # Add Custom QTreeWidgetItem
         # ----------------
-        ## Add Items:        
+        ## Add Items:
         for name in [ 'host1', 'host2', 'host3', 'router1', 'router2', 'router4' ]:
             item = CustomTreeItem( self.treeInterfaces, name )
 
          ## Set Columns Width to match content:
         for column in range( self.treeInterfaces.columnCount() ):
             self.treeInterfaces.resizeColumnToContents( column )
+
+
+class LinkConfig(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(LinkConfig, self).__init__(parent)
+#        super(ControlMainWindow, self).__init__(parent)
+#        self.ui = Ui_MainWindow()
+#        self.ui.setupUi(self)
+
+        uic.loadUi('confLink.ui', self)
+        print "linkconfig init...)"
+
+        for host in mySW.getNodeList("Link"):
+            self.listLink.addItem(host.objectName())
+
+
+class SwitchConfig(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(SwitchConfig, self).__init__(parent)
+#        super(ControlMainWindow, self).__init__(parent)
+#        self.ui = Ui_MainWindow()
+#        self.ui.setupUi(self)
+
+        uic.loadUi('confSwitch.ui', self)
+        print "linkSwitch init...)"
+
+        for host in mySW.getNodeList("Switch"):
+            self.listSwitch.addItem(host.objectName())
+
+
 
 # ------------------------------------------------------------------------------
 # Custom QTreeWidgetItem
@@ -60,16 +90,16 @@ class CustomTreeItem( QtGui.QTreeWidgetItem ):
     '''
     Custom QTreeWidgetItem with Widgets
     '''
- 
+
     def __init__( self, parent, name ):
         '''
         parent (QTreeWidget) : Item's QTreeWidget parent.
         name   (str)         : Item's name. just an example.
         '''
- 
+
         ## Init super class ( QtGui.QTreeWidgetItem )
         super( CustomTreeItem, self ).__init__( parent )
- 
+
         ## Column 0 - Text:
         self.setText( 0, name )
 
@@ -97,24 +127,24 @@ class CustomTreeItem( QtGui.QTreeWidgetItem ):
         self.button = QtGui.QPushButton()
         self.button.setText( "button %s" %name )
         self.treeWidget().setItemWidget( self, 5, self.button )
- 
+
         ## Signals
         self.treeWidget().connect( self.button, QtCore.SIGNAL("clicked()"), self.buttonPressed )
- 
+
     @property
     def name(self):
         '''
         Return name ( 1st column text )
         '''
         return self.text(0)
- 
+
     @property
     def value(self):
         '''
         Return value ( 2nd column int)
         '''
-        return self.delay1.value() 
- 
+        return self.delay1.value()
+
     def buttonPressed(self):
         '''
         Triggered when Item's button pressed.
@@ -122,7 +152,7 @@ class CustomTreeItem( QtGui.QTreeWidgetItem ):
         '''
         print "This Item name:%s value:%i" %( self.name,
                                               self.value )
- 
+
 
 class ControlMainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -143,22 +173,38 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Host04.clicked.connect(self.Host04clicked)
         self.Host05.clicked.connect(self.Host05clicked)
         self.Host06.clicked.connect(self.Host06clicked)
-        
+
         self.Router01.clicked.connect(self.Router01clicked)
         self.Router02.clicked.connect(self.Router02clicked)
         self.Router03.clicked.connect(self.Router03clicked)
         self.Router04.clicked.connect(self.Router04clicked)
 
+        self.Switch01.clicked.connect(self.Switch01clicked)
+
+        self.Link01.clicked.connect(self.Link01clicked)
+        self.Link02.clicked.connect(self.Link02clicked)
+        self.Link03.clicked.connect(self.Link03clicked)
+        self.Link04.clicked.connect(self.Link04clicked)
+        self.Link05.clicked.connect(self.Link05clicked)
+        self.Link06.clicked.connect(self.Link06clicked)
+        self.Link07.clicked.connect(self.Link07clicked)
+        self.Link08.clicked.connect(self.Link08clicked)
+        self.Link09.clicked.connect(self.Link09clicked)
+        self.Link10.clicked.connect(self.Link10clicked)
+        self.Link11.clicked.connect(self.Link11clicked)
+        self.Link12.clicked.connect(self.Link12clicked)
+
         self.pbExit.clicked.connect(self.pbExitclicked)
 
         self.updateProcesses()
 
-        self.debug1.clicked.connect(self.getHostList)
+#        self.debug1.clicked.connect(self.getHostList)
+
 
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
-#      
+#
 #        pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
 #
 #        qp.setPen(pen)
@@ -168,36 +214,28 @@ class ControlMainWindow(QtGui.QMainWindow):
 ##        qp.setPen(pen)
 ##        qp.drawLine(20, 80, 250, 85)
 
-    def getHostList(self):
-        hostList = []
-        lineEdits = self.TopoArea.findChildren(QtGui.QWidget)        
+    def getNodeList(self, Nodetype):
+        """ extract all children of QWidget TopoArea for a 
+        certain type like Router, Host, Link, Switch
+        Output: Host01, Host02, ... (as defined in Qt designer) """
+        anyList = []
+        lineEdits = self.TopoArea.findChildren(QtGui.QWidget)
+        Nodetypelen = len(Nodetype)
         for i in lineEdits:
-            if i.objectName()[:4] == 'Host':
-                hostList.append(i)
+            if i.objectName()[:Nodetypelen] == Nodetype:
+                anyList.append(i)
 
-        hostSorted = sorted(hostList, key=lambda student: student.objectName())
-        for host in hostSorted:
-            print host.objectName()
+        listSorted = sorted(anyList, key=lambda temp: temp.objectName())
+        for node in listSorted:
+            print node.objectName()
 
-        return hostSorted
+        return listSorted
 
-    def getRouterList(self):
-        routerList = []
-        lineEdits = self.TopoArea.findChildren(QtGui.QWidget)        
-        for i in lineEdits:
-            if i.objectName()[:6] == 'Router':
-                routerList.append(i)
-
-        routerSorted = sorted(routerList, key=lambda student: student.objectName())
-        for router in routerSorted:
-            print router.objectName()
-
-        return routerSorted
 
     def updateProcesses(self):
         tree = self.runningServices  # replace every 'tree' with your QTreeWidget
-        plist = []        
-        for host in self.getHostList():
+        plist = []
+        for host in self.getNodeList("Host"):
             plist.append(str(host.objectName()))
 
         clist=['Child 1','Child 2']
@@ -212,13 +250,13 @@ class ControlMainWindow(QtGui.QMainWindow):
             for child in clist:
                 citems=QtGui.QTreeWidgetItem(pitems)
                 citems.setText(0,child)
-        
+
 
     def pbExitclicked(self):
         exit(0)
-    
+
     def drawLines(self, qp, fromx, fromy, tox, toy):
-      
+
         pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
         qp.setPen(pen)
         qp.drawLine(fromx, fromy, tox, toy)
@@ -240,75 +278,123 @@ class ControlMainWindow(QtGui.QMainWindow):
             tox, toy = self.getCenter(dest)
             self.drawLines(qp, fromx, fromy, tox, toy)
 
-   
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-# Links
+# Left
         self.drawMultiLinesObj(qp, self.Switch01, self.Router01, self.Host01, self.Host02, self.Host03)
-# Oben
+# Top
         self.drawMultiLinesObj(qp, self.Router02, self.Host04, self.Router01, self.Router02, self.Router03, self.Router04)
-# Rechts
+# Right
         self.drawMultiLinesObj(qp, self.Router03, self.Host05, self.Host06)
-# Unten
+# Bottom
         self.drawMultiLinesObj(qp, self.Router04, self.Router01, self.Router03)
 
         qp.end()
- 
-  
-    def Host01clicked(self):
+
+    def showHostWindow(self, Hostnumber) :
         myHost = HostConfig()
         print ("hostconfig vor show")
         myHost.exec_()
 #        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
-        pass
+
+    def Host01clicked(self):
+        self.showHostWindow(1)
 
     def Host02clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 2 clicked!")
-        pass
+        self.showHostWindow(2)
 
     def Host03clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 3 clicked!")
-        pass
-    
+        self.showHostWindow(3)
+
     def Host04clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 4 clicked!")
-        pass
+        self.showHostWindow(4)
 
     def Host05clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 5 clicked!")
-        pass
+        self.showHostWindow(5)
 
     def Host06clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Host 6 clicked!")
-        pass
+        self.showHostWindow(6)
 
-    def Router01clicked(self):
-#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+
+    def showRouterWindow(self, Routernumber) :
         myRouter = RouterConfig()
         print ("routerconfig vor show")
         myRouter.exec_()
-#        pass
+
+    def Router01clicked(self):
+#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+        self.showRouterWindow(1)
 
     def Router02clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Router 2 clicked!")
-        pass
+        self.showRouterWindow(2)
 
     def Router03clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Router 3 clicked!")
-        pass
+        self.showRouterWindow(3)
 
     def Router04clicked(self):
-        QtGui.QMessageBox.information(self, "Hello", "Router 4 clicked!")
-        pass
+        self.showRouterWindow(4)
+
+
+    def showSwitchWindow(self, Switchnumber) :
+        mySwitch = SwitchConfig()
+        print ("switchconfig vor show")
+        mySwitch.exec_()
+
+    def Switch01clicked(self):
+#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+        self.showSwitchWindow(1)
+
+
+    def showLinkWindow(self, Linknumber) :
+        myLink = LinkConfig()
+        print ("linkconfig vor show")
+        myLink.exec_()
+
+    def Link01clicked(self):
+#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+        self.showLinkWindow(1)
+
+    def Link02clicked(self):
+        self.showLinkWindow(2)
+
+    def Link03clicked(self):
+        self.showLinkWindow(3)
+
+    def Link04clicked(self):
+        self.showLinkWindow(4)
+
+    def Link05clicked(self):
+        self.showLinkWindow(5)
+
+    def Link06clicked(self):
+        self.showLinkWindow(6)
+
+    def Link07clicked(self):
+        self.showLinkWindow(7)
+
+    def Link08clicked(self):
+        self.showLinkWindow(8)
+
+    def Link09clicked(self):
+        self.showLinkWindow(9)
+
+    def Link10clicked(self):
+        self.showLinkWindow(10)
+
+    def Link11clicked(self):
+        self.showLinkWindow(11)
+
+    def Link12clicked(self):
+        self.showLinkWindow(12)
 
 
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mySW = ControlMainWindow()
-#    myNode = NodeConfig()    
+#    myNode = NodeConfig()
     mySW.show()
 #    myNode.show()
     sys.exit(app.exec_())
