@@ -2,12 +2,83 @@
 import sys
 #from PySide import QtGui
 #from PySide import QtCore
-from PyQt4 import QtGui, QtCore, uic
+from PyQt4 import QtGui, QtCore
+from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 #from PyQt4 import uic
+#import TCPloss
+
+from mininet.net import Mininet
+from mininet.node import Controller, RemoteController, OVSController
+from mininet.node import CPULimitedHost, Host, Node
+from mininet.node import OVSKernelSwitch, UserSwitch
+from mininet.node import IVSSwitch
+from mininet.cli import CLI
+from mininet.log import setLogLevel, info
+from mininet.link import TCLink, Intf
+from mininet.term import makeTerm, makeTerms, runX11, tunnelX11, cleanUpScreens
+import shlex, subprocess
+#import mininet.term
+import time
+import os
+import signal
 
 #from mainwindow import Ui_MainWindow
+
+class MNtcp():
+    def myNetwork( self, delay=20, loss=5, swin=3 ):
+    
+        self.net = Mininet( topo=None,
+                       build=False,
+                       ipBase='10.0.0.0/8')
+    
+        info( '*** Add switches\n')
+        self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
+    
+    #    info( '*** Add hosts\n')
+        self.h1 = self.net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
+        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
+    
+        info( '*** Add links\n')
+    #    h1s1_delay = str(delay) + 'ms'
+        self.h1s1 = {'delay':str(delay) + 'ms','loss':0,'max_queue_size':swin}
+        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
+        self.h4s1 = {'delay':str(delay) + 'ms','loss':loss}
+        self.net.addLink(self.h4, self.s1, cls=TCLink , **self.h4s1)
+    
+        info( '\n*** Starting network\n')
+        self.net.build()
+
+        for self.controller in self.net.controllers:
+            self.controller.start()
+    
+        self.net.get('s1').start([])
+    
+    # starte httpServer auf h1
+        info( '\n****** execute startHTTPserver on h4\n')
+        self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
+        print "http ", self.http
+    
+    # starte wireshark auf h4    
+        info( '****** execute wireshark on h4\n')
+        self.display, self.tunnel = tunnelX11( self.h4, None )
+    #    ws = h4.popen( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1'], shell=True)
+        self.ws = self.h4.cmd( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1 &'], shell=True, printPid=True) #, preexec_fn=os.setsid )
+        print "ws ", self.ws
+
+
+    def startDownload( self ):    
+        display, tunnel = tunnelX11( self.h4, None )
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        self.p1 = self.h4.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+       
+    
+    def stopNet( self ):
+        self.h4.cmd("pkill wireshark")
+        # simpleHTTP muss auch beendet werden. Steht in self.http drinnen.
+        # muss evtl. generisch über ps -aux |grep SimpleHTTPServer beendet werden.
+        self.net.stop()
 
 
 class HostConfig(QtGui.QDialog):
@@ -163,7 +234,6 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         uic.loadUi('topo.ui', self)
 
-
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
 
@@ -199,12 +269,16 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.bpStopMN.clicked.connect(self.StopMNclicked)
         self.bpRestartMN.clicked.connect(self.RestartMNclicked)
 
-
         self.pbExit.clicked.connect(self.pbExitclicked)
 
-        self.updateProcesses()
+        self.debug1.clicked.connect(self.debug1clicked)
+        self.debug2.clicked.connect(self.debug2clicked)
+        self.debug3.clicked.connect(self.debug3clicked)
+        self.debug4.clicked.connect(self.debug4clicked)
+        self.debug5.clicked.connect(self.debug5clicked)
+        self.debug6.clicked.connect(self.debug6clicked)
 
-#        self.debug1.clicked.connect(self.getHostList)
+        self.updateProcesses()
 
 
 #        self.drawLinks()
@@ -229,6 +303,28 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def RestartMNclicked(self):
         pass
+
+    def debug1clicked(self):
+        pass
+
+    def debug2clicked(self):
+        self.scen = MNtcp()
+        self.scen.myNetwork( delay=20, 
+                          loss=3, 
+                          swin=3 )
+
+    def debug3clicked(self):
+        self.scen.startDownload( )
+
+    def debug4clicked(self):
+        self.scen.stopNet( )
+
+    def debug5clicked(self):
+        pass
+
+    def debug6clicked(self):
+        pass
+
 
     def getNodeList(self, Nodetype):
         """ extract all children of QWidget TopoArea for a 

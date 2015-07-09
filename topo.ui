@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1019</width>
-    <height>620</height>
+    <height>706</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -521,19 +521,33 @@
        <item>
         <widget class="QPushButton" name="debug2">
          <property name="text">
-          <string>PushButton</string>
+          <string>tcp1</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="debug3">
          <property name="text">
-          <string>PushButton</string>
+          <string>tcp2</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="debug4">
+         <property name="text">
+          <string>tcp3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="debug5">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="debug6">
          <property name="text">
           <string>PushButton</string>
          </property>
@@ -550,7 +564,7 @@
      <x>0</x>
      <y>0</y>
      <width>1019</width>
-     <height>20</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
