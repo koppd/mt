@@ -195,6 +195,11 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Link11.clicked.connect(self.Link11clicked)
         self.Link12.clicked.connect(self.Link12clicked)
 
+        self.bpStartMN.clicked.connect(self.StartMNclicked)
+        self.bpStopMN.clicked.connect(self.StopMNclicked)
+        self.bpRestartMN.clicked.connect(self.RestartMNclicked)
+
+
         self.pbExit.clicked.connect(self.pbExitclicked)
 
         self.updateProcesses()
@@ -214,6 +219,16 @@ class ControlMainWindow(QtGui.QMainWindow):
 ##        pen.setStyle(QtCore.Qt.DashLine) #DashDotLine  DotLine DashDotDotLine CustomDashLine
 ##        qp.setPen(pen)
 ##        qp.drawLine(20, 80, 250, 85)
+
+
+    def StartMNclicked(self):
+        pass
+
+    def StopMNclicked(self):
+        pass
+
+    def RestartMNclicked(self):
+        pass
 
     def getNodeList(self, Nodetype):
         """ extract all children of QWidget TopoArea for a 
