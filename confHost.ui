@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>491</width>
-    <height>355</height>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="leIP">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -55,7 +55,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="leMAC">
         <property name="enabled">
          <bool>false</bool>
         </property>

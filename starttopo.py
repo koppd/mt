@@ -26,41 +26,113 @@ import signal
 
 #from mainwindow import Ui_MainWindow
 
+class MN():
+    def startMN(self, MAC_random = True):
+        self.createNet(MAC_random)
+        self.createSwitch('s1')
+        self.createHosts()
+        self.createLinks()
+        self.buildNet()
+        self.startController()
+        self.startSwitch()
+
+
+    def createNet(self, MAC_random = True):
+        if MAC_random == True:
+            self.net = Mininet( topo=None,
+                           build=False,
+                           ipBase='10.0.0.0/8')
+        else:
+            self.net = Mininet( topo=None,
+                           build=False,
+                           autoSetMacs=True,
+                           ipBase='10.0.0.0/8')
+
+    def createSwitch(self, switchName):
+        info( '*** Add switches\n')
+        self.s1 = self.net.addSwitch(switchName, cls=OVSKernelSwitch, failMode='standalone')
+
+    def createHosts(self):
+        self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1', defaultRoute=None)
+        self.h2 = self.net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
+        self.h3 = self.net.addHost('h3', cls=Host, ip='10.0.0.3', defaultRoute=None)
+        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
+        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
+        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
+
+    def createRouters(self):
+        pass
+
+    def createLinks(self):
+# Beispiel für delay
+#        self.h1s1 = {'delay':str(delay) + 'ms'}
+#        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
+        self.net.addLink(self.h1, self.s1, cls=TCLink)
+        self.net.addLink(self.h2, self.s1, cls=TCLink)
+        self.net.addLink(self.h3, self.s1, cls=TCLink)
+# Router fehlen noch
+#        self.net.addLink(self.s1, self.r1, cls=TCLink)
+#        self.net.addLink(self.h4, self.r2, cls=TCLink)
+#        self.net.addLink(self.h5, self.r3, cls=TCLink)
+#        self.net.addLink(self.h6, self.r3, cls=TCLink)
+#        self.net.addLink(self.r1, self.r2, cls=TCLink)
+#        self.net.addLink(self.r2, self.r3, cls=TCLink)
+#        self.net.addLink(self.r1, self.r4, cls=TCLink)
+#        self.net.addLink(self.r3, self.r4, cls=TCLink)
+#        self.net.addLink(self.r2, self.r4, cls=TCLink)
+
+    def buildNet(self):
+        self.net.build()
+
+    def startController(self):
+        info( '*** Starting controllers\n')
+        for self.controller in self.net.controllers:
+            self.controller.start()
+
+    def startSwitch(self):
+        info( '*** Starting switches\n')
+        self.net.get('s1').start([])
+
+    def stopNet( self ):
+#        self.h1.cmd("pkill dhcpd")
+        self.net.stop()
+
+
 class MNtcp():
     def myNetwork( self, delay=20, loss=5, swin=3 ):
-    
+
         self.net = Mininet( topo=None,
                        build=False,
                        ipBase='10.0.0.0/8')
-    
+
         info( '*** Add switches\n')
         self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
-    
+
     #    info( '*** Add hosts\n')
         self.h1 = self.net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
         self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
-    
+
         info( '*** Add links\n')
     #    h1s1_delay = str(delay) + 'ms'
         self.h1s1 = {'delay':str(delay) + 'ms','loss':0,'max_queue_size':swin}
         self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
         self.h4s1 = {'delay':str(delay) + 'ms','loss':loss}
         self.net.addLink(self.h4, self.s1, cls=TCLink , **self.h4s1)
-    
+
         info( '\n*** Starting network\n')
         self.net.build()
 
         for self.controller in self.net.controllers:
             self.controller.start()
-    
+
         self.net.get('s1').start([])
-    
+
     # starte httpServer auf h1
         info( '\n****** execute startHTTPserver on h4\n')
         self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
         print "http ", self.http
-    
-    # starte wireshark auf h4    
+
+    # starte wireshark auf h4
         info( '****** execute wireshark on h4\n')
         self.display, self.tunnel = tunnelX11( self.h4, None )
     #    ws = h4.popen( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1'], shell=True)
@@ -68,12 +140,12 @@ class MNtcp():
         print "ws ", self.ws
 
 
-    def startDownload( self ):    
+    def startDownload( self ):
         display, tunnel = tunnelX11( self.h4, None )
 #        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         self.p1 = self.h4.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-       
-    
+
+
     def stopNet( self ):
         self.h4.cmd("pkill wireshark")
         # simpleHTTP muss auch beendet werden. Steht in self.http drinnen.
@@ -92,9 +164,26 @@ class HostConfig(QtGui.QDialog):
         print "hostconfig init...)"
 
         for host in mySW.getNodeList("Host"):
-            self.listHost.addItem(host.objectName())
+            self.listHost.addItem(QListWidgetItem(host.objectName()))
 
-            
+        self.listHost.currentItemChanged.connect(self.currentHostChanged)
+
+    def currentHostChanged(self, current, previous):
+        self.showHostValues()
+#        print current.text()   #e.g. Host05
+
+    def showHostValues(self):
+
+        selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if selectedHost != None:
+            selectedHostText = selectedHost.text()   #e.g. Host03
+
+        NMhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+
+        self.leIP.setText("FIXME " + NMhost)
+        self.leMAC.setText("FIXME " + NMhost)
+
+
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(RouterConfig, self).__init__(parent)
@@ -226,6 +315,35 @@ class CustomTreeItem( QtGui.QTreeWidgetItem ):
                                               self.value )
 
 
+class Parameter():
+    def __init__(self):
+        # Schaffe Verknüpfung zwischen den GUI-Elementen
+        # und den Mininet-Elementen
+
+        self.GUIhosts = {}
+        self.GUIhosts["Host01"] = "h1"
+        self.GUIhosts["Host02"] = "h2"
+        self.GUIhosts["Host03"] = "h3"
+        self.GUIhosts["Host04"] = "h4"
+        self.GUIhosts["Host05"] = "h5"
+        self.GUIhosts["Host06"] = "h6"
+
+        self.GUIswitches = {}
+        self.GUIswitches["Switch01"] = "s1"
+
+        self.GUIrouter = {}
+        self.GUIrouter["Router01"] = "r1"
+
+    def getMNname(self, GUIname):
+        if GUIname in self.GUIhosts:
+            return self.GUIhosts[GUIname]
+        if GUIname in self.GUIswitches[GUIname]:
+            return self.GUIswitches[GUIname]
+        if GUIname in self.GUIrouter[GUIname]:
+            return self.GUIrouter[GUIname]
+        else:
+            return None
+
 class ControlMainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
@@ -233,6 +351,10 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        self.ui.setupUi(self)
 
         uic.loadUi('topo.ui', self)
+
+
+        self.shortcut = Parameter()
+
 
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
@@ -280,7 +402,6 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.updateProcesses()
 
-
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
@@ -296,21 +417,23 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
     def StartMNclicked(self):
-        pass
+        instanceMN = MN(MAC_random = cbRandomMAC.isChecked())
+        instanceMN.startMN()
 
     def StopMNclicked(self):
-        pass
+        instanceMN.stopNet()
 
     def RestartMNclicked(self):
-        pass
+        self.StopMNclicked()
+        self.StartMNclicked()
 
     def debug1clicked(self):
         pass
 
     def debug2clicked(self):
         self.scen = MNtcp()
-        self.scen.myNetwork( delay=20, 
-                          loss=3, 
+        self.scen.myNetwork( delay=20,
+                          loss=3,
                           swin=3 )
 
     def debug3clicked(self):
@@ -327,7 +450,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
     def getNodeList(self, Nodetype):
-        """ extract all children of QWidget TopoArea for a 
+        """ extract all children of QWidget TopoArea for a
         certain type like Router, Host, Link, Switch
         Output: Host01, Host02, ... (as defined in Qt designer) """
         anyList = []
@@ -409,7 +532,9 @@ class ControlMainWindow(QtGui.QMainWindow):
         myHost = HostConfig()
         print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)
+        myHost.showHostValues()
         myHost.exec_()
+#        myHost.show()
 #        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
 
     def Host01clicked(self):
