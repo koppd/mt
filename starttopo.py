@@ -184,6 +184,11 @@ class HostConfig(QtGui.QDialog):
         self.leMAC.setText("FIXME " + NMhost)
 
 
+        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
+        print str(connectionList[0])
+        self.leConnectedTo.setText(str(connectionList[0]) + ", " + str(mySW.shortcut.getMNname(connectionList[0])))
+
+
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(RouterConfig, self).__init__(parent)
@@ -333,16 +338,43 @@ class Parameter():
 
         self.GUIrouter = {}
         self.GUIrouter["Router01"] = "r1"
+        self.GUIrouter["Router02"] = "r2"
+        self.GUIrouter["Router03"] = "r3"
+        self.GUIrouter["Router04"] = "r4"
+
+# Nicht unique, d.h. jede Verbindung taucht zweimal auf.
+        self.connections = {}
+        self.connections["Host01"] = ["Switch01"]
+        self.connections["Host02"] = ["Switch01"]
+        self.connections["Host03"] = ["Switch01"]
+        self.connections["Host04"] = ["Router02"]
+        self.connections["Host05"] = ["Router03"]
+        self.connections["Host06"] = ["Router03"]
+
+        self.connections["Switch01"] = ["Host01", "Host02", "Host03", "Router01"]
+
+        self.connections["Router01"] = ["Switch01", "Router02", "Router04"]
+        self.connections["Router02"] = ["Router01", "Router03", "Router04", "Host04"]
+        self.connections["Router03"] = ["Router02", "Router04", "Host05", "Host06"]
+        self.connections["Router04"] = ["Router01", "Router02", "Router03"]
+
 
     def getMNname(self, GUIname):
         if GUIname in self.GUIhosts:
             return self.GUIhosts[GUIname]
-        if GUIname in self.GUIswitches[GUIname]:
+        elif GUIname in self.GUIswitches:
             return self.GUIswitches[GUIname]
-        if GUIname in self.GUIrouter[GUIname]:
+        elif GUIname in self.GUIrouter:
             return self.GUIrouter[GUIname]
         else:
             return None
+
+    def getConnectedTo(self, GUIname):
+        if GUIname in self.connections:
+            return self.connections[GUIname]
+        else:
+            return None
+
 
 class ControlMainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
