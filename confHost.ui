@@ -34,10 +34,13 @@
       <item>
        <widget class="QLineEdit" name="leIP">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="text">
          <string>1.1.1.1</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -57,10 +60,13 @@
       <item>
        <widget class="QLineEdit" name="leMAC">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="text">
          <string>00:FF:12:34:56:67</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -80,7 +86,7 @@
    <item row="2" column="1" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -246,7 +252,7 @@
           <item row="4" column="0" colspan="2">
            <widget class="QPushButton" name="pbSWireshark">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Start Wireshark now</string>
@@ -304,9 +310,9 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QPushButton" name="pbSFTP">
+           <widget class="QPushButton" name="pbCFTP">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Configure...</string>
@@ -326,7 +332,7 @@
           <item row="4" column="0" colspan="2">
            <widget class="QPushButton" name="pbCWireshark">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Start Wireshark now</string>
@@ -375,7 +381,7 @@
     </widget>
    </item>
    <item row="3" column="1" colspan="2">
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="pbXterm">
      <property name="text">
       <string>Open xterm</string>
      </property>

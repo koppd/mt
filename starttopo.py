@@ -36,6 +36,25 @@ class MN():
         self.startController()
         self.startSwitch()
 
+    def getIP(self, host):
+        tmphost = self.net.getNodeByName( host )   #e.g. host = h1
+        try:
+            return tmphost.IP()
+        except:
+            return None
+        return None
+
+    def getMAC(self, host):
+        tmphost = self.net.getNodeByName( host )   #e.g. host = h1
+        try:
+            return tmphost.MAC()
+        except:
+            return None
+        return None
+
+    def getNode(self, host):
+        return self.net.getNodeByName( host )   #e.g. host = h1
+        
 
     def createNet(self, MAC_random = True):
         if MAC_random == True:
@@ -54,8 +73,8 @@ class MN():
 
     def createHosts(self):
         self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1', defaultRoute=None)
-        self.h2 = self.net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
-        self.h3 = self.net.addHost('h3', cls=Host, ip='10.0.0.3', defaultRoute=None)
+        self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2', defaultRoute=None)
+        self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3', defaultRoute=None)
         self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
         self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
         self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
@@ -161,12 +180,43 @@ class HostConfig(QtGui.QDialog):
 #        self.ui.setupUi(self)
 
         uic.loadUi('confHost.ui', self)
-        print "hostconfig init...)"
+#        print "hostconfig init...)"
 
         for host in mySW.getNodeList("Host"):
             self.listHost.addItem(QListWidgetItem(host.objectName()))
 
         self.listHost.currentItemChanged.connect(self.currentHostChanged)
+        self.pbXterm.clicked.connect(self.pbXtermclicked)
+#Server tab
+        self.pbSDHCP.clicked.connect(self.pbSDHCPclicked)
+        self.pbSWireshark.clicked.connect(self.pbSWiresharkclicked)
+#Client tab
+        self.pbCFTP.clicked.connect(self.pbCFTPclicked)
+        self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
+
+    def pbXtermclicked(self):
+        selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if selectedHost != None:
+            selectedHostText = selectedHost.text()   #e.g. Host03
+
+        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        tmpMNhost = mySW.instanceMN.getNode(MNhost)      #object of h1
+
+        display, tunnel = tunnelX11( tmpMNhost, None )
+        Title = '"bash on %s"' % (MNhost)
+        self.p1 = tmpMNhost.popen( ['xterm', '-title', Title , '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+
+    def pbSDHCPclicked(self):
+        pass
+
+    def pbSWiresharkclicked(self):
+        pass
+
+    def pbCFTPclicked(self):
+        pass
+
+    def pbCWiresharkclicked(self):
+        pass
 
     def currentHostChanged(self, current, previous):
         self.showHostValues()
@@ -178,10 +228,12 @@ class HostConfig(QtGui.QDialog):
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        NMhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
 
-        self.leIP.setText("FIXME " + NMhost)
-        self.leMAC.setText("FIXME " + NMhost)
+        IP = mySW.instanceMN.getIP(MNhost)
+        self.leIP.setText(IP)
+        MAC = mySW.instanceMN.getMAC(MNhost)
+        self.leMAC.setText(MAC)
 
 
         connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
@@ -449,11 +501,11 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
     def StartMNclicked(self):
-        instanceMN = MN(MAC_random = cbRandomMAC.isChecked())
-        instanceMN.startMN()
+        self.instanceMN = MN()
+        self.instanceMN.startMN(MAC_random = self.cbRandomMAC.isChecked())
 
     def StopMNclicked(self):
-        instanceMN.stopNet()
+        self.instanceMN.stopNet()
 
     def RestartMNclicked(self):
         self.StopMNclicked()
@@ -667,6 +719,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mySW = ControlMainWindow()
+    mySW.StartMNclicked()
 #    myNode = NodeConfig()
     mySW.show()
 #    myNode.show()
