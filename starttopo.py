@@ -42,6 +42,7 @@ class MN():
         try:
             return tmphost.IP()
         except:
+            print "kein entsprechenden MN Host-IP gefunden"
             return None
         return None
 
@@ -50,6 +51,7 @@ class MN():
         try:
             return tmphost.MAC()
         except:
+            print "kein entsprechenden MN Host-MAC gefunden"
             return None
         return None
 
@@ -244,7 +246,7 @@ class HostConfig(QtGui.QDialog):
         #QDialog.reject()
 
     def applyChanges(self):
-        print self.cbSHTTP.isChecked()
+#        print self.cbSHTTP.isChecked()
         pass
 
 
@@ -335,7 +337,7 @@ class RouterConfig(QtGui.QDialog):
 #        self.ui.setupUi(self)
 
         uic.loadUi('confRouter.ui', self)
-        print "confRouter init...)"
+#        print "confRouter init...)"
 
         for router in mySW.getNodeList("Router"):
             self.listRouter.addItem(router.objectName())
@@ -368,7 +370,7 @@ class LinkConfig(QtGui.QDialog):
 #        self.ui.setupUi(self)
 
         uic.loadUi('confLink.ui', self)
-        print "linkconfig init...)"
+#        print "linkconfig init...)"
 
         for link in mySW.getNodeList("Link"):
             self.listLink.addItem(link.objectName())
@@ -387,14 +389,15 @@ class LinkConfig(QtGui.QDialog):
         self.hsDelay.setValue(self.sbDelay.value())
 
     def applyButton(self):
-        print "apply button link"
+#        print "apply button link"
         self.applyChanges()
 
     def resetButton(self):
-        print "reset buttton link"
+ #       print "reset buttton link"
+        pass
 
     def accept(self):
-        print "accept/OK button link"
+#        print "accept/OK button link"
         self.applyChanges()
         QDialog.accept(self)
 
@@ -406,7 +409,7 @@ class LinkConfig(QtGui.QDialog):
         #QDialog.reject()
 
     def applyChanges(self):
-        print "asödlkf link"
+#        print "asödlkf link"
 
         if self.selectedLink == None or \
            self.LinkNodes == None:
@@ -425,7 +428,7 @@ class LinkConfig(QtGui.QDialog):
         destNode = mySW.instanceMN.getNode(self.destination)
 
         links = srcNode.connectionsTo(destNode)
-        print links        
+#        print links        
         srcLink = links[0][0]   # e.g.  h3-eth0
         dstLink = links[0][1]   # e.g.  s1-eth3
         srcLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
@@ -496,7 +499,7 @@ class SwitchConfig(QtGui.QDialog):
 #        self.ui.setupUi(self)
 
         uic.loadUi('confSwitch.ui', self)
-        print "linkSwitch init...)"
+#        print "linkSwitch init...)"
 
         for host in mySW.getNodeList("Switch"):
             self.listSwitch.addItem(host.objectName())
@@ -839,7 +842,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showHostWindow(self, Hostnumber) :
         myHost = HostConfig()
-        print ("hostconfig vor show")
+#        print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
         myHost.showHostValues()
         myHost.exec_()
@@ -887,7 +890,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showSwitchWindow(self, Switchnumber) :
         mySwitch = SwitchConfig()
-        print ("switchconfig vor show")
+#        print ("switchconfig vor show")
         mySwitch.listSwitch.setCurrentRow(Switchnumber - 1)
         mySwitch.exec_()
 
@@ -898,7 +901,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showLinkWindow(self, Linknumber) :
         myLink = LinkConfig()
-        print ("linkconfig vor show")
+#        print ("linkconfig vor show")
         myLink.listLink.setCurrentRow(Linknumber - 1)
         myLink.exec_()
 
