@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>491</width>
-    <height>413</height>
+    <height>457</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -86,7 +86,7 @@
    <item row="2" column="1" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -96,15 +96,15 @@
        <item row="0" column="2">
         <widget class="QWidget" name="widget_5" native="true">
          <layout class="QGridLayout" name="gridLayout_5">
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Paket Loss in %:</string>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLineEdit" name="leConnectedTo">
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QSlider" name="horizontalSlider_2">
+           <widget class="QSlider" name="hsLoss">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -119,8 +119,15 @@
             </property>
            </widget>
           </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Queue length:</string>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="1">
-           <widget class="QSlider" name="horizontalSlider">
+           <widget class="QSlider" name="hsDelay">
             <property name="maximum">
              <number>2000</number>
             </property>
@@ -132,15 +139,45 @@
             </property>
            </widget>
           </item>
+          <item row="4" column="2">
+           <widget class="QSpinBox" name="sbLoss">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="suffix">
+             <string> %</string>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_7">
             <property name="text">
-             <string>Link delay in ms:</string>
+             <string>Link delay:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Paket Loss</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>This host is connected to:</string>
             </property>
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QSpinBox" name="spinBox1">
+           <widget class="QSpinBox" name="sbDelay">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -158,33 +195,20 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="3">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>This host is connected to:</string>
+          <item row="5" column="1">
+           <widget class="QSlider" name="hsQueue">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLineEdit" name="leConnectedTo">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QSpinBox" name="spinBox2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="suffix">
-             <string> %</string>
-            </property>
-            <property name="maximum">
-             <number>100</number>
+          <item row="5" column="2">
+           <widget class="QSpinBox" name="sbQueue">
+            <property name="minimum">
+             <number>1</number>
             </property>
            </widget>
           </item>
@@ -214,20 +238,6 @@
        <item row="0" column="0">
         <widget class="QWidget" name="widget_3" native="true">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="cbSHTTP">
-            <property name="text">
-             <string>HTTP</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="cbSFTP">
-            <property name="text">
-             <string>FTP</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="cbSDHCP">
             <property name="text">
@@ -242,10 +252,27 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="cbSFTP">
+            <property name="text">
+             <string>FTP</string>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0">
            <widget class="QCheckBox" name="cbSVOIP">
             <property name="text">
              <string>VoIP </string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="2">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>(set wireshark's display filter according to &quot;Server Services&quot;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -259,13 +286,10 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2">
-           <widget class="QLabel" name="label_4">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="cbSHTTP">
             <property name="text">
-             <string>(set wireshark's display filter according to &quot;Server Services&quot;</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
+             <string>HTTP</string>
             </property>
            </widget>
           </item>

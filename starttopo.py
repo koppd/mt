@@ -31,13 +31,14 @@ class MN():
         self.createNet(MAC_random)
         self.createSwitch('s1')
         self.createHosts()
+        self.initLinkvalues()
         self.createLinks()
         self.buildNet()
         self.startController()
         self.startSwitch()
 
     def getIP(self, host):
-        tmphost = self.net.getNodeByName( host )   #e.g. host = h1
+        tmphost = self.getNode( host )   #e.g. host = h1
         try:
             return tmphost.IP()
         except:
@@ -45,7 +46,7 @@ class MN():
         return None
 
     def getMAC(self, host):
-        tmphost = self.net.getNodeByName( host )   #e.g. host = h1
+        tmphost = self.getNode( host )   #e.g. host = h1
         try:
             return tmphost.MAC()
         except:
@@ -53,7 +54,11 @@ class MN():
         return None
 
     def getNode(self, host):
-        return self.net.getNodeByName( host )   #e.g. host = h1
+        try:
+            return self.net.getNodeByName( host )   #e.g. host = h1
+        except:
+            print "Node %s existiert nicht" % host
+            return None
         
 
     def createNet(self, MAC_random = True):
@@ -84,11 +89,15 @@ class MN():
 
     def createLinks(self):
 # Beispiel für delay
-#        self.h1s1 = {'delay':str(delay) + 'ms'}
-#        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
-        self.net.addLink(self.h1, self.s1, cls=TCLink)
-        self.net.addLink(self.h2, self.s1, cls=TCLink)
-        self.net.addLink(self.h3, self.s1, cls=TCLink)
+#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms'}
+#        self.h1s1 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
+        self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h1s1)
+        self.net.addLink(self.h3, self.s1, cls=TCLink , **self.h1s1)
+
+#        self.net.addLink(self.h1, self.s1, cls=TCLink)
+#        self.net.addLink(self.h2, self.s1, cls=TCLink)
+#        self.net.addLink(self.h3, self.s1, cls=TCLink)
 # Router fehlen noch
 #        self.net.addLink(self.s1, self.r1, cls=TCLink)
 #        self.net.addLink(self.h4, self.r2, cls=TCLink)
@@ -100,6 +109,20 @@ class MN():
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
 #        self.net.addLink(self.r2, self.r4, cls=TCLink)
 
+    def initLinkvalues(self):
+        self.defaultDelay = 20
+        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+# Router fehlen noch
+#        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+#        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+#        self.h6r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+        
+
+    def modifyLink(self):
+        pass
+    
     def buildNet(self):
         self.net.build()
 
@@ -185,6 +208,13 @@ class HostConfig(QtGui.QDialog):
         for host in mySW.getNodeList("Host"):
             self.listHost.addItem(QListWidgetItem(host.objectName()))
 
+#old style
+#        self.connect(self.buttonBox.button(QDialogButtonBox.Reset), QtCore.SIGNAL("clicked()"), self.resetButton)
+#        self.connect(self.buttonBox.button(QDialogButtonBox.Apply), QtCore.SIGNAL("clicked()"), self.applyButton)
+#new style        
+        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
+
         self.listHost.currentItemChanged.connect(self.currentHostChanged)
         self.pbXterm.clicked.connect(self.pbXtermclicked)
 #Server tab
@@ -193,6 +223,30 @@ class HostConfig(QtGui.QDialog):
 #Client tab
         self.pbCFTP.clicked.connect(self.pbCFTPclicked)
         self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
+
+    def applyButton(self):
+        print "apply buttton"
+        self.applyChanges()
+
+    def resetButton(self):
+        print "reset buttton"
+
+    def accept(self):
+        print "accept/OK button"
+        self.applyChanges()
+        QDialog.accept(self)
+
+#        self.close()
+
+    def reject1_not_used(self):
+        print "reject"
+#        self.close()
+        #QDialog.reject()
+
+    def applyChanges(self):
+        print self.cbSHTTP.isChecked()
+        pass
+
 
     def pbXtermclicked(self):
         selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
@@ -235,11 +289,42 @@ class HostConfig(QtGui.QDialog):
         MAC = mySW.instanceMN.getMAC(MNhost)
         self.leMAC.setText(MAC)
 
-
+# Tab Links:
+## Connected to
         connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
         print str(connectionList[0])
-        self.leConnectedTo.setText(str(connectionList[0]) + ", " + str(mySW.shortcut.getMNname(connectionList[0])))
+        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
+                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
+## Link delay (kann nicht aus MiniNet gelesen werden)
+        srcNode = mySW.instanceMN.getNode(MNhost)
+        destNode = mySW.shortcut.getMNname(connectionList[0])
+        destNode = mySW.instanceMN.getNode(destNode)
 
+        mySW.instanceMN.h1s1
+
+
+
+        links = srcNode.connectionsTo(destNode)
+        print links        
+        srcLink = links[0][0]   # e.g.  h3-eth0
+        dstLink = links[0][1]   # e.g.  s1-eth3
+
+        srcLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
+        dstLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
+#        params = mySW.instanceMN.net.linkInfo( srcNode, destNode )
+#        print 'Link Parameters='+str(params)
+
+## Paket loss
+
+## Quere length
+        
+        
+# Tab: Server services
+        
+# Tab: Client   --- nothing to check here ---
+        
+        
+        
 
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -282,8 +367,72 @@ class LinkConfig(QtGui.QDialog):
         uic.loadUi('confLink.ui', self)
         print "linkconfig init...)"
 
-        for host in mySW.getNodeList("Link"):
-            self.listLink.addItem(host.objectName())
+        for link in mySW.getNodeList("Link"):
+            self.listLink.addItem(link.objectName())
+
+        self.listLink.currentItemChanged.connect(self.currentLinkChanged)
+
+# Link between this and that
+#        self.GUIlinks["Link01"] = ("h1", "s1")
+#        
+#
+#
+#        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
+#        print str(connectionList[0])
+#        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
+#                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
+#
+### Link delay (kann nicht aus MiniNet gelesen werden)
+#        srcNode = mySW.instanceMN.getNode(MNhost)
+#        destNode = mySW.shortcut.getMNname(connectionList[0])
+#        destNode = mySW.instanceMN.getNode(destNode)
+#
+#        mySW.instanceMN.h1s1
+#
+#
+#
+#        links = srcNode.connectionsTo(destNode)
+#        print links        
+#        srcLink = links[0][0]   # e.g.  h3-eth0
+#        dstLink = links[0][1]   # e.g.  s1-eth3
+
+
+    def currentLinkChanged(self, current, previous):
+        self.showLinkValues()
+#        print current.text()   #e.g. Host05
+
+    def showLinkValues(self):
+        selectedLink = self.listLink.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if selectedLink != None:
+            selectedLinkText = selectedLink.text()   #e.g. Link01
+
+        LinkNodes = mySW.shortcut.getLinkSrcDest(selectedLinkText)  #e.g. h1
+        if LinkNodes != None:
+            source = LinkNodes[0]
+            destination = LinkNodes[1]
+            delay = LinkNodes[2]
+            loss = LinkNodes[3]
+            swin = LinkNodes[4]
+            if swin == None:
+                swin = 99
+        else:
+            source = ""
+            destination = ""
+            delay = 0
+            loss = 0
+            swin = 1
+        self.leSource.setText(source)
+        self.leDestination.setText(destination)
+        self.hsDelay.setValue(delay)
+        self.sbDelay.setValue(delay)
+        self.hsLoss.setValue(loss)
+        self.sbLoss.setValue(loss)
+        self.hsQueue.setValue(swin)
+        self.sbQueue.setValue(swin)
+        
+
+    def applyChanges(self):
+        pass
 
 
 class SwitchConfig(QtGui.QDialog):
@@ -410,6 +559,13 @@ class Parameter():
         self.connections["Router03"] = ["Router02", "Router04", "Host05", "Host06"]
         self.connections["Router04"] = ["Router01", "Router02", "Router03"]
 
+        self.GUIlinks = {}
+#         self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]       
+        defaultDelay = 20
+        self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
+        self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
+        self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
+#        self.GUIlinks["Link04"] = ("s1", "r1")
 
     def getMNname(self, GUIname):
         if GUIname in self.GUIhosts:
@@ -418,6 +574,12 @@ class Parameter():
             return self.GUIswitches[GUIname]
         elif GUIname in self.GUIrouter:
             return self.GUIrouter[GUIname]
+        else:
+            return None
+
+    def getLinkSrcDest(self, GUIname):
+        if GUIname in self.GUIlinks:
+            return self.GUIlinks[GUIname]
         else:
             return None
 
@@ -536,7 +698,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def getNodeList(self, Nodetype):
         """ extract all children of QWidget TopoArea for a
         certain type like Router, Host, Link, Switch
-        Output: Host01, Host02, ... (as defined in Qt designer) """
+        Output: Host01, Host02, ... (as defined in Qt Designer) """
         anyList = []
         lineEdits = self.TopoArea.findChildren(QtGui.QWidget)
         Nodetypelen = len(Nodetype)
@@ -572,6 +734,10 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
     def pbExitclicked(self):
+        try:
+            self.StopMNclicked()
+        except:
+            print "Mininet konnte nicht richtig beendet werden"
         exit(0)
 
     def drawLines(self, qp, fromx, fromy, tox, toy):
@@ -615,7 +781,7 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showHostWindow(self, Hostnumber) :
         myHost = HostConfig()
         print ("hostconfig vor show")
-        myHost.listHost.setCurrentRow(Hostnumber - 1)
+        myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
         myHost.showHostValues()
         myHost.exec_()
 #        myHost.show()
