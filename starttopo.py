@@ -381,12 +381,29 @@ class LinkConfig(QtGui.QDialog):
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
         self.hsDelay.valueChanged.connect(self.hsDelayChanged)
         self.sbDelay.valueChanged.connect(self.sbDelayChanged)
+        self.hsLoss.valueChanged.connect(self.hsLossChanged)
+        self.sbLoss.valueChanged.connect(self.sbLossChanged)
+        self.hsQueue.valueChanged.connect(self.hsQueueChanged)
+        self.sbQueue.valueChanged.connect(self.sbQueueChanged)
+
 
     def hsDelayChanged(self):
         self.sbDelay.setValue(self.hsDelay.value())
 
     def sbDelayChanged(self):
         self.hsDelay.setValue(self.sbDelay.value())
+
+    def hsLossChanged(self):
+        self.sbLoss.setValue(self.hsLoss.value())
+
+    def sbLossChanged(self):
+        self.hsLoss.setValue(self.sbLoss.value())
+
+    def hsQueueChanged(self):
+        self.sbQueue.setValue(self.hsQueue.value())
+
+    def sbQueueChanged(self):
+        self.hsQueue.setValue(self.sbQueue.value())
 
     def applyButton(self):
 #        print "apply button link"
@@ -401,26 +418,16 @@ class LinkConfig(QtGui.QDialog):
         self.applyChanges()
         QDialog.accept(self)
 
-#        self.close()
-
-    def reject1_not_used(self):
-        print "reject link"
-#        self.close()
-        #QDialog.reject()
-
     def applyChanges(self):
-#        print "asödlkf link"
-
         if self.selectedLink == None or \
            self.LinkNodes == None:
-            print "out1"
+            print "linkconfig out1"
             return
-
 
         if self.delay == self.sbDelay.value() and \
            self.loss == self.sbLoss.value() and \
            self.swin == self.sbQueue.value():
-            print "out2"
+            print "linkconfig out2"
             return   #nothing changed
 
 # Link between this and that
