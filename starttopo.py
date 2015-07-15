@@ -80,9 +80,9 @@ class MN():
         self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1', defaultRoute=None)
         self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2', defaultRoute=None)
         self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3', defaultRoute=None)
-        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
-        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
-        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
+#        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
+#        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
+#        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
 
     def createRouters(self):
         pass
@@ -92,8 +92,8 @@ class MN():
 #        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms'}
 #        self.h1s1 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
         self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
-        self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h1s1)
-        self.net.addLink(self.h3, self.s1, cls=TCLink , **self.h1s1)
+        self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h2s1)
+        self.net.addLink(self.h3, self.s1, cls=TCLink , **self.h3s1)
 
 #        self.net.addLink(self.h1, self.s1, cls=TCLink)
 #        self.net.addLink(self.h2, self.s1, cls=TCLink)
@@ -291,26 +291,27 @@ class HostConfig(QtGui.QDialog):
 
 # Tab Links:
 ## Connected to
-        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
-        print str(connectionList[0])
-        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
-                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
-## Link delay (kann nicht aus MiniNet gelesen werden)
-        srcNode = mySW.instanceMN.getNode(MNhost)
-        destNode = mySW.shortcut.getMNname(connectionList[0])
-        destNode = mySW.instanceMN.getNode(destNode)
+#        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
+#        print str(connectionList[0])
+#        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
+#                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
+### Link delay (kann nicht aus MiniNet gelesen werden)
+#        srcNode = mySW.instanceMN.getNode(MNhost)
+#        destNode = mySW.shortcut.getMNname(connectionList[0])
+#        destNode = mySW.instanceMN.getNode(destNode)
+#
+#        mySW.instanceMN.h1s1
+#
+#
+#
+#        links = srcNode.connectionsTo(destNode)
+#        print links        
+#        srcLink = links[0][0]   # e.g.  h3-eth0
+#        dstLink = links[0][1]   # e.g.  s1-eth3
+#
+#        srcLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
+#        dstLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
 
-        mySW.instanceMN.h1s1
-
-
-
-        links = srcNode.connectionsTo(destNode)
-        print links        
-        srcLink = links[0][0]   # e.g.  h3-eth0
-        dstLink = links[0][1]   # e.g.  s1-eth3
-
-        srcLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
-        dstLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
 #        params = mySW.instanceMN.net.linkInfo( srcNode, destNode )
 #        print 'Link Parameters='+str(params)
 
@@ -357,6 +358,8 @@ class RouterConfig(QtGui.QDialog):
             self.treeInterfaces.resizeColumnToContents( column )
 
 
+
+
 class LinkConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(LinkConfig, self).__init__(parent)
@@ -372,29 +375,69 @@ class LinkConfig(QtGui.QDialog):
 
         self.listLink.currentItemChanged.connect(self.currentLinkChanged)
 
+        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
+        self.hsDelay.valueChanged.connect(self.hsDelayChanged)
+        self.sbDelay.valueChanged.connect(self.sbDelayChanged)
+
+    def hsDelayChanged(self):
+        self.sbDelay.setValue(self.hsDelay.value())
+
+    def sbDelayChanged(self):
+        self.hsDelay.setValue(self.sbDelay.value())
+
+    def applyButton(self):
+        print "apply button link"
+        self.applyChanges()
+
+    def resetButton(self):
+        print "reset buttton link"
+
+    def accept(self):
+        print "accept/OK button link"
+        self.applyChanges()
+        QDialog.accept(self)
+
+#        self.close()
+
+    def reject1_not_used(self):
+        print "reject link"
+#        self.close()
+        #QDialog.reject()
+
+    def applyChanges(self):
+        print "asödlkf link"
+
+        if self.selectedLink == None or \
+           self.LinkNodes == None:
+            print "out1"
+            return
+
+
+        if self.delay == self.sbDelay.value() and \
+           self.loss == self.sbLoss.value() and \
+           self.swin == self.sbQueue.value():
+            print "out2"
+            return   #nothing changed
+
 # Link between this and that
-#        self.GUIlinks["Link01"] = ("h1", "s1")
-#        
-#
-#
-#        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
-#        print str(connectionList[0])
-#        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
-#                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
-#
-### Link delay (kann nicht aus MiniNet gelesen werden)
-#        srcNode = mySW.instanceMN.getNode(MNhost)
-#        destNode = mySW.shortcut.getMNname(connectionList[0])
-#        destNode = mySW.instanceMN.getNode(destNode)
-#
-#        mySW.instanceMN.h1s1
-#
-#
-#
-#        links = srcNode.connectionsTo(destNode)
-#        print links        
-#        srcLink = links[0][0]   # e.g.  h3-eth0
-#        dstLink = links[0][1]   # e.g.  s1-eth3
+        srcNode = mySW.instanceMN.getNode(self.source)
+        destNode = mySW.instanceMN.getNode(self.destination)
+
+        links = srcNode.connectionsTo(destNode)
+        print links        
+        srcLink = links[0][0]   # e.g.  h3-eth0
+        dstLink = links[0][1]   # e.g.  s1-eth3
+        srcLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
+        dstLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
+
+#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+
+# save new value in parameter Class, too
+        self.LinkNodes[2] = self.sbDelay.value()
+        self.LinkNodes[3] = self.sbLoss.value()
+        self.LinkNodes[4] = self.sbQueue.value()
+        mySW.shortcut.setGUIlink(self.selectedLinkText, self.LinkNodes)
 
 
     def currentLinkChanged(self, current, previous):
@@ -402,37 +445,47 @@ class LinkConfig(QtGui.QDialog):
 #        print current.text()   #e.g. Host05
 
     def showLinkValues(self):
-        selectedLink = self.listLink.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
-        if selectedLink != None:
-            selectedLinkText = selectedLink.text()   #e.g. Link01
+# Link-Werte (delay, loss, ...)  können nicht aus MiniNet gelesen werden
+# man müsste die tc Programme händisch auswerten.
+# Deswegen werde die Soll-Werte aus der Parameter-Klasse geholt und
+# bei Bedarf an Mininet übertragen. Die GUI Anzeige basiert auf den Soll-Werten
 
-        LinkNodes = mySW.shortcut.getLinkSrcDest(selectedLinkText)  #e.g. h1
-        if LinkNodes != None:
-            source = LinkNodes[0]
-            destination = LinkNodes[1]
-            delay = LinkNodes[2]
-            loss = LinkNodes[3]
-            swin = LinkNodes[4]
-            if swin == None:
-                swin = 99
+        self.selectedLink = self.listLink.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if self.selectedLink != None:
+            self.selectedLinkText = self.selectedLink.text()   #e.g. Link01
         else:
-            source = ""
-            destination = ""
-            delay = 0
-            loss = 0
-            swin = 1
-        self.leSource.setText(source)
-        self.leDestination.setText(destination)
-        self.hsDelay.setValue(delay)
-        self.sbDelay.setValue(delay)
-        self.hsLoss.setValue(loss)
-        self.sbLoss.setValue(loss)
-        self.hsQueue.setValue(swin)
-        self.sbQueue.setValue(swin)
-        
+            return
 
-    def applyChanges(self):
-        pass
+        self.LinkNodes = mySW.shortcut.getLinkSrcDest(self.selectedLinkText)  #e.g. h1
+        if self.LinkNodes != None:
+            self.source = self.LinkNodes[0]
+            self.destination = self.LinkNodes[1]
+            self.delay = self.LinkNodes[2]
+            self.loss = self.LinkNodes[3]
+            self.swin = self.LinkNodes[4]
+            if self.swin == None:
+                self.swin = 99
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True) 
+            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
+            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(True)
+        else:
+            self.source = ""
+            self.destination = ""
+            self.delay = 0
+            self.loss = 0
+            self.swin = 1
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False) 
+            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
+
+        self.leSource.setText(self.source)
+        self.leDestination.setText(self.destination)
+        self.hsDelay.setValue(self.delay)
+        self.sbDelay.setValue(self.delay)
+        self.hsLoss.setValue(self.loss)
+        self.sbLoss.setValue(self.loss)
+        self.hsQueue.setValue(self.swin)
+        self.sbQueue.setValue(self.swin)
 
 
 class SwitchConfig(QtGui.QDialog):
@@ -566,6 +619,12 @@ class Parameter():
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
 #        self.GUIlinks["Link04"] = ("s1", "r1")
+
+    def setGUIlink(self, GUIname, param):
+        if GUIname in self.GUIlinks:
+            self.GUIlinks[GUIname] = param
+        else:
+            return None
 
     def getMNname(self, GUIname):
         if GUIname in self.GUIhosts:
