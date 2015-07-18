@@ -141,6 +141,9 @@ class MN():
 #        self.h1.cmd("pkill dhcpd")
         self.net.stop()
 
+    def sendCmd( self, node, command ):
+        return node.cmd(command, shell=True, printPid=True)
+
 
 class MNtcp():
     def myNetwork( self, delay=20, loss=5, swin=3 ):
@@ -227,14 +230,15 @@ class HostConfig(QtGui.QDialog):
         self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
 
     def applyButton(self):
-        print "apply buttton"
+#        print "apply buttton"
         self.applyChanges()
 
     def resetButton(self):
-        print "reset buttton"
+#        print "reset buttton"
+        pass
 
     def accept(self):
-        print "accept/OK button"
+#        print "accept/OK button"
         self.applyChanges()
         QDialog.accept(self)
 
@@ -246,21 +250,70 @@ class HostConfig(QtGui.QDialog):
         #QDialog.reject()
 
     def applyChanges(self):
-#        print self.cbSHTTP.isChecked()
-        pass
+        MNnode = self.getSelectedMNnode() 
+        if MNnode == None:
+            return
 
+        if self.cbSHTTP.isChecked():
+            info( '\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
+#            self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
+            self.http = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
+#            self.http = mySW.instanceMN.MNnode.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
+            print "pid http:", self.http
 
-    def pbXtermclicked(self):
+        if self.cbSFTP.isChecked():
+            self.vsftp = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &') #, preexec_fn=os.setsid )
+#            self.http = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
+            print "pid vsftpd:", self.vsftp
+
+        
+        if self.cbSDHCP.isChecked():
+            pass
+        
+        if self.cbSVOIP.isChecked():
+            pass
+        
+        if self.cbDownload.isChecked():
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+# FIXME 10.0.0.1
+            title = 'Download_in_progress...'
+            command = 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'
+            self.xtermCommand(MNnode, title, command)
+#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        
+        if self.cbCFTP.isChecked():
+            pass
+        
+        if self.cbCDHCP.isChecked():
+            pass
+        
+        if self.cbCVOIPekiga.isChecked():
+            pass
+        
+        if self.cbCVOIPlinphone.isChecked():
+            pass
+
+    def xtermCommand(self, MNnode, title, command):
+        display, tunnel = tunnelX11( MNnode, None )
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        return MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+
+    def getSelectedMNnode(self):
         selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
         MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
-        tmpMNhost = mySW.instanceMN.getNode(MNhost)      #object of h1
+        return mySW.instanceMN.getNode(MNhost)      #object of h1
 
-        display, tunnel = tunnelX11( tmpMNhost, None )
-        Title = '"bash on %s"' % (MNhost)
-        self.p1 = tmpMNhost.popen( ['xterm', '-title', Title , '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    def pbXtermclicked(self):
+        MNnode = self.getSelectedMNnode() 
+        if MNnode == None:
+            return
+        
+        title = '"bash on %s"' % (MNnode)
+        command = 'env TERM=ansi bash'
+        self.xtermCommand(MNnode, title, command)
 
     def pbSDHCPclicked(self):
         pass
@@ -511,6 +564,19 @@ class SwitchConfig(QtGui.QDialog):
         for host in mySW.getNodeList("Switch"):
             self.listSwitch.addItem(host.objectName())
 
+        self.pbXterm.clicked.connect(self.pbXtermclicked)
+
+    def pbXtermclicked(self):
+        selectedHost = self.listSwitch.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if selectedHost != None:
+            selectedHostText = selectedHost.text()   #e.g. Host03
+
+        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        tmpMNhost = mySW.instanceMN.getNode(MNhost)      #object of h1
+
+        display, tunnel = tunnelX11( tmpMNhost, None )
+        Title = '"bash on %s"' % (MNhost)
+        self.p1 = tmpMNhost.popen( ['xterm', '-title', Title , '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
 
 # ------------------------------------------------------------------------------

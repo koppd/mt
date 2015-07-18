@@ -608,6 +608,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionCheck_configuration"/>
+    <addaction name="actionCheck_running_services"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuDebug"/>
@@ -626,6 +627,11 @@
   <action name="actionConfigure_Layout">
    <property name="text">
     <string>Configure Layout</string>
+   </property>
+  </action>
+  <action name="actionCheck_running_services">
+   <property name="text">
+    <string>Check running services</string>
    </property>
   </action>
  </widget>
