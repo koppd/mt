@@ -384,7 +384,8 @@ class HostConfig(QtGui.QDialog):
             return
 
         title = '"FTP Client"'
-        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u mininet -pw mininet' % (serverIP, MNnode.IP())
+#        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u mininet -pw mininet' % (serverIP, MNnode.IP())
+        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u dom -pw 11111' % (serverIP, MNnode.IP())
             # -s server
             # -lip local ip   ps: localhost wäre sinnvoll, geht aber nicht.
             # -p port
@@ -397,14 +398,34 @@ class HostConfig(QtGui.QDialog):
         command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
         self.xtermCommand(MNnode, title, command)
 
+    def startVOIP(self, MNnode):
+        pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &') #, preexec_fn=os.setsid )
+        print "pid asterisk:", pid
+
+        mySW.services.setVOIP(MNnode)
+        return pid
+
+    def startEkiga(self, MNnode):
+        pid = mySW.instanceMN.sendCmd(MNnode, 'ekiga &') #, preexec_fn=os.setsid )
+        print "pid Ekiga:", pid
+        return pid
+
+    def startLinphone(self, MNnode):
+        pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
+        print "pid Linphone:", pid
+        return pid
+
 
     def applyChanges(self):
         MNnode = self.getSelectedMNnode()
         if MNnode == None:
             return
-
+# server services
         if self.cbSHTTP.isChecked() and not mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
             self.http = self.startSimpleHTTPserver(MNnode)
+        if not self.cbSHTTP.isChecked() and mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
+        #   kill HTTP server
+            pass
 
         if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
             self.vsftp = self.startVSFTP(MNnode)
@@ -413,8 +434,9 @@ class HostConfig(QtGui.QDialog):
             self.dhcpd = self.startDHCPD(MNnode)
 
         if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
-            pass
+            self.voip = self.startVOIP(MNnode)
 
+# client operations
         if self.cbDownload.isChecked():
             self.startDownload(MNnode)
             self.cbDownload.setChecked(False)
@@ -428,10 +450,13 @@ class HostConfig(QtGui.QDialog):
             self.cbCDHCP.setChecked(False)
 
         if self.cbCVOIPekiga.isChecked():
+            self.startEkiga(MNnode)
             self.cbCVOIPekiga.setChecked(False)
 
         if self.cbCVOIPlinphone.isChecked():
+            self.startLinphone(MNnode)
             self.cbCVOIPlinphone.setChecked(False)
+
 
     def xtermCommand(self, MNnode, title, command):
         display, tunnel = tunnelX11( MNnode, None )
@@ -540,8 +565,11 @@ class HostConfig(QtGui.QDialog):
             self.cbSVOIP.setEnabled(False)
             self.cbSVOIP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
-
-
+        self.cbDownload.setChecked(False)
+        self.cbCFTP.setChecked(False)
+        self.cbCDHCP.setChecked(False)
+        self.cbCVOIPekiga.setChecked(False)
+        self.cbCVOIPlinphone.setChecked(False)
 
 # Tab Links:
 ## Connected to
