@@ -61,7 +61,7 @@ class MN():
         except:
             print "Node %s existiert nicht" % host
             return None
-        
+
 
     def createNet(self, MAC_random = True):
         if MAC_random == True:
@@ -120,11 +120,11 @@ class MN():
 #        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
 #        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
 #        self.h6r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-        
+
 
     def modifyLink(self):
         pass
-    
+
     def buildNet(self):
         self.net.build()
 
@@ -199,6 +199,87 @@ class MNtcp():
         # muss evtl. generisch über ps -aux |grep SimpleHTTPServer beendet werden.
         self.net.stop()
 
+class Services():
+    DHCPnode = None
+    HTTPnode = None
+    VSFTPnode = None
+    VOIPnode = None
+
+    print "Klasse Services aufgerufen"
+    def setDHCP(self, MNnode):
+        self.DHCPnode = MNnode
+        print "DHCPnode gesetzt:", self.DHCPnode
+
+    def getDHCPip(self):
+        if self.DHCPnode != None:
+            return self.DHCPnode.IP()
+
+    def getDHCPguiHost(self):
+        if self.DHCPnode != None:
+            return mySW.shortcut.getGUIname(self.DHCPnode)
+
+    def isDHCP(self):
+        print "isDHCP", self.DHCPnode
+        if self.DHCPnode != None:
+            return True
+        else:
+            return False
+
+
+    def setVSFTP(self, MNnode):
+        self.VSFTPnode = MNnode
+
+    def getVSFTPip(self):
+        if self.VSFTPnode != None:
+            return self.VSFTPnode.IP()
+
+    def getVSFTPguiHost(self):
+        if self.VSFTPnode != None:
+            return mySW.shortcut.getGUIname(self.VSFTPnode)
+
+    def isVSFTP(self):
+        if self.VSFTPnode != None:
+            return True
+        else:
+            return False
+
+
+    def setVOIP(self, MNnode):
+        self.VOIPnode = MNnode
+
+    def getVOIPip(self):
+        if self.VOIPnode != None:
+            return self.VOIPnode.IP()
+
+    def getVOIPguiHost(self):
+        if self.VOIPnode != None:
+            return mySW.shortcut.getGUIname(self.VOIPnode)
+
+    def isVOIP(self):
+        if self.VOIPnode != None:
+            return True
+        else:
+            return False
+
+
+    def setHTTP(self, MNnode):
+        self.HTTPnode = MNnode
+
+    def getHTTPip(self):
+        if self.HTTPnode != None:
+            return self.HTTPnode.IP()
+
+    def getHTTPguiHost(self):
+        if self.HTTPnode != None:
+            return mySW.shortcut.getGUIname(self.HTTPnode)
+
+    def isHTTP(self):
+        if self.HTTPnode != None:
+            return True
+        else:
+            return False
+
+
 
 class HostConfig(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -216,7 +297,7 @@ class HostConfig(QtGui.QDialog):
 #old style
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Reset), QtCore.SIGNAL("clicked()"), self.resetButton)
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Apply), QtCore.SIGNAL("clicked()"), self.applyButton)
-#new style        
+#new style
         self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
 
@@ -249,49 +330,108 @@ class HostConfig(QtGui.QDialog):
 #        self.close()
         #QDialog.reject()
 
+
+    def startSimpleHTTPserver(self, MNnode):
+        info( '\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
+        pid = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
+        print "pid http:", pid
+
+        mySW.services.setHTTP(MNnode)
+
+        return pid
+
+    def startVSFTP(self, MNnode):
+        pid = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &') #, preexec_fn=os.setsid )
+        print "pid vsftpd:", pid
+
+        mySW.services.setVSFTP(MNnode)
+        return pid
+
+    def startDHCPD(self, MNnode, fresh_daemon_leases = True):
+        info( '\n****** execute DHCP server on %s\n' % MNnode.name)
+        print "copy configuration file to /etc/dhcp/dhcpd_mn.conf"
+        MNnode.cmd("cp ./dhcpd_mn.conf /etc/dhcp/", printPid=True)
+        if fresh_daemon_leases == True:
+            print "delete /var/lib/dhcp/dhcpd.leases.mn"
+            MNnode.cmd("rm /var/lib/dhcp/dhcpd.leases.mn", printPid=True)
+            MNnode.cmd("touch /var/lib/dhcp/dhcpd.leases.mn", printPid=True)
+        else:
+            print "verwende vorhandene /var/lib/dhcp/dhcpd.leases.mn"
+#FIXME
+        MNnode.cmd("ifconfig %s-eth0 192.168.2.1" % MNnode.name, printPid=True)
+        pid = MNnode.cmd("dhcpd -d -cf /etc/dhcp/dhcpd_mn.conf  -lf /var/lib/dhcp/dhcpd.leases.mn %s-eth0 &" % MNnode.name, printPid=True)
+        print "pid dhcp: ", pid
+
+        mySW.services.setDHCP(MNnode)
+        return pid
+
+    def startDownload(self, MNnode):
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        if mySW.services.isHTTP():
+            serverIP = mySW.services.getHTTPip()
+        else:
+            return
+
+        title = '"Download in progress..."'
+        command = 'env TERM=ansi wget -O /dev/null %s/smallfile' % (serverIP)
+        self.xtermCommand(MNnode, title, command)
+
+    def startFTPDownload(self, MNnode):
+        if mySW.services.isVSFTP():
+            serverIP = mySW.services.getVSFTPip()
+        else:
+            return
+
+        title = '"FTP Client"'
+        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u mininet -pw mininet' % (serverIP, MNnode.IP())
+            # -s server
+            # -lip local ip   ps: localhost wäre sinnvoll, geht aber nicht.
+            # -p port
+            # -u user
+            # -pw password
+        self.xtermCommand(MNnode, title, command)
+
+    def startDHCP(self, MNnode):
+        title = '"Client DHCP"'
+        command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
+        self.xtermCommand(MNnode, title, command)
+
+
     def applyChanges(self):
-        MNnode = self.getSelectedMNnode() 
+        MNnode = self.getSelectedMNnode()
         if MNnode == None:
             return
 
-        if self.cbSHTTP.isChecked():
-            info( '\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
-#            self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
-            self.http = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
-#            self.http = mySW.instanceMN.MNnode.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
-            print "pid http:", self.http
+        if self.cbSHTTP.isChecked() and not mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
+            self.http = self.startSimpleHTTPserver(MNnode)
 
-        if self.cbSFTP.isChecked():
-            self.vsftp = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &') #, preexec_fn=os.setsid )
-#            self.http = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
-            print "pid vsftpd:", self.vsftp
+        if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
+            self.vsftp = self.startVSFTP(MNnode)
 
-        
-        if self.cbSDHCP.isChecked():
+        if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSHDCP.isEnabled():
+            self.dhcpd = self.startDHCPD(MNnode)
+
+        if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
             pass
-        
-        if self.cbSVOIP.isChecked():
-            pass
-        
+
         if self.cbDownload.isChecked():
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-# FIXME 10.0.0.1
-            title = 'Download_in_progress...'
-            command = 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'
-            self.xtermCommand(MNnode, title, command)
-#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-        
+            self.startDownload(MNnode)
+            self.cbDownload.setChecked(False)
+
         if self.cbCFTP.isChecked():
-            pass
-        
+            self.startFTPDownload(MNnode)
+            self.cbCFTP.setChecked(False)
+
         if self.cbCDHCP.isChecked():
-            pass
-        
+            self.startDHCP(MNnode)
+            self.cbCDHCP.setChecked(False)
+
         if self.cbCVOIPekiga.isChecked():
-            pass
-        
+            self.cbCVOIPekiga.setChecked(False)
+
         if self.cbCVOIPlinphone.isChecked():
-            pass
+            self.cbCVOIPlinphone.setChecked(False)
 
     def xtermCommand(self, MNnode, title, command):
         display, tunnel = tunnelX11( MNnode, None )
@@ -307,10 +447,10 @@ class HostConfig(QtGui.QDialog):
         return mySW.instanceMN.getNode(MNhost)      #object of h1
 
     def pbXtermclicked(self):
-        MNnode = self.getSelectedMNnode() 
+        MNnode = self.getSelectedMNnode()
         if MNnode == None:
             return
-        
+
         title = '"bash on %s"' % (MNnode)
         command = 'env TERM=ansi bash'
         self.xtermCommand(MNnode, title, command)
@@ -337,12 +477,71 @@ class HostConfig(QtGui.QDialog):
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNhost = mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNnode = mySW.instanceMN.getNode(MNhost)
 
         IP = mySW.instanceMN.getIP(MNhost)
         self.leIP.setText(IP)
         MAC = mySW.instanceMN.getMAC(MNhost)
         self.leMAC.setText(MAC)
+
+# wenn DHCP läuft nicht
+        if not mySW.services.isDHCP():
+            self.cbSDHCP.setEnabled(True)
+            self.cbSDHCP.setChecked(False)
+        elif selectedHostText == mySW.services.getDHCPguiHost():
+# DHCP löuft UND auf diesem Host
+            self.cbSDHCP.setEnabled(True)
+            self.cbSDHCP.setChecked(True)
+# DHCP löuft aber nicht diesem Host
+        else:
+            self.cbSDHCP.setEnabled(False)
+            self.cbSDHCP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
+
+
+# wenn HTTP läuft nicht
+        if not mySW.services.isHTTP():
+            self.cbSHTTP.setEnabled(True)
+            self.cbSHTTP.setChecked(False)
+        elif selectedHostText == mySW.services.getHTTPguiHost():
+# HTTP löuft UND auf diesem Host
+            self.cbSHTTP.setEnabled(True)
+            self.cbSHTTP.setChecked(True)
+# HTTP löuft aber nicht diesem Host
+        else:
+            self.cbSHTTP.setEnabled(False)
+            self.cbSHTTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
+
+
+# wenn FTP läuft nicht
+        if not mySW.services.isVSFTP():
+            self.cbSFTP.setEnabled(True)
+            self.cbSFTP.setChecked(False)
+        elif selectedHostText == mySW.services.getVSFTPguiHost():
+# FTP löuft UND auf diesem Host
+            self.cbSFTP.setEnabled(True)
+            self.cbSFTP.setChecked(True)
+# FTP löuft aber nicht diesem Host
+        else:
+            self.cbSFTP.setEnabled(False)
+            self.cbSFTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
+
+
+# wenn VOIP läuft nicht
+        if not mySW.services.isVOIP():
+            self.cbSVOIP.setEnabled(True)
+            self.cbSVOIP.setChecked(False)
+        elif selectedHostText == mySW.services.getVOIPguiHost():
+# VOIP löuft UND auf diesem Host
+            self.cbSVOIP.setEnabled(True)
+            self.cbSVOIP.setChecked(True)
+# VOIP löuft aber nicht diesem Host
+        else:
+            self.cbSVOIP.setEnabled(False)
+            self.cbSVOIP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
+
+
+
 
 # Tab Links:
 ## Connected to
@@ -360,7 +559,7 @@ class HostConfig(QtGui.QDialog):
 #
 #
 #        links = srcNode.connectionsTo(destNode)
-#        print links        
+#        print links
 #        srcLink = links[0][0]   # e.g.  h3-eth0
 #        dstLink = links[0][1]   # e.g.  s1-eth3
 #
@@ -373,14 +572,14 @@ class HostConfig(QtGui.QDialog):
 ## Paket loss
 
 ## Quere length
-        
-        
+
+
 # Tab: Server services
-        
+
 # Tab: Client   --- nothing to check here ---
-        
-        
-        
+
+
+
 
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
@@ -488,7 +687,7 @@ class LinkConfig(QtGui.QDialog):
         destNode = mySW.instanceMN.getNode(self.destination)
 
         links = srcNode.connectionsTo(destNode)
-#        print links        
+#        print links
         srcLink = links[0][0]   # e.g.  h3-eth0
         dstLink = links[0][1]   # e.g.  s1-eth3
         srcLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
@@ -528,7 +727,7 @@ class LinkConfig(QtGui.QDialog):
             self.swin = self.LinkNodes[4]
             if self.swin == None:
                 self.swin = 99
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True) 
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
             self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(True)
         else:
@@ -537,7 +736,7 @@ class LinkConfig(QtGui.QDialog):
             self.delay = 0
             self.loss = 0
             self.swin = 1
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False) 
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
@@ -672,6 +871,14 @@ class Parameter():
         self.GUIrouter["Router03"] = "r3"
         self.GUIrouter["Router04"] = "r4"
 
+        self.GUIlinks = {}
+        defaultDelay = 20
+#        self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]
+        self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
+        self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
+        self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
+#        self.GUIlinks["Link04"] = ("s1", "r1")
+
 # Nicht unique, d.h. jede Verbindung taucht zweimal auf.
         self.connections = {}
         self.connections["Host01"] = ["Switch01"]
@@ -688,14 +895,6 @@ class Parameter():
         self.connections["Router03"] = ["Router02", "Router04", "Host05", "Host06"]
         self.connections["Router04"] = ["Router01", "Router02", "Router03"]
 
-        self.GUIlinks = {}
-#         self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]       
-        defaultDelay = 20
-        self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
-        self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
-        self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
-#        self.GUIlinks["Link04"] = ("s1", "r1")
-
     def setGUIlink(self, GUIname, param):
         if GUIname in self.GUIlinks:
             self.GUIlinks[GUIname] = param
@@ -711,6 +910,13 @@ class Parameter():
             return self.GUIrouter[GUIname]
         else:
             return None
+
+    def getGUIname(self, MNnode):
+        for GUIhost in self.GUIhosts:
+            if self.GUIhosts[GUIhost] == MNnode.name:
+                return GUIhost
+        print "Dieser MN node (%s) ist keinem GUI host zugeordnet" % MNnode
+        return None
 
     def getLinkSrcDest(self, GUIname):
         if GUIname in self.GUIlinks:
@@ -735,7 +941,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
         self.shortcut = Parameter()
-
+        self.services = Services()
 
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
