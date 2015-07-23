@@ -200,12 +200,13 @@ class MNtcp():
         self.net.stop()
 
 class Services():
-    DHCPnode = None
-    HTTPnode = None
-    VSFTPnode = None
-    VOIPnode = None
+    def __init__(self):
+        self.DHCPnode = None
+        self.HTTPnode = None
+        self.VSFTPnode = None
+        self.VOIPnode = None
+        print "Klasse Services aufgerufen"
 
-    print "Klasse Services aufgerufen"
     def setDHCP(self, MNnode):
         self.DHCPnode = MNnode
         print "DHCPnode gesetzt:", self.DHCPnode
@@ -430,7 +431,7 @@ class HostConfig(QtGui.QDialog):
         if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
             self.vsftp = self.startVSFTP(MNnode)
 
-        if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSHDCP.isEnabled():
+        if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
             self.dhcpd = self.startDHCPD(MNnode)
 
         if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
@@ -577,7 +578,7 @@ class HostConfig(QtGui.QDialog):
 #        print str(connectionList[0])
 #        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
 #                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
-### Link delay (kann nicht aus MiniNet gelesen werden)
+## Link delay (kann nicht aus MiniNet gelesen werden)
 #        srcNode = mySW.instanceMN.getNode(MNhost)
 #        destNode = mySW.shortcut.getMNname(connectionList[0])
 #        destNode = mySW.instanceMN.getNode(destNode)
