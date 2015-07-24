@@ -56,7 +56,12 @@ class MN():
         return None
 
     def getNode(self, host):
+        info( '*** host type\n' + str(type(host)) + '\n')
+        info( '*** host details\n' + str(host) + '\n')
+
         try:
+            info( '*** host getNodeByName\n' + str(self.net.getNodeByName( host )) + '\n')
+
             return self.net.getNodeByName( host )   #e.g. host = h1
         except:
             print "Node %s existiert nicht" % host
@@ -85,6 +90,12 @@ class MN():
 #        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
 #        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
 #        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
+        info( '*** h1 details\n' + str(self.h1) + '\n')
+        info( '*** h1 details\n' + str(type(self.h1)) + '\n')
+#        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
+#        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
+
+
 
     def createRouters(self):
         pass
@@ -136,6 +147,12 @@ class MN():
     def startSwitch(self):
         info( '*** Starting switches\n')
         self.net.get('s1').start([])
+
+        info( '*** h1 details2\n' + str(self.h1) + '\n')
+        info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
+        info( '*** h1 details2\n' + str(self.h1.IP()) + '\n')
+
+#        CLI( self.net )
 
     def stopNet( self ):
 #        self.h1.cmd("pkill dhcpd")
@@ -291,10 +308,10 @@ class HostConfig(QtGui.QDialog):
 
         uic.loadUi('confHost.ui', self)
 #        print "hostconfig init...)"
-
+        info( '\n****** erzeuge liste \n')
         for host in mySW.getNodeList("Host"):
             self.listHost.addItem(QListWidgetItem(host.objectName()))
-
+        info( '\n****** hostliste erzeugt\n')
 #old style
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Reset), QtCore.SIGNAL("clicked()"), self.resetButton)
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Apply), QtCore.SIGNAL("clicked()"), self.applyButton)
@@ -500,11 +517,16 @@ class HostConfig(QtGui.QDialog):
     def showHostValues(self):
 
         selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        info( '\n****** selectedHost:', str(selectedHost), '\n')
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
+        info( '\n****** selectedHostText:', str(selectedHostText), '\n')
+
         MNhost = mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        info( '\n****** MNhost:', str(MNhost), '\n')
         MNnode = mySW.instanceMN.getNode(MNhost)
+        info( '\n****** MNNode:', str(MNnode), '\n')
 
         IP = mySW.instanceMN.getIP(MNhost)
         self.leIP.setText(IP)
@@ -931,12 +953,14 @@ class Parameter():
             return None
 
     def getMNname(self, GUIname):
-        if GUIname in self.GUIhosts:
-            return self.GUIhosts[GUIname]
-        elif GUIname in self.GUIswitches:
-            return self.GUIswitches[GUIname]
-        elif GUIname in self.GUIrouter:
-            return self.GUIrouter[GUIname]
+        info( '\n****** GUIname:', str(GUIname), '\n')
+        info( '\n****** GUIhost\n', str(self.GUIhosts))
+        if GUIname in self.GUIhosts.keys():
+            return self.GUIhosts[str(GUIname)]
+        elif GUIname in self.GUIswitches.keys():
+            return self.GUIswitches[str(GUIname)]
+        elif GUIname in self.GUIrouter.keys():
+            return self.GUIrouter[str(GUIname)]
         else:
             return None
 
@@ -970,7 +994,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
         self.shortcut = Parameter()
+        info( '\n****** shortcut()', str(self.shortcut), '\n')
         self.services = Services()
+        info( '\n****** services()', str(self.services), '\n')
 
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
@@ -1150,8 +1176,10 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showHostWindow(self, Hostnumber) :
         myHost = HostConfig()
+        info( '\n*** myhost erzeugt\n')
 #        print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
+        info( '\n****** host list auf erste,... gesetzt\n')        
         myHost.showHostValues()
         myHost.exec_()
 #        myHost.show()
@@ -1254,6 +1282,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
+ #   setLogLevel( 'info' )
     mySW = ControlMainWindow()
     mySW.StartMNclicked()
 #    myNode = NodeConfig()
