@@ -155,7 +155,9 @@ class MN():
 #        CLI( self.net )
 
     def stopNet( self ):
-#        self.h1.cmd("pkill dhcpd")
+        self.h1.cmd("pkill dhcpd")
+        self.h1.cmd("pkill asterisk")
+        self.h1.cmd("pkill vsftp")
         self.net.stop()
 
     def sendCmd( self, node, command ):
@@ -966,20 +968,20 @@ class Parameter():
 
     def getGUIname(self, MNnode):
         for GUIhost in self.GUIhosts:
-            if self.GUIhosts[GUIhost] == MNnode.name:
+            if self.GUIhosts[str(GUIhost)] == MNnode.name:
                 return GUIhost
         print "Dieser MN node (%s) ist keinem GUI host zugeordnet" % MNnode
         return None
 
     def getLinkSrcDest(self, GUIname):
         if GUIname in self.GUIlinks:
-            return self.GUIlinks[GUIname]
+            return self.GUIlinks[str(GUIname)]
         else:
             return None
 
     def getConnectedTo(self, GUIname):
         if GUIname in self.connections:
-            return self.connections[GUIname]
+            return self.connections[str(GUIname)]
         else:
             return None
 
