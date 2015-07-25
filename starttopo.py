@@ -435,6 +435,11 @@ class HostConfig(QtGui.QDialog):
         print "pid Linphone:", pid
         return pid
 
+    def startYate(self, MNnode):
+        pid = mySW.instanceMN.sendCmd(MNnode, 'yate-qt4 &') #, preexec_fn=os.setsid )
+        print "pid yate-qt4:", pid
+        return pid
+
 
     def applyChanges(self):
         MNnode = self.getSelectedMNnode()
@@ -476,6 +481,10 @@ class HostConfig(QtGui.QDialog):
         if self.cbCVOIPlinphone.isChecked():
             self.startLinphone(MNnode)
             self.cbCVOIPlinphone.setChecked(False)
+
+        if self.cbCVOIPyate.isChecked():
+            self.startYate(MNnode)
+            self.cbCVOIPyate.setChecked(False)
 
 
     def xtermCommand(self, MNnode, title, command):
@@ -595,6 +604,7 @@ class HostConfig(QtGui.QDialog):
         self.cbCDHCP.setChecked(False)
         self.cbCVOIPekiga.setChecked(False)
         self.cbCVOIPlinphone.setChecked(False)
+        self.cbCVOIPyate.setChecked(False)
 
 # Tab Links:
 ## Connected to

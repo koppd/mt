@@ -86,7 +86,7 @@
    <item row="2" column="1" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Server">
       <attribute name="title">
@@ -96,6 +96,33 @@
        <item row="0" column="0">
         <widget class="QWidget" name="widget_3" native="true">
          <layout class="QGridLayout" name="gridLayout">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="cbSVOIP">
+            <property name="text">
+             <string>VoIP </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="cbSHTTP">
+            <property name="text">
+             <string>HTTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="cbSDHCP">
             <property name="text">
@@ -110,21 +137,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="cbSFTP">
-            <property name="text">
-             <string>FTP</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="cbSVOIP">
-            <property name="text">
-             <string>VoIP </string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="2">
+          <item row="6" column="0" colspan="2">
            <widget class="QLabel" name="label_4">
             <property name="text">
              <string>(set wireshark's display filter according to &quot;Server Services&quot;</string>
@@ -134,7 +147,14 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="cbSFTP">
+            <property name="text">
+             <string>FTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="2">
            <widget class="QPushButton" name="pbSWireshark">
             <property name="enabled">
              <bool>true</bool>
@@ -144,25 +164,12 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="cbSHTTP">
-            <property name="text">
-             <string>HTTP</string>
+          <item row="4" column="0" colspan="2">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
-          </item>
-          <item row="6" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -177,31 +184,7 @@
        <item row="0" column="0">
         <widget class="QWidget" name="widget_4" native="true">
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="cbCFTP">
-            <property name="text">
-             <string>FTP Client</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QCheckBox" name="cbCDHCP">
-            <property name="text">
-             <string>DHCP Client</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="pbCFTP">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Configure...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="2">
+          <item row="6" column="0" colspan="3">
            <widget class="QLabel" name="label_5">
             <property name="text">
              <string>(set wiresharks's filter according to &quot;Client operation&quot;)</string>
@@ -211,13 +194,47 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="cbCFTP">
+            <property name="text">
+             <string>FTP Client</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0" colspan="3">
            <widget class="QPushButton" name="pbCWireshark">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="text">
              <string>Start Wireshark now</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="cbCVOIPyate">
+            <property name="text">
+             <string>VoIP Yate</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="cbCDHCP">
+            <property name="text">
+             <string>DHCP Client</string>
             </property>
            </widget>
           </item>
@@ -235,25 +252,29 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="3" column="2">
            <widget class="QCheckBox" name="cbCVOIPekiga">
             <property name="text">
              <string>VoIP Ekiga</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <spacer name="verticalSpacer_3">
+          <item row="1" column="1" colspan="2">
+           <widget class="QPushButton" name="pbCFTP">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Configure...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="Line" name="line">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
          </layout>
         </widget>
