@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
-    <height>732</height>
+    <width>944</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -133,8 +133,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -204,8 +204,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -218,8 +218,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -232,8 +232,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -285,8 +285,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -322,8 +322,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -336,8 +336,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -367,8 +367,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -415,8 +415,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -492,8 +492,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>80</width>
-           <height>80</height>
+           <width>64</width>
+           <height>64</height>
           </size>
          </property>
         </widget>
@@ -591,7 +591,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>944</width>
      <height>31</height>
     </rect>
    </property>
