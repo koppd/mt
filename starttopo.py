@@ -29,7 +29,8 @@ import signal
 class MN():
     def startMN(self, MAC_random = True):
         self.createNet(MAC_random)
-        self.createSwitch('s1')
+        self.createRouters()
+        self.createSwitch()
         self.createHosts()
         self.initLinkvalues()
         self.createLinks()
@@ -79,15 +80,20 @@ class MN():
                            autoSetMacs=True,
                            ipBase='10.0.0.0/8')
 
-    def createSwitch(self, switchName):
+    def createRouters(self):
+        self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='0.0.0.0')
+        self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='0.0.0.0')
+        pass
+
+    def createSwitch(self):
         info( '*** Add switches\n')
-        self.s1 = self.net.addSwitch(switchName, cls=OVSKernelSwitch, failMode='standalone')
+        self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
 
     def createHosts(self):
         self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1', defaultRoute=None)
         self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2', defaultRoute=None)
         self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3', defaultRoute=None)
-#        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
+        self.h4 = self.net.addHost(mySW.shortcut.GUIhosts['Host04'], cls=Host, ip='10.0.1.17', defaultRoute=None)
 #        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
 #        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
         info( '*** h1 details\n' + str(self.h1) + '\n')
@@ -96,9 +102,6 @@ class MN():
 #        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
 
-
-    def createRouters(self):
-        pass
 
     def createLinks(self):
 # Beispiel für delay
@@ -112,11 +115,11 @@ class MN():
 #        self.net.addLink(self.h2, self.s1, cls=TCLink)
 #        self.net.addLink(self.h3, self.s1, cls=TCLink)
 # Router fehlen noch
-#        self.net.addLink(self.s1, self.r1, cls=TCLink)
-#        self.net.addLink(self.h4, self.r2, cls=TCLink)
+        self.net.addLink(self.s1, self.r1, cls=TCLink)
+        self.net.addLink(self.h4, self.r2, cls=TCLink)
 #        self.net.addLink(self.h5, self.r3, cls=TCLink)
 #        self.net.addLink(self.h6, self.r3, cls=TCLink)
-#        self.net.addLink(self.r1, self.r2, cls=TCLink)
+        self.net.addLink(self.r1, self.r2, cls=TCLink)
 #        self.net.addLink(self.r2, self.r3, cls=TCLink)
 #        self.net.addLink(self.r1, self.r4, cls=TCLink)
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
@@ -152,7 +155,8 @@ class MN():
         info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
         info( '*** h1 details2\n' + str(self.h1.IP()) + '\n')
 
-#        CLI( self.net )
+    def startCLI(self):
+        CLI( self.net )
 
     def stopNet( self ):
         self.h1.cmd("pkill dhcpd")
@@ -1044,6 +1048,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.bpStartMN.clicked.connect(self.StartMNclicked)
         self.bpStopMN.clicked.connect(self.StopMNclicked)
         self.bpRestartMN.clicked.connect(self.RestartMNclicked)
+        self.pbCLI.clicked.connect(self.CLIclicked)
 
         self.pbExit.clicked.connect(self.pbExitclicked)
 
@@ -1052,7 +1057,6 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.debug3.clicked.connect(self.debug3clicked)
         self.debug4.clicked.connect(self.debug4clicked)
         self.debug5.clicked.connect(self.debug5clicked)
-        self.debug6.clicked.connect(self.debug6clicked)
 
         self.updateProcesses()
 
@@ -1080,6 +1084,9 @@ class ControlMainWindow(QtGui.QMainWindow):
     def RestartMNclicked(self):
         self.StopMNclicked()
         self.StartMNclicked()
+
+    def CLIclicked(self):
+        mySW.instanceMN.startCLI()
 
     def debug1clicked(self):
         pass

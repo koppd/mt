@@ -15,6 +15,29 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="9" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="7" column="1">
+     <widget class="QPushButton" name="bpRestartMN">
+      <property name="text">
+       <string>Restart network</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QLabel" name="label">
       <property name="text">
@@ -22,16 +45,10 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="0" colspan="2">
-     <widget class="QPushButton" name="pbExit">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="bpStartMN">
       <property name="text">
-       <string>Exit</string>
+       <string>Start network</string>
       </property>
      </widget>
     </item>
@@ -82,10 +99,16 @@
       </column>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QPushButton" name="bpStopMN">
+    <item row="10" column="0" colspan="2">
+     <widget class="QPushButton" name="pbExit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>35</height>
+       </size>
+      </property>
       <property name="text">
-       <string>Stop network</string>
+       <string>Exit</string>
       </property>
      </widget>
     </item>
@@ -108,21 +131,14 @@
       </layout>
      </widget>
     </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="bpStartMN">
+    <item row="6" column="1">
+     <widget class="QPushButton" name="bpStopMN">
       <property name="text">
-       <string>Start network</string>
+       <string>Stop network</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
-     <widget class="QPushButton" name="bpRestartMN">
-      <property name="text">
-       <string>Restart network</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" rowspan="9">
+    <item row="0" column="0" rowspan="10">
      <widget class="QWidget" name="TopoArea" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <item row="2" column="6">
@@ -501,7 +517,23 @@
       </layout>
      </widget>
     </item>
-    <item row="10" column="0" colspan="2">
+    <item row="2" column="1">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="11" column="0" colspan="2">
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
        <string>Debug</string>
@@ -552,37 +584,12 @@
       </layout>
      </widget>
     </item>
-    <item row="2" column="1">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="8" column="1">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+     <widget class="QPushButton" name="pbCLI">
+      <property name="text">
+       <string>Enter CLI()</string>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
    </layout>
   </widget>
