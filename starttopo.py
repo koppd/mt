@@ -425,10 +425,10 @@ class HostConfig(QtGui.QDialog):
         mySW.services.setVOIP(MNnode)
         return pid
 
-    def startEkiga(self, MNnode):
-        pid = mySW.instanceMN.sendCmd(MNnode, 'ekiga &') #, preexec_fn=os.setsid )
-        print "pid Ekiga:", pid
-        return pid
+#    def startEkiga(self, MNnode):
+#        pid = mySW.instanceMN.sendCmd(MNnode, 'ekiga &') #, preexec_fn=os.setsid )
+#        print "pid Ekiga:", pid
+#        return pid
 
     def startLinphone(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
@@ -474,9 +474,9 @@ class HostConfig(QtGui.QDialog):
             self.startDHCP(MNnode)
             self.cbCDHCP.setChecked(False)
 
-        if self.cbCVOIPekiga.isChecked():
-            self.startEkiga(MNnode)
-            self.cbCVOIPekiga.setChecked(False)
+#        if self.cbCVOIPekiga.isChecked():
+#            self.startEkiga(MNnode)
+#            self.cbCVOIPekiga.setChecked(False)
 
         if self.cbCVOIPlinphone.isChecked():
             self.startLinphone(MNnode)
@@ -602,7 +602,7 @@ class HostConfig(QtGui.QDialog):
         self.cbDownload.setChecked(False)
         self.cbCFTP.setChecked(False)
         self.cbCDHCP.setChecked(False)
-        self.cbCVOIPekiga.setChecked(False)
+#        self.cbCVOIPekiga.setChecked(False)
         self.cbCVOIPlinphone.setChecked(False)
         self.cbCVOIPyate.setChecked(False)
 
