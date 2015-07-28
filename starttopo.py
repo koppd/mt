@@ -81,19 +81,22 @@ class MN():
                            ipBase='10.0.0.0/8')
 
     def createRouters(self):
-        self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='0.0.0.0')
-        self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='0.0.0.0')
         pass
+        self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
+        self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
+#        r4 = net.addHost('r4', cls=Node, ip='0.0.0.0')
+        self.r1.cmd('sysctl -w net.ipv4.ip_forward=1')
+        self.r2.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     def createSwitch(self):
         info( '*** Add switches\n')
         self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
 
     def createHosts(self):
-        self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1', defaultRoute=None)
-        self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2', defaultRoute=None)
-        self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3', defaultRoute=None)
-        self.h4 = self.net.addHost(mySW.shortcut.GUIhosts['Host04'], cls=Host, ip='10.0.1.17', defaultRoute=None)
+        self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1/24', defaultRoute='via 10.0.0.100')
+        self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2/24', defaultRoute='via 10.0.0.100')
+        self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3/24', defaultRoute='via 10.0.0.100')
+        self.h4 = self.net.addHost(mySW.shortcut.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
 #        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
 #        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
         info( '*** h1 details\n' + str(self.h1) + '\n')
@@ -102,6 +105,15 @@ class MN():
 #        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
 
+    def initLinkvalues(self):
+        self.defaultDelay = 20
+        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+# Router fehlen noch
+#        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+#        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+#        self.h6r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
 
     def createLinks(self):
 # Beispiel für delay
@@ -115,25 +127,26 @@ class MN():
 #        self.net.addLink(self.h2, self.s1, cls=TCLink)
 #        self.net.addLink(self.h3, self.s1, cls=TCLink)
 # Router fehlen noch
+    ##    self.net.addLink(self.s1, self.r1, intfName2='r1-eth0', cls=TCLink, params2={ 'ip' : '10.0.0.100/24' })
+    ##    self.net.addLink(self.h4, self.r2, intfName2='r2-eth0', cls=TCLink, params2={ 'ip' : '10.0.1.22/24' })
         self.net.addLink(self.s1, self.r1, cls=TCLink)
+        self.r1.setIP('10.0.0.100', prefixLen = 24, intf = 'r1-eth0')
         self.net.addLink(self.h4, self.r2, cls=TCLink)
+
 #        self.net.addLink(self.h5, self.r3, cls=TCLink)
 #        self.net.addLink(self.h6, self.r3, cls=TCLink)
+    ##    self.net.addLink(self.r1, self.r2, intfName2='r2-eth1', cls=TCLink, params2={ 'ip' : '10.0.1.10/24' })
         self.net.addLink(self.r1, self.r2, cls=TCLink)
+        self.r1.setIP('10.0.1.9', prefixLen = 29, intf = 'r1-eth1')
+        self.r2.setIP('10.0.1.10', prefixLen = 29, intf = 'r2-eth1')
+    #    self.net.addLink(self.r2, self.r1, intfName2='r1-eth1', cls=TCLink, params2={ 'ip' : '10.0.1.9/24' })
 #        self.net.addLink(self.r2, self.r3, cls=TCLink)
 #        self.net.addLink(self.r1, self.r4, cls=TCLink)
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
 #        self.net.addLink(self.r2, self.r4, cls=TCLink)
 
-    def initLinkvalues(self):
-        self.defaultDelay = 20
-        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-# Router fehlen noch
-#        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-#        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-#        self.h6r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
+        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10')
+        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9')
 
 
     def modifyLink(self):
