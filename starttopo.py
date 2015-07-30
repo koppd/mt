@@ -671,6 +671,9 @@ class RouterConfig(QtGui.QDialog):
         uic.loadUi('confRouter.ui', self)
 #        print "confRouter init...)"
 
+        self.listRouter.currentItemChanged.connect(self.currentRouterChanged)
+
+
         for router in mySW.getNodeList("Router"):
             self.listRouter.addItem(router.objectName())
 
@@ -692,6 +695,33 @@ class RouterConfig(QtGui.QDialog):
             self.treeInterfaces.resizeColumnToContents( column )
 
 
+        self.ptRoute.setPlainText(mySW.instanceMN.net[ 'r1' ].cmd( 'route' ))
+#        print net[ 'r0' ].cmd( 'route' )
+
+
+    def currentRouterChanged(self, current, previous):
+        self.showRouterValues()
+
+    def showRouterValues(self):
+
+        selectedRouter = self.listRouter.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        info( '\n****** selectedRouter:', str(selectedRouter), '\n')
+        if selectedRouter != None:
+            selectedRouterText = selectedRouter.text()   #e.g. Host03
+
+        info( '\n****** selectedRouterText:', str(selectedRouterText), '\n')
+
+        MNrouter = mySW.shortcut.getMNname(selectedRouterText)  #e.g. h1
+        info( '\n****** MNrouter:', str(MNrouter), '\n')
+        MNnode = mySW.instanceMN.getNode(MNrouter)
+        info( '\n****** MNRouter:', str(MNnode), '\n')
+
+#        IP = mySW.instanceMN.getIP(MNrotuer)
+#        self.leIP.setText(IP)
+#        MAC = mySW.instanceMN.getMAC(MNrouter)
+#        self.leMAC.setText(MAC)
+
+        self.ptRoute.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd( 'route' ))
 
 
 class LinkConfig(QtGui.QDialog):
