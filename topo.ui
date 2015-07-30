@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
+    <width>1270</width>
     <height>668</height>
    </rect>
   </property>
@@ -141,92 +141,7 @@
     <item row="0" column="0" rowspan="10">
      <widget class="QWidget" name="TopoArea" native="true">
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="6">
-        <widget class="QToolButton" name="Router02">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="5">
-        <widget class="QPushButton" name="Link10">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="10">
-        <widget class="QPushButton" name="Link06">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="6">
-        <widget class="QWidget" name="widget_4" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QPushButton" name="Link12">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QToolButton" name="Host03">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="9">
+       <item row="6" column="8">
         <widget class="QToolButton" name="Router03">
          <property name="icon">
           <iconset>
@@ -240,44 +155,8 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QToolButton" name="Host02">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="Link01">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="5">
-        <widget class="QPushButton" name="Link08">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="10">
-        <widget class="QPushButton" name="Link07">
+       <item row="7" column="7">
+        <widget class="QPushButton" name="Link11">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -293,8 +172,8 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="11">
-        <widget class="QToolButton" name="Host05">
+       <item row="8" column="0">
+        <widget class="QToolButton" name="Host03">
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -307,48 +186,11 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
-        <widget class="QPushButton" name="Switch01">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
+       <item row="8" column="12">
+        <widget class="QToolButton" name="Host06">
          <property name="icon">
           <iconset>
-           <normaloff>picture/blue-switch.svg</normaloff>picture/blue-switch.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="6">
-        <widget class="QToolButton" name="Router04">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QToolButton" name="Router01">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -359,55 +201,7 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QPushButton" name="Link03">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="6">
-        <widget class="QToolButton" name="Host04">
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
         <widget class="QPushButton" name="Link02">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="8">
-        <widget class="QPushButton" name="Link09">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -437,8 +231,8 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="8">
-        <widget class="QPushButton" name="Link11">
+       <item row="6" column="2">
+        <widget class="QPushButton" name="Switch01">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -450,7 +244,27 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+           <normaloff>picture/blue-switch.svg</normaloff>picture/blue-switch.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QToolButton" name="Host04">
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -483,7 +297,63 @@
          </layout>
         </widget>
        </item>
-       <item row="4" column="3">
+       <item row="3" column="1">
+        <widget class="QPushButton" name="Link01">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="6">
+        <widget class="QToolButton" name="Router04">
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="Link03">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QToolButton" name="Router02">
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
         <widget class="QPushButton" name="Link04">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -500,8 +370,56 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="11">
-        <widget class="QToolButton" name="Host06">
+       <item row="7" column="5">
+        <widget class="QPushButton" name="Link10">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="4">
+        <widget class="QToolButton" name="Router01">
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/router-symbol.svg</normaloff>picture/router-symbol.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="9">
+        <widget class="QPushButton" name="Link13">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QToolButton" name="Host02">
          <property name="icon">
           <iconset>
            <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
@@ -511,6 +429,128 @@
            <width>64</width>
            <height>64</height>
           </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="6">
+        <widget class="QWidget" name="widget_4" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="Link12">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="5">
+        <widget class="QPushButton" name="Link08">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="7">
+        <widget class="QPushButton" name="Link09">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="10">
+        <widget class="QPushButton" name="Switch02">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/blue-switch.svg</normaloff>picture/blue-switch.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="12">
+        <widget class="QToolButton" name="Host05">
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/computer.svg</normaloff>picture/computer.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="11">
+        <widget class="QPushButton" name="Link06">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="11">
+        <widget class="QPushButton" name="Link07">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>picture/link-icon.png</normaloff>picture/link-icon.png</iconset>
          </property>
         </widget>
        </item>
@@ -598,7 +638,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>944</width>
+     <width>1270</width>
      <height>31</height>
     </rect>
    </property>

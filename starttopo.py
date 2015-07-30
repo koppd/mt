@@ -84,21 +84,25 @@ class MN():
         pass
         self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
         self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
-#        r4 = net.addHost('r4', cls=Node, ip='0.0.0.0')
+        self.r3 = self.net.addHost(mySW.shortcut.GUIrouter['Router03'], cls=Node, ip='10.0.1.33/29')
+        self.r4 = self.net.addHost(mySW.shortcut.GUIrouter['Router04'], cls=Node, ip='0.0.0.0')
         self.r1.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r2.cmd('sysctl -w net.ipv4.ip_forward=1')
+        self.r3.cmd('sysctl -w net.ipv4.ip_forward=1')
+        self.r4.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     def createSwitch(self):
         info( '*** Add switches\n')
         self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
+        self.s2 = self.net.addSwitch('s2', cls=OVSKernelSwitch, failMode='standalone')
 
     def createHosts(self):
         self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1/24', defaultRoute='via 10.0.0.100')
         self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2/24', defaultRoute='via 10.0.0.100')
         self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3/24', defaultRoute='via 10.0.0.100')
         self.h4 = self.net.addHost(mySW.shortcut.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
-#        self.h5 = self.net.addHost('h5', cls=Host, ip='10.0.0.5', defaultRoute=None)
-#        self.h6 = self.net.addHost('h6', cls=Host, ip='10.0.0.6', defaultRoute=None)
+        self.h5 = self.net.addHost(mySW.shortcut.GUIhosts['Host05'], cls=Host, ip='10.0.1.34/29', defaultRoute='via 10.0.1.33')
+        self.h6 = self.net.addHost(mySW.shortcut.GUIhosts['Host06'], cls=Host, ip='10.0.1.35/29', defaultRoute='via 10.0.1.33')
         info( '*** h1 details\n' + str(self.h1) + '\n')
         info( '*** h1 details\n' + str(type(self.h1)) + '\n')
 #        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
@@ -110,6 +114,10 @@ class MN():
         self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
         self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
         self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h4s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h5s2 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h6s2 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+
 # Router fehlen noch
 #        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
 #        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
@@ -126,12 +134,14 @@ class MN():
 #        self.net.addLink(self.h1, self.s1, cls=TCLink)
 #        self.net.addLink(self.h2, self.s1, cls=TCLink)
 #        self.net.addLink(self.h3, self.s1, cls=TCLink)
-# Router fehlen noch
-    ##    self.net.addLink(self.s1, self.r1, intfName2='r1-eth0', cls=TCLink, params2={ 'ip' : '10.0.0.100/24' })
-    ##    self.net.addLink(self.h4, self.r2, intfName2='r2-eth0', cls=TCLink, params2={ 'ip' : '10.0.1.22/24' })
         self.net.addLink(self.s1, self.r1, cls=TCLink)
         self.r1.setIP('10.0.0.100', prefixLen = 24, intf = 'r1-eth0')
         self.net.addLink(self.h4, self.r2, cls=TCLink)
+
+        self.net.addLink(self.h5, self.s2, cls=TCLink , **self.h5s2)
+        self.net.addLink(self.h6, self.s2, cls=TCLink , **self.h6s2)
+        self.net.addLink(self.s2, self.r3, cls=TCLink)
+
 
 #        self.net.addLink(self.h5, self.r3, cls=TCLink)
 #        self.net.addLink(self.h6, self.r3, cls=TCLink)
@@ -145,8 +155,46 @@ class MN():
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
 #        self.net.addLink(self.r2, self.r4, cls=TCLink)
 
-        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10')
-        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9')
+        self.net.addLink(self.r2, self.r3, cls=TCLink)
+        self.r2.setIP('10.0.1.25', prefixLen = 29, intf = 'r2-eth2')
+        self.r3.setIP('10.0.1.26', prefixLen = 29, intf = 'r3-eth1')
+
+        self.net.addLink(self.r3, self.r4, cls=TCLink)
+        self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
+#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth1')
+
+        self.net.addLink(self.r4, self.r1, cls=TCLink)
+#        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
+#        self.r1.setIP('10.0.1.50', prefixLen = 29, intf = 'r1-eth3')
+
+        self.net.addLink(self.r2, self.r4, cls=TCLink)
+        self.r2.setIP('10.0.1.57', prefixLen = 29, intf = 'r2-eth3')
+#        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
+
+
+        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10 metric 2') #C
+        self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10 metric 2') #D
+        self.r1.cmd('ip route add 10.0.1.32/29 via 10.0.1.10 metric 2') #E
+        self.r1.cmd('ip route add 10.0.1.40/29 via 10.0.1.49 metric 3') #F
+        self.r1.cmd('ip route add 10.0.1.56/29 via 10.0.1.49 metric 2') #H
+
+        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9 metric 2') #A
+        self.r2.cmd('ip route add 10.0.1.48/29 via 10.0.1.9 metric 2') #G
+        self.r2.cmd('ip route add 10.0.1.40/29 via 10.0.1.26 metric 2') #F
+        self.r2.cmd('ip route add 10.0.1.32/29 via 10.0.1.9 metric 2') #E
+
+        self.r3.cmd('ip route add 10.0.1.16/29 via 10.0.1.25 metric 2') #C
+        self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42 metric 2') #H
+        self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25 metric 2') #B
+        self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42 metric 2') #G
+        self.r3.cmd('ip route add 10.0.0./24 via 10.0.1.25 metric 3') #A
+
+        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50 metric 2') #A
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.50 metric 2') #B
+        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41 metric 2') #D
+        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41 metric 2') #E
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57 metric 2') #C
+
 
 
     def modifyLink(self):
@@ -163,6 +211,9 @@ class MN():
     def startSwitch(self):
         info( '*** Starting switches\n')
         self.net.get('s1').start([])
+        self.net.get('s2').start([])
+
+
 
         info( '*** h1 details2\n' + str(self.h1) + '\n')
         info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
@@ -974,6 +1025,7 @@ class Parameter():
 
         self.GUIswitches = {}
         self.GUIswitches["Switch01"] = "s1"
+        self.GUIswitches["Switch02"] = "s2"
 
         self.GUIrouter = {}
         self.GUIrouter["Router01"] = "r1"
@@ -995,14 +1047,15 @@ class Parameter():
         self.connections["Host02"] = ["Switch01"]
         self.connections["Host03"] = ["Switch01"]
         self.connections["Host04"] = ["Router02"]
-        self.connections["Host05"] = ["Router03"]
-        self.connections["Host06"] = ["Router03"]
+        self.connections["Host05"] = ["Switch02"]
+        self.connections["Host06"] = ["Switch02"]
 
         self.connections["Switch01"] = ["Host01", "Host02", "Host03", "Router01"]
+        self.connections["Switch02"] = ["Host05", "Host06", "Router03"]
 
         self.connections["Router01"] = ["Switch01", "Router02", "Router04"]
         self.connections["Router02"] = ["Router01", "Router03", "Router04", "Host04"]
-        self.connections["Router03"] = ["Router02", "Router04", "Host05", "Host06"]
+        self.connections["Router03"] = ["Router02", "Router04", "Switch20"]
         self.connections["Router04"] = ["Router01", "Router02", "Router03"]
 
     def setGUIlink(self, GUIname, param):
@@ -1241,7 +1294,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         info( '\n*** myhost erzeugt\n')
 #        print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
-        info( '\n****** host list auf erste,... gesetzt\n')        
+        info( '\n****** host list auf erste,... gesetzt\n')
         myHost.showHostValues()
         myHost.exec_()
 #        myHost.show()
