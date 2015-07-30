@@ -174,28 +174,28 @@ class MN():
 #        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
 
 
-        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10 metric 2') #C
-        self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10 metric 2') #D
-        self.r1.cmd('ip route add 10.0.1.32/29 via 10.0.1.10 metric 2') #E
-        self.r1.cmd('ip route add 10.0.1.40/29 via 10.0.1.49 metric 3') #F
-        self.r1.cmd('ip route add 10.0.1.56/29 via 10.0.1.49 metric 2') #H
+        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10') #C
+        self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10') #D
+        self.r1.cmd('ip route add 10.0.1.32/29 via 10.0.1.10') #E
+        self.r1.cmd('ip route add 10.0.1.40/29 via 10.0.1.49') #F
+        self.r1.cmd('ip route add 10.0.1.56/29 via 10.0.1.49') #H
 
-        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9 metric 2') #A
-        self.r2.cmd('ip route add 10.0.1.48/29 via 10.0.1.9 metric 2') #G
-        self.r2.cmd('ip route add 10.0.1.40/29 via 10.0.1.26 metric 2') #F
-        self.r2.cmd('ip route add 10.0.1.32/29 via 10.0.1.9 metric 2') #E
+        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9') #A
+        self.r2.cmd('ip route add 10.0.1.32/29 via 10.0.1.26') #E
+        self.r2.cmd('ip route add 10.0.1.40/29 via 10.0.1.58') #F
+        self.r2.cmd('ip route add 10.0.1.48/29 via 10.0.1.58') #G
 
-        self.r3.cmd('ip route add 10.0.1.16/29 via 10.0.1.25 metric 2') #C
-        self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42 metric 2') #H
-        self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25 metric 2') #B
-        self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42 metric 2') #G
-        self.r3.cmd('ip route add 10.0.0.0/24 via 10.0.1.25 metric 3') #A
+        self.r3.cmd('ip route add 10.0.1.16/29 via 10.0.1.25') #C
+        self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42') #H
+        self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25') #B
+        self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42') #G
+        self.r3.cmd('ip route add 10.0.0.0/24 via 10.0.1.25') #A
 
-        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50 metric 2') #A
-        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.50 metric 2') #B
-        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41 metric 2') #D
-        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41 metric 2') #E
-        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57 metric 2') #C
+        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50') #A
+        self.r4.cmd('ip route add 10.0.1.8/29 via 10.0.1.50') #B
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57') #C
+        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41') #D
+        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41') #E
 
 
 
