@@ -90,11 +90,11 @@ class MN():
         self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
         self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
         self.r3 = self.net.addHost(mySW.shortcut.GUIrouter['Router03'], cls=Node, ip='10.0.1.33/29')
-#        self.r4 = self.net.addHost(mySW.shortcut.GUIrouter['Router04'], cls=Node, ip='0.0.0.0')
+        self.r4 = self.net.addHost(mySW.shortcut.GUIrouter['Router04'], cls=Node, ip='10.0.1.42/29')
         self.r1.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r2.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r3.cmd('sysctl -w net.ipv4.ip_forward=1')
-#        self.r4.cmd('sysctl -w net.ipv4.ip_forward=1')
+        self.r4.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     def createHosts(self):
         self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1/24', defaultRoute='via 10.0.0.100')
@@ -153,20 +153,24 @@ class MN():
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
 #        self.net.addLink(self.r2, self.r4, cls=TCLink)
 
-        self.net.addLink(self.r2, self.r3, cls=TCLink)
+        self.net.addLink( self.r2, self.r3, intfName2='r3-eth1', params2={ 'ip' : '10.0.1.26/29' } )
         self.r2.setIP('10.0.1.25', prefixLen = 29, intf = 'r2-eth2')
-        self.r3.setIP('10.0.1.26', prefixLen = 29, intf = 'r3-eth0')
+#        self.r3.setIP('10.0.1.26', prefixLen = 29, intf = 'r3-eth1')
 
+
+        self.net.addLink( self.r3, self.r4, intfName2='r4-eth0', params2={ 'ip' : '10.0.1.42/29' } ) #doppel zu oben
 #        self.net.addLink(self.r3, self.r4, cls=TCLink)
-#        self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
-#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth1')
+        self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
+#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')  
 
+        self.net.addLink( self.r1, self.r4, intfName2='r4-eth1', params2={ 'ip' : '10.0.1.49/29' } )
 #        self.net.addLink(self.r4, self.r1, cls=TCLink)
 #        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
-#        self.r1.setIP('10.0.1.50', prefixLen = 29, intf = 'r1-eth3')
+        self.r1.setIP('10.0.1.50', prefixLen = 29, intf = 'r1-eth2')
 
+        self.net.addLink( self.r2, self.r4, intfName2='r4-eth2', params2={ 'ip' : '10.0.1.58/29' } )
 #        self.net.addLink(self.r2, self.r4, cls=TCLink)
-#        self.r2.setIP('10.0.1.57', prefixLen = 29, intf = 'r2-eth3')
+        self.r2.setIP('10.0.1.57', prefixLen = 29, intf = 'r2-eth3')
 #        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
 
 
@@ -185,13 +189,13 @@ class MN():
         self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42 metric 2') #H
         self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25 metric 2') #B
         self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42 metric 2') #G
-        self.r3.cmd('ip route add 10.0.0./24 via 10.0.1.25 metric 3') #A
+        self.r3.cmd('ip route add 10.0.0.0/24 via 10.0.1.25 metric 3') #A
 
-#        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50 metric 2') #A
-#        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.50 metric 2') #B
-#        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41 metric 2') #D
-#        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41 metric 2') #E
-#        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57 metric 2') #C
+        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50 metric 2') #A
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.50 metric 2') #B
+        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41 metric 2') #D
+        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41 metric 2') #E
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57 metric 2') #C
 
 
 
