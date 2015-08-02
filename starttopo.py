@@ -34,6 +34,7 @@ class MN():
         self.createHosts()
         self.initLinkvalues()
         self.createLinks()
+        self.createRoutes()
         self.buildNet()
         self.startController()
         self.startSwitch()
@@ -110,7 +111,7 @@ class MN():
 
 
     def initLinkvalues(self):
-        self.defaultDelay = 20
+        self.defaultDelay = 5
         self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
         self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
         self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
@@ -131,9 +132,6 @@ class MN():
         self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h2s1)
         self.net.addLink(self.h3, self.s1, cls=TCLink , **self.h3s1)
 
-#        self.net.addLink(self.h1, self.s1, cls=TCLink)
-#        self.net.addLink(self.h2, self.s1, cls=TCLink)
-#        self.net.addLink(self.h3, self.s1, cls=TCLink)
         self.net.addLink(self.s1, self.r1, cls=TCLink)
         self.r1.setIP('10.0.0.100', prefixLen = 24, intf = 'r1-eth0')
         self.net.addLink(self.h4, self.r2, cls=TCLink)
@@ -142,16 +140,9 @@ class MN():
         self.net.addLink(self.h6, self.s2, cls=TCLink , **self.h6s2)
         self.net.addLink(self.s2, self.r3, cls=TCLink)
 
-
-#        self.net.addLink(self.h5, self.r3, cls=TCLink)
-#        self.net.addLink(self.h6, self.r3, cls=TCLink)
-  #      self.net.addLink(self.r1, self.r2, intfName2='r2-eth1', cls=TCLink, params2={ 'ip' : '10.0.1.10/24' })
         self.net.addLink(self.r1, self.r2, cls=TCLink)
         self.r1.setIP('10.0.1.9', prefixLen = 29, intf = 'r1-eth1')
         self.r2.setIP('10.0.1.10', prefixLen = 29, intf = 'r2-eth1')
-#        self.net.addLink(self.r1, self.r4, cls=TCLink)
-#        self.net.addLink(self.r3, self.r4, cls=TCLink)
-#        self.net.addLink(self.r2, self.r4, cls=TCLink)
 
         self.net.addLink( self.r2, self.r3, intfName2='r3-eth1', params2={ 'ip' : '10.0.1.26/29' } )
         self.r2.setIP('10.0.1.25', prefixLen = 29, intf = 'r2-eth2')
@@ -159,20 +150,18 @@ class MN():
 
 
         self.net.addLink( self.r3, self.r4, intfName2='r4-eth0', params2={ 'ip' : '10.0.1.42/29' } ) #doppel zu oben
-#        self.net.addLink(self.r3, self.r4, cls=TCLink)
         self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
 #        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')  
 
         self.net.addLink( self.r1, self.r4, intfName2='r4-eth1', params2={ 'ip' : '10.0.1.49/29' } )
-#        self.net.addLink(self.r4, self.r1, cls=TCLink)
 #        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
         self.r1.setIP('10.0.1.50', prefixLen = 29, intf = 'r1-eth2')
 
         self.net.addLink( self.r2, self.r4, intfName2='r4-eth2', params2={ 'ip' : '10.0.1.58/29' } )
-#        self.net.addLink(self.r2, self.r4, cls=TCLink)
         self.r2.setIP('10.0.1.57', prefixLen = 29, intf = 'r2-eth3')
 #        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
 
+    def createRoutes(self):
 
         self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10') #C
         self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10') #D
@@ -198,7 +187,6 @@ class MN():
         self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41') #E
 
 
-
     def modifyLink(self):
         pass
 
@@ -214,8 +202,6 @@ class MN():
         info( '*** Starting switches\n')
         self.net.get('s1').start([])
         self.net.get('s2').start([])
-
-
 
         info( '*** h1 details2\n' + str(self.h1) + '\n')
         info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
@@ -1285,7 +1271,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 # Top
         self.drawMultiLinesObj(qp, self.Router02, self.Host04, self.Router01, self.Router02, self.Router03, self.Router04)
 # Right
-        self.drawMultiLinesObj(qp, self.Router03, self.Host05, self.Host06)
+        self.drawMultiLinesObj(qp, self.Switch02, self.Router03, self.Host05, self.Host06)
 # Bottom
         self.drawMultiLinesObj(qp, self.Router04, self.Router01, self.Router03)
 
