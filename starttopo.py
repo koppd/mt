@@ -514,7 +514,7 @@ class HostConfig(QtGui.QDialog):
         if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
             self.vsftp = self.startVSFTP(MNnode)
         if not self.cbSFTP.isChecked() and mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
-            print "kill FTP server...", self.vsftp
+#            print "kill FTP server...", self.vsftp
             MNnode.cmd("pkill vsftp")
             mySW.services.setVSFTP(None)
 
@@ -522,7 +522,7 @@ class HostConfig(QtGui.QDialog):
         if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
             self.dhcpd = self.startDHCPD(MNnode)
         if not self.cbSDHCP.isChecked() and mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
-            print "kill DHCP server...", self.dhcpd
+#            print "kill DHCP server...", self.dhcpd
             MNnode.cmd("pkill dhcpd")
             mySW.services.setDHCP(None)
 
@@ -530,7 +530,7 @@ class HostConfig(QtGui.QDialog):
         if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
             self.voip = self.startVOIP(MNnode)
         if not self.cbSVOIP.isChecked() and mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
-            print "kill VoIP server...", self.voip
+#            print "kill VoIP server...", self.voip
             MNnode.cmd("pkill asterisk")
             mySW.services.setVOIP(None)
 
@@ -1255,10 +1255,10 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.StartMNclicked()
 
     def stopSystemServices(self):
-        return_code = subprocess.call("systemctl is-active network-manager", shell=True)
+        return_code = subprocess.call("systemctl is-active NetworkManager", shell=True)
         if return_code == 0:
 # needed until this bug is fixed: https://github.com/mininet/mininet/issues/228
-            subprocess.call("systemctl stop network-manager", shell=True)
+            subprocess.call("systemctl stop NetworkManager", shell=True)
             subprocess.call("dhclient eth0", shell=True)
 
 # or disable asterisk at startup
