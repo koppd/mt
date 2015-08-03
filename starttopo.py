@@ -584,15 +584,15 @@ class HostConfig(QtGui.QDialog):
             counter += 1
 
         if self.cbSDHCP.isChecked():
-            wsCommand = 'wireshark -i %s-eth0 -k -Y bootp.dhcp==1 &' % (MNnode.name) 
+            wsCommand = 'wireshark -i %s-eth0 -k -Y bootp.dhcp==1 &' % (MNnode.name)
             counter += 1
 
         if self.cbSVOIP.isChecked():
-            wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name) 
+            wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name)
             counter += 1
 
         if counter > 1: # don't use any special display filter
-            wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name) 
+            wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
 
         if counter >= 1:
             display, tunnel = tunnelX11( MNnode, None )
@@ -604,7 +604,36 @@ class HostConfig(QtGui.QDialog):
         pass
 
     def pbCWiresharkclicked(self):
-        pass
+        MNnode = self.getSelectedMNnode()
+        if MNnode == None:
+            return
+
+# client operations
+        counter = 0
+        if self.cbDownload.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % ( MNnode.name, MNnode.IP() )
+            counter += 1
+
+        if self.cbCFTP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y "ftp || ftp-data" &' % (MNnode.name)   # %s = 'h1'
+            counter += 1
+
+        if self.cbCDHCP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y bootp.dhcp==1 &' % (MNnode.name)
+            counter += 1
+
+        if self.cbCVOIPlinphone.isChecked() or self.cbCVOIPyate.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name)
+            counter += 1
+
+        if counter > 1: # don't use any special display filter
+            wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
+
+        if counter >= 1:
+            display, tunnel = tunnelX11( MNnode, None )
+            self.cws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
+            print "pid wireshark: ", self.cws
+
 
     def currentHostChanged(self, current, previous):
         self.showHostValues()
