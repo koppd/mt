@@ -295,7 +295,7 @@ class Services():
             return mySW.shortcut.getGUIname(self.DHCPnode)
 
     def isDHCP(self):
-        print "isDHCP", self.DHCPnode
+#        print "isDHCP", self.DHCPnode
         if self.DHCPnode != None:
             return True
         else:
@@ -1192,6 +1192,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.bpStopMN.clicked.connect(self.StopMNclicked)
         self.bpRestartMN.clicked.connect(self.RestartMNclicked)
         self.pbCLI.clicked.connect(self.CLIclicked)
+        self.actionEnter_CLI.triggered.connect(self.CLIclicked)
 
         self.pbExit.clicked.connect(self.pbExitclicked)
 

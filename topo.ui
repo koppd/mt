@@ -656,6 +656,7 @@
     </property>
     <addaction name="actionCheck_configuration"/>
     <addaction name="actionCheck_running_services"/>
+    <addaction name="actionEnter_CLI"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuDebug"/>
@@ -679,6 +680,11 @@
   <action name="actionCheck_running_services">
    <property name="text">
     <string>Check running services</string>
+   </property>
+  </action>
+  <action name="actionEnter_CLI">
+   <property name="text">
+    <string>Enter CLI</string>
    </property>
   </action>
  </widget>
