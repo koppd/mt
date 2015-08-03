@@ -1226,6 +1226,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.cli_do.connect(self.CLIexecute)
 
+
+        self.stopSystemServices()
+
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
@@ -1250,6 +1253,24 @@ class ControlMainWindow(QtGui.QMainWindow):
     def RestartMNclicked(self):
         self.StopMNclicked()
         self.StartMNclicked()
+
+    def stopSystemServices(self):
+        return_code = subprocess.call("systemctl is-active network-manager", shell=True)
+        if return_code == 0:
+# needed until this bug is fixed: https://github.com/mininet/mininet/issues/228
+            subprocess.call("systemctl stop network-manager", shell=True)
+            subprocess.call("dhclient eth0", shell=True)
+
+# or disable asterisk at startup
+        return_code = subprocess.call("systemctl is-active asterisk", shell=True)
+        if return_code == 0:
+            subprocess.call("systemctl stop asterisk", shell=True)
+
+# or disable vsftp at startup
+        return_code = subprocess.call("systemctl is-active vsftpd", shell=True)
+        if return_code == 0:
+            subprocess.call("systemctl stop vsftpd", shell=True)
+
 
     def CLIclicked(self):
 # FIXME: Erzeuge ein Signal, dass dann die CLI aufruft.
