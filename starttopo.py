@@ -151,7 +151,7 @@ class MN():
 
         self.net.addLink( self.r3, self.r4, intfName2='r4-eth0', params2={ 'ip' : '10.0.1.42/29' } ) #doppel zu oben
         self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
-#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')  
+#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')
 
         self.net.addLink( self.r1, self.r4, intfName2='r4-eth1', params2={ 'ip' : '10.0.1.49/29' } )
 #        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
@@ -569,7 +569,36 @@ class HostConfig(QtGui.QDialog):
         pass
 
     def pbSWiresharkclicked(self):
-        pass
+        MNnode = self.getSelectedMNnode()
+        if MNnode == None:
+            return
+
+# server services
+        counter = 0
+        if self.cbSHTTP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % ( MNnode.name, MNnode.IP() )
+            counter += 1
+
+        if self.cbSFTP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y "ftp || ftp-data" &' % (MNnode.name)   # %s = 'h1'
+            counter += 1
+
+        if self.cbSDHCP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y bootp.dhcp==1 &' % (MNnode.name) 
+            counter += 1
+
+        if self.cbSVOIP.isChecked():
+            wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name) 
+            counter += 1
+
+        if counter > 1: # don't use any special display filter
+            wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name) 
+
+        if counter >= 1:
+            display, tunnel = tunnelX11( MNnode, None )
+            self.sws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
+            print "pid wireshark: ", self.sws
+
 
     def pbCFTPclicked(self):
         pass
@@ -761,6 +790,7 @@ class RouterConfig(QtGui.QDialog):
 #        self.leMAC.setText(MAC)
 
         self.ptRoute.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd( 'route' ))
+        self.ptLinks.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd( 'ip a' ))
 
 
 class LinkConfig(QtGui.QDialog):
