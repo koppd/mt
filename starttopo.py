@@ -87,7 +87,6 @@ class MN():
         self.s2 = self.net.addSwitch('s2', cls=OVSKernelSwitch, failMode='standalone')
 
     def createRouters(self):
-        pass
         self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
         self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
         self.r3 = self.net.addHost(mySW.shortcut.GUIrouter['Router03'], cls=Node, ip='10.0.1.33/29')
@@ -203,9 +202,9 @@ class MN():
         self.net.get('s1').start([])
         self.net.get('s2').start([])
 
-        info( '*** h1 details2\n' + str(self.h1) + '\n')
-        info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
-        info( '*** h1 details2\n' + str(self.h1.IP()) + '\n')
+#        info( '*** h1 details2\n' + str(self.h1) + '\n')
+#        info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
+#        info( '*** h1 details2\n' + str(self.h1.IP()) + '\n')
 
     def startCLI(self):
         CLI( self.net )
@@ -214,7 +213,12 @@ class MN():
         self.h1.cmd("pkill dhcpd")
         self.h1.cmd("pkill asterisk")
         self.h1.cmd("pkill vsftp")
-        self.net.stop()
+        try:
+            self.net.stop()
+        except:
+            print "probleme1"
+            pass
+
 
     def sendCmd( self, node, command ):
         return node.cmd(command, shell=True, printPid=True)
@@ -280,6 +284,9 @@ class Services():
         self.HTTPnode = None
         self.VSFTPnode = None
         self.VOIPnode = None
+        self.fresh_daemon_leases = True
+        self.fresh_client_leases = True
+
         print "Klasse Services aufgerufen"
 
     def setDHCP(self, MNnode):
@@ -382,6 +389,7 @@ class HostConfig(QtGui.QDialog):
 #Server tab
         self.pbSDHCP.clicked.connect(self.pbSDHCPclicked)
         self.pbSWireshark.clicked.connect(self.pbSWiresharkclicked)
+        self.pbSDHCP.clicked.connect(self.showDHCPWindow)
 #Client tab
         self.pbCFTP.clicked.connect(self.pbCFTPclicked)
         self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
@@ -423,11 +431,11 @@ class HostConfig(QtGui.QDialog):
         mySW.services.setVSFTP(MNnode)
         return pid
 
-    def startDHCPD(self, MNnode, fresh_daemon_leases = True):
+    def startDHCPD(self, MNnode):   #, fresh_daemon_leases = True):
         info( '\n****** execute DHCP server on %s\n' % MNnode.name)
         print "copy configuration file to /etc/dhcp/dhcpd_mn.conf"
         MNnode.cmd("cp ./dhcpd_mn.conf /etc/dhcp/", printPid=True)
-        if fresh_daemon_leases == True:
+        if mySW.services.fresh_daemon_leases:
             print "delete /var/lib/dhcp/dhcpd.leases.mn"
             MNnode.cmd("rm /var/lib/dhcp/dhcpd.leases.mn", printPid=True)
             MNnode.cmd("touch /var/lib/dhcp/dhcpd.leases.mn", printPid=True)
@@ -470,6 +478,15 @@ class HostConfig(QtGui.QDialog):
         self.xtermCommand(MNnode, title, command)
 
     def startDHCP(self, MNnode):
+#        if fresh_client_leases == True:
+#            print "delete /var/lib/dhcp/dhclient.leases.mn"
+#            self.h2.cmd("rm /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+#            self.h2.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+#        else:
+#            print "verwende vorhandene /var/lib/dhcp/dhclient.leases.mn"
+#            self.h2.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+
+
         title = '"Client DHCP"'
         command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
         self.xtermCommand(MNnode, title, command)
@@ -772,7 +789,37 @@ class HostConfig(QtGui.QDialog):
 
 # Tab: Client   --- nothing to check here ---
 
+    def showDHCPWindow(self, Hostnumber) :
+        myDHCP = DHCPConfig()
+#        info( '\n*** myhost erzeugt\n')
+#        print ("hostconfig vor show")
+#        myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
+#        info( '\n****** host list auf erste,... gesetzt\n')
+        myDHCP.showDHCPValues()
+        myDHCP.exec_()
 
+
+
+
+class DHCPConfig(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(DHCPConfig, self).__init__(parent)
+        print "confDHCP loaded"
+        uic.loadUi('confDHCP.ui', self)
+
+
+    def accept(self):
+#        print "accept/OK button"
+        self.applyChanges()
+        QDialog.accept(self)
+
+    def applyChanges(self):
+        mySW.services.fresh_daemon_leases = self.DHCP_daemon_leases.isChecked()
+        mySW.services.fresh_client_leases = self.DHCP_client_leases.isChecked()
+
+    def showDHCPValues(self):
+        self.DHCP_daemon_leases.setChecked(mySW.services.fresh_daemon_leases)
+        self.DHCP_client_leases.setChecked(mySW.services.fresh_client_leases)
 
 
 class RouterConfig(QtGui.QDialog):
