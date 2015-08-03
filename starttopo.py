@@ -502,20 +502,37 @@ class HostConfig(QtGui.QDialog):
         if MNnode == None:
             return
 # server services
+# HTTP
         if self.cbSHTTP.isChecked() and not mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
             self.http = self.startSimpleHTTPserver(MNnode)
         if not self.cbSHTTP.isChecked() and mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
-        #   kill HTTP server
-            pass
+            print "kill HTTP server...", self.http
+            MNnode.cmd("sudo pkill -f \"python -m SimpleHTTPServer 80\"")
+            mySW.services.setHTTP(None)
 
+# FTP
         if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
             self.vsftp = self.startVSFTP(MNnode)
+        if not self.cbSFTP.isChecked() and mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
+            print "kill FTP server...", self.vsftp
+            MNnode.cmd("pkill vsftp")
+            mySW.services.setVSFTP(None)
 
+# DHCP
         if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
             self.dhcpd = self.startDHCPD(MNnode)
+        if not self.cbSDHCP.isChecked() and mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
+            print "kill DHCP server...", self.dhcpd
+            MNnode.cmd("pkill dhcpd")
+            mySW.services.setDHCP(None)
 
+# VoIP
         if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
             self.voip = self.startVOIP(MNnode)
+        if not self.cbSVOIP.isChecked() and mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
+            print "kill VoIP server...", self.voip
+            MNnode.cmd("pkill asterisk")
+            mySW.services.setVOIP(None)
 
 # client operations
         if self.cbDownload.isChecked():
@@ -1144,6 +1161,9 @@ class Parameter():
 
 
 class ControlMainWindow(QtGui.QMainWindow):
+
+    cli_do = pyqtSignal()
+
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
 #        self.ui = Ui_MainWindow()
@@ -1204,6 +1224,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.updateProcesses()
 
+        self.cli_do.connect(self.CLIexecute)
+
 #        self.drawLinks()
 
 #    def drawLines(self, qp):
@@ -1230,7 +1252,22 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.StartMNclicked()
 
     def CLIclicked(self):
+# FIXME: Erzeuge ein Signal, dass dann die CLI aufruft.
+#        self.changeStatus("GUI ist eingefroren bis die CLI mit \"exit\" beendet wurde!")
+#        print "CLIclicked1"
+        self.cli_do.emit()  #geht trotzdem nicht
+# evtl mit postEvent, aber wie?
+#        print "CLIclicked2"
+
+    def CLIexecute(self):
+#        print "CLIexecute1"
         mySW.instanceMN.startCLI()
+#        print "CLIexecute2"
+
+    def changeStatus(self, statusMessage):
+#        print "changeStatus1"
+        self.statusBar().showMessage(statusMessage)
+#        print "changeStatus2"
 
     def debug1clicked(self):
         pass

@@ -654,9 +654,11 @@
     <property name="title">
      <string>Debug</string>
     </property>
+    <addaction name="actionEnter_CLI"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_debug_log"/>
     <addaction name="actionCheck_configuration"/>
     <addaction name="actionCheck_running_services"/>
-    <addaction name="actionEnter_CLI"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuDebug"/>
@@ -685,6 +687,11 @@
   <action name="actionEnter_CLI">
    <property name="text">
     <string>Enter CLI</string>
+   </property>
+  </action>
+  <action name="actionShow_debug_log">
+   <property name="text">
+    <string>Show debug log</string>
    </property>
   </action>
  </widget>
