@@ -396,7 +396,7 @@ class HostConfig(QtGui.QDialog):
         self.pbSWireshark.clicked.connect(self.pbSWiresharkclicked)
         self.pbSDHCP.clicked.connect(self.showDHCPWindow)
 #Client tab
-        self.pbCFTP.clicked.connect(self.pbCFTPclicked)
+#        self.pbCFTP.clicked.connect(self.pbCFTPclicked)
         self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
 
     def applyButton(self):
@@ -696,6 +696,11 @@ class HostConfig(QtGui.QDialog):
         self.leIP.setText(IP)
         MAC = mySW.instanceMN.getMAC(MNhost)
         self.leMAC.setText(MAC)
+        self.leName.setText(MNhost)
+        INTERFACES = MNnode.intfNames()        
+        self.leInferface.setText(str(INTERFACES[0]))
+       
+
 
 # wenn DHCP läuft nicht
         if not mySW.services.isDHCP():
@@ -1150,12 +1155,23 @@ class Parameter():
         self.GUIrouter["Router04"] = "r4"
 
         self.GUIlinks = {}
-        defaultDelay = 20
+        defaultDelay = 5   #FIXME
 #        self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]
         self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
-#        self.GUIlinks["Link04"] = ("s1", "r1")
+        self.GUIlinks["Link04"] = ("s1", "r1", defaultDelay, 0, None)
+        
+        self.GUIlinks["Link05"] = ("h4", "r2", defaultDelay, 0, None)
+        self.GUIlinks["Link06"] = ("h5", "s2", defaultDelay, 0, None)
+        self.GUIlinks["Link07"] = ("h8", "s2", defaultDelay, 0, None)
+        self.GUIlinks["Link08"] = ("r1", "r2", defaultDelay, 0, None)
+        self.GUIlinks["Link09"] = ("r2", "r3", defaultDelay, 0, None)
+        self.GUIlinks["Link10"] = ("r1", "r4", defaultDelay, 0, None)
+        self.GUIlinks["Link11"] = ("r2", "r3", defaultDelay, 0, None)
+        self.GUIlinks["Link12"] = ("r2", "r4", defaultDelay, 0, None)
+        self.GUIlinks["Link13"] = ("s2", "r3", defaultDelay, 0, None)
+
 
 # Nicht unique, d.h. jede Verbindung taucht zweimal auf.
         self.connections = {}
