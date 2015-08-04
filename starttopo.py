@@ -38,6 +38,8 @@ class MN():
         self.buildNet()
         self.startController()
         self.startSwitch()
+        mySW.bpStartMN_enabled(False)
+        mySW.bpStopMN_enabled(True)
 
     def getIP(self, host):
         tmphost = self.getNode( host )   #e.g. host = h1
@@ -219,10 +221,13 @@ class MN():
             print "probleme1"
             pass
 
+        mySW.bpStartMN_enabled(True)
+        mySW.bpStopMN_enabled(False)
 
     def sendCmd( self, node, command ):
         return node.cmd(command, shell=True, printPid=True)
 
+    
 
 class MNtcp():
     def myNetwork( self, delay=20, loss=5, swin=3 ):
@@ -1403,6 +1408,14 @@ class ControlMainWindow(QtGui.QMainWindow):
         except:
             print "Mininet konnte nicht richtig beendet werden"
         exit(0)
+
+
+    def bpStartMN_enabled(self, value):
+        self.bpStartMN.setEnabled(value)
+    
+    def bpStopMN_enabled(self, value):
+        self.bpStopMN.setEnabled(value)
+
 
     def drawLines(self, qp, fromx, fromy, tox, toy):
 
