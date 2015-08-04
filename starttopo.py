@@ -227,7 +227,7 @@ class MN():
     def sendCmd( self, node, command ):
         return node.cmd(command, shell=True, printPid=True)
 
-    
+
 
 class MNtcp():
     def myNetwork( self, delay=20, loss=5, swin=3 ):
@@ -410,9 +410,13 @@ class HostConfig(QtGui.QDialog):
     def accept(self):
 #        print "accept/OK button"
         self.applyChanges()
+        self.currentObj.setStyleSheet("")
         QDialog.accept(self)
-
 #        self.close()
+
+    def reject(self):
+        self.currentObj.setStyleSheet("")
+        QDialog.reject(self)
 
     def reject1_not_used(self):
         print "reject"
@@ -677,6 +681,13 @@ class HostConfig(QtGui.QDialog):
     def currentHostChanged(self, current, previous):
         self.showHostValues()
 #        print current.text()   #e.g. Host05
+        self.currentObj = mySW.TopoArea.findChild(QtGui.QWidget, current.text())
+        self.currentObj.setStyleSheet("background-color: rgb(0, 170, 255);")
+
+        if previous != None:
+            previousObj = mySW.TopoArea.findChild(QtGui.QWidget, previous.text())
+            previousObj.setStyleSheet("")
+
 
     def showHostValues(self):
 
@@ -697,9 +708,9 @@ class HostConfig(QtGui.QDialog):
         MAC = mySW.instanceMN.getMAC(MNhost)
         self.leMAC.setText(MAC)
         self.leName.setText(MNhost)
-        INTERFACES = MNnode.intfNames()        
+        INTERFACES = MNnode.intfNames()
         self.leInferface.setText(str(INTERFACES[0]))
-       
+
 
 
 # wenn DHCP läuft nicht
@@ -1032,10 +1043,10 @@ class LinkConfig(QtGui.QDialog):
 
         self.leSrcIP.setText(srcIntf.IP())
         self.leDstIP.setText(dstIntf.IP())
-        
+
         self.leSrcIntf.setText(srcIntf.name)
         self.leDstIntf.setText(dstIntf.name)
-        
+
         self.hsDelay.setValue(self.delay)
         self.sbDelay.setValue(self.delay)
         self.hsLoss.setValue(self.loss)
@@ -1173,7 +1184,7 @@ class Parameter():
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link04"] = ("s1", "r1", defaultDelay, 0, None)
-        
+
         self.GUIlinks["Link05"] = ("h4", "r2", defaultDelay, 0, None)
         self.GUIlinks["Link06"] = ("h5", "s2", defaultDelay, 0, None)
         self.GUIlinks["Link07"] = ("h6", "s2", defaultDelay, 0, None)
@@ -1441,7 +1452,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def bpStartMN_enabled(self, value):
         self.bpStartMN.setEnabled(value)
-    
+
     def bpStopMN_enabled(self, value):
         self.bpStopMN.setEnabled(value)
 
