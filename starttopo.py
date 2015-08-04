@@ -1022,8 +1022,20 @@ class LinkConfig(QtGui.QDialog):
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
-        self.leSource.setText(self.source)
-        self.leDestination.setText(self.destination)
+        self.leSrcName.setText(self.source)
+        self.leDstName.setText(self.destination)
+
+        src = mySW.instanceMN.getNode(self.source)
+        dst = mySW.instanceMN.getNode(self.destination)
+        srcIntf = src.connectionsTo(dst)[0][0]
+        dstIntf = src.connectionsTo(dst)[0][1]
+
+        self.leSrcIP.setText(srcIntf.IP())
+        self.leDstIP.setText(dstIntf.IP())
+        
+        self.leSrcIntf.setText(srcIntf.name)
+        self.leDstIntf.setText(dstIntf.name)
+        
         self.hsDelay.setValue(self.delay)
         self.sbDelay.setValue(self.delay)
         self.hsLoss.setValue(self.loss)
@@ -1164,7 +1176,7 @@ class Parameter():
         
         self.GUIlinks["Link05"] = ("h4", "r2", defaultDelay, 0, None)
         self.GUIlinks["Link06"] = ("h5", "s2", defaultDelay, 0, None)
-        self.GUIlinks["Link07"] = ("h8", "s2", defaultDelay, 0, None)
+        self.GUIlinks["Link07"] = ("h6", "s2", defaultDelay, 0, None)
         self.GUIlinks["Link08"] = ("r1", "r2", defaultDelay, 0, None)
         self.GUIlinks["Link09"] = ("r2", "r3", defaultDelay, 0, None)
         self.GUIlinks["Link10"] = ("r1", "r4", defaultDelay, 0, None)
@@ -1275,6 +1287,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Link10.clicked.connect(self.Link10clicked)
         self.Link11.clicked.connect(self.Link11clicked)
         self.Link12.clicked.connect(self.Link12clicked)
+        self.Link13.clicked.connect(self.Link12clicked)
 
         self.bpStartMN.clicked.connect(self.StartMNclicked)
         self.bpStopMN.clicked.connect(self.StopMNclicked)
@@ -1574,6 +1587,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def Link12clicked(self):
         self.showLinkWindow(12)
+
+    def Link13clicked(self):
+        self.showLinkWindow(13)
 
 
 
