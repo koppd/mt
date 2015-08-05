@@ -880,9 +880,28 @@ class RouterConfig(QtGui.QDialog):
         self.ptRoute.setPlainText(mySW.instanceMN.net[ 'r1' ].cmd( 'route' ))
 #        print net[ 'r0' ].cmd( 'route' )
 
+    def accept(self):
+#        print "accept/OK button"
+#        self.applyChanges()
+        self.currentObj.setStyleSheet("")
+        QDialog.accept(self)
+#        self.close()
+
+    def reject(self):
+        self.currentObj.setStyleSheet("")
+        QDialog.reject(self)
+
 
     def currentRouterChanged(self, current, previous):
         self.showRouterValues()
+
+        self.currentObj = mySW.TopoArea.findChild(QtGui.QWidget, current.text())
+        self.currentObj.setStyleSheet("background-color: rgb(0, 170, 255);")
+
+        if previous != None:
+            previousObj = mySW.TopoArea.findChild(QtGui.QWidget, previous.text())
+            previousObj.setStyleSheet("")
+
 
     def showRouterValues(self):
 
@@ -963,6 +982,10 @@ class LinkConfig(QtGui.QDialog):
         self.applyChanges()
         QDialog.accept(self)
 
+    def reject(self):
+        self.currentObj.setStyleSheet("")
+        QDialog.reject(self)
+
     def applyChanges(self):
         if self.selectedLink == None or \
            self.LinkNodes == None:
@@ -998,6 +1021,15 @@ class LinkConfig(QtGui.QDialog):
     def currentLinkChanged(self, current, previous):
         self.showLinkValues()
 #        print current.text()   #e.g. Host05
+
+        self.currentObj = mySW.TopoArea.findChild(QtGui.QWidget, current.text())
+        self.currentObj.setStyleSheet("background-color: rgb(0, 170, 255);")
+
+        if previous != None:
+            previousObj = mySW.TopoArea.findChild(QtGui.QWidget, previous.text())
+            previousObj.setStyleSheet("")
+
+
 
     def showLinkValues(self):
 # Link-Werte (delay, loss, ...)  können nicht aus MiniNet gelesen werden
@@ -1068,7 +1100,19 @@ class SwitchConfig(QtGui.QDialog):
         for host in mySW.getNodeList("Switch"):
             self.listSwitch.addItem(host.objectName())
 
+        self.listSwitch.currentItemChanged.connect(self.currentSwitchChanged)
+
         self.pbXterm.clicked.connect(self.pbXtermclicked)
+
+    def accept(self):
+#        print "accept/OK button link"
+#        self.applyChanges()
+        QDialog.accept(self)
+
+    def reject(self):
+        self.currentObj.setStyleSheet("")
+        QDialog.reject(self)
+
 
     def pbXtermclicked(self):
         selectedHost = self.listSwitch.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
@@ -1081,6 +1125,17 @@ class SwitchConfig(QtGui.QDialog):
         display, tunnel = tunnelX11( tmpMNhost, None )
         Title = '"bash on %s"' % (MNhost)
         self.p1 = tmpMNhost.popen( ['xterm', '-title', Title , '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+
+    def currentSwitchChanged(self, current, previous):
+#        self.showSwitchValues()
+#        print current.text()   #e.g. Host05
+
+        self.currentObj = mySW.TopoArea.findChild(QtGui.QWidget, current.text())
+        self.currentObj.setStyleSheet("background-color: rgb(0, 170, 255);")
+
+        if previous != None:
+            previousObj = mySW.TopoArea.findChild(QtGui.QWidget, previous.text())
+            previousObj.setStyleSheet("")
 
 
 # ------------------------------------------------------------------------------
@@ -1285,6 +1340,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Router04.clicked.connect(self.Router04clicked)
 
         self.Switch01.clicked.connect(self.Switch01clicked)
+        self.Switch02.clicked.connect(self.Switch02clicked)
 
         self.Link01.clicked.connect(self.Link01clicked)
         self.Link02.clicked.connect(self.Link02clicked)
@@ -1555,6 +1611,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
         self.showSwitchWindow(1)
 
+    def Switch02clicked(self):
+#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
+        self.showSwitchWindow(2)
 
     def showLinkWindow(self, Linknumber) :
         myLink = LinkConfig()
