@@ -386,7 +386,7 @@ class HostConfig(QtGui.QDialog):
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Reset), QtCore.SIGNAL("clicked()"), self.resetButton)
 #        self.connect(self.buttonBox.button(QDialogButtonBox.Apply), QtCore.SIGNAL("clicked()"), self.applyButton)
 #new style
-        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
+#        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
 
         self.listHost.currentItemChanged.connect(self.currentHostChanged)
@@ -941,7 +941,7 @@ class LinkConfig(QtGui.QDialog):
 
         self.listLink.currentItemChanged.connect(self.currentLinkChanged)
 
-        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
+#        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
         self.hsDelay.valueChanged.connect(self.hsDelayChanged)
         self.sbDelay.valueChanged.connect(self.sbDelayChanged)
@@ -1054,7 +1054,7 @@ class LinkConfig(QtGui.QDialog):
                 self.swin = 99
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
-            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(True)
+#            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(True)
         else:
             self.source = ""
             self.destination = ""
@@ -1063,7 +1063,7 @@ class LinkConfig(QtGui.QDialog):
             self.swin = 1
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
-            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
+#            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
         scrObj = mySW.instanceMN.getNode(self.source)
         dstObj = mySW.instanceMN.getNode(self.destination)
