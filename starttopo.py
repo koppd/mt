@@ -1376,11 +1376,11 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.pbExit.clicked.connect(self.pbExitclicked)
 
-        self.debug1.clicked.connect(self.debug1clicked)
-        self.debug2.clicked.connect(self.debug2clicked)
-        self.debug3.clicked.connect(self.debug3clicked)
-        self.debug4.clicked.connect(self.debug4clicked)
-        self.debug5.clicked.connect(self.debug5clicked)
+#        self.debug1.clicked.connect(self.debug1clicked)
+#        self.debug2.clicked.connect(self.debug2clicked)
+#        self.debug3.clicked.connect(self.debug3clicked)
+#        self.debug4.clicked.connect(self.debug4clicked)
+#        self.debug5.clicked.connect(self.debug5clicked)
 
         self.updateProcesses()
 
