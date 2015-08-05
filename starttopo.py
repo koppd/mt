@@ -1065,8 +1065,11 @@ class LinkConfig(QtGui.QDialog):
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
-        self.leSrcName.setText(self.source)
-        self.leDstName.setText(self.destination)
+        scrObj = mySW.instanceMN.getNode(self.source)
+        dstObj = mySW.instanceMN.getNode(self.destination)
+
+        self.leSrcName.setText(mySW.shortcut.getGUIname(scrObj) + ", " + self.source)
+        self.leDstName.setText(mySW.shortcut.getGUIname(dstObj) + ", " + self.destination)
 
         src = mySW.instanceMN.getNode(self.source)
         dst = mySW.instanceMN.getNode(self.destination)
@@ -1290,6 +1293,15 @@ class Parameter():
         for GUIhost in self.GUIhosts:
             if self.GUIhosts[str(GUIhost)] == MNnode.name:
                 return GUIhost
+
+        for GUIswitch in self.GUIswitches:
+            if self.GUIswitches[str(GUIswitch)] == MNnode.name:
+                return GUIswitch
+
+        for GUIroute in self.GUIrouter:
+            if self.GUIrouter[str(GUIroute)] == MNnode.name:
+                return GUIroute
+
         print "Dieser MN node (%s) ist keinem GUI host zugeordnet" % MNnode
         return None
 
