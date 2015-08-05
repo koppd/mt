@@ -89,22 +89,22 @@ class MN():
         self.s2 = self.net.addSwitch('s2', cls=OVSKernelSwitch, failMode='standalone')
 
     def createRouters(self):
-        self.r1 = self.net.addHost(mySW.shortcut.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
-        self.r2 = self.net.addHost(mySW.shortcut.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
-        self.r3 = self.net.addHost(mySW.shortcut.GUIrouter['Router03'], cls=Node, ip='10.0.1.33/29')
-        self.r4 = self.net.addHost(mySW.shortcut.GUIrouter['Router04'], cls=Node, ip='10.0.1.42/29')
+        self.r1 = self.net.addHost(mySW.parameter.GUIrouter['Router01'], cls=Host, ip='10.0.0.100/24')
+        self.r2 = self.net.addHost(mySW.parameter.GUIrouter['Router02'], cls=Host, ip='10.0.1.22/29')
+        self.r3 = self.net.addHost(mySW.parameter.GUIrouter['Router03'], cls=Node, ip='10.0.1.33/29')
+        self.r4 = self.net.addHost(mySW.parameter.GUIrouter['Router04'], cls=Node, ip='10.0.1.42/29')
         self.r1.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r2.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r3.cmd('sysctl -w net.ipv4.ip_forward=1')
         self.r4.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     def createHosts(self):
-        self.h1 = self.net.addHost(mySW.shortcut.GUIhosts['Host01'], cls=Host, ip='10.0.0.1/24', defaultRoute='via 10.0.0.100')
-        self.h2 = self.net.addHost(mySW.shortcut.GUIhosts['Host02'], cls=Host, ip='10.0.0.2/24', defaultRoute='via 10.0.0.100')
-        self.h3 = self.net.addHost(mySW.shortcut.GUIhosts['Host03'], cls=Host, ip='10.0.0.3/24', defaultRoute='via 10.0.0.100')
-        self.h4 = self.net.addHost(mySW.shortcut.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
-        self.h5 = self.net.addHost(mySW.shortcut.GUIhosts['Host05'], cls=Host, ip='10.0.1.34/29', defaultRoute='via 10.0.1.33')
-        self.h6 = self.net.addHost(mySW.shortcut.GUIhosts['Host06'], cls=Host, ip='10.0.1.35/29', defaultRoute='via 10.0.1.33')
+        self.h1 = self.net.addHost(mySW.parameter.GUIhosts['Host01'], cls=Host, ip='10.0.0.1/24', defaultRoute='via 10.0.0.100')
+        self.h2 = self.net.addHost(mySW.parameter.GUIhosts['Host02'], cls=Host, ip='10.0.0.2/24', defaultRoute='via 10.0.0.100')
+        self.h3 = self.net.addHost(mySW.parameter.GUIhosts['Host03'], cls=Host, ip='10.0.0.3/24', defaultRoute='via 10.0.0.100')
+        self.h4 = self.net.addHost(mySW.parameter.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
+        self.h5 = self.net.addHost(mySW.parameter.GUIhosts['Host05'], cls=Host, ip='10.0.1.34/29', defaultRoute='via 10.0.1.33')
+        self.h6 = self.net.addHost(mySW.parameter.GUIhosts['Host06'], cls=Host, ip='10.0.1.35/29', defaultRoute='via 10.0.1.33')
         info( '*** h1 details\n' + str(self.h1) + '\n')
         info( '*** h1 details\n' + str(type(self.h1)) + '\n')
 #        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
@@ -304,7 +304,7 @@ class Services():
 
     def getDHCPguiHost(self):
         if self.DHCPnode != None:
-            return mySW.shortcut.getGUIname(self.DHCPnode)
+            return mySW.parameter.getGUIname(self.DHCPnode)
 
     def isDHCP(self):
 #        print "isDHCP", self.DHCPnode
@@ -323,7 +323,7 @@ class Services():
 
     def getVSFTPguiHost(self):
         if self.VSFTPnode != None:
-            return mySW.shortcut.getGUIname(self.VSFTPnode)
+            return mySW.parameter.getGUIname(self.VSFTPnode)
 
     def isVSFTP(self):
         if self.VSFTPnode != None:
@@ -341,7 +341,7 @@ class Services():
 
     def getVOIPguiHost(self):
         if self.VOIPnode != None:
-            return mySW.shortcut.getGUIname(self.VOIPnode)
+            return mySW.parameter.getGUIname(self.VOIPnode)
 
     def isVOIP(self):
         if self.VOIPnode != None:
@@ -359,7 +359,7 @@ class Services():
 
     def getHTTPguiHost(self):
         if self.HTTPnode != None:
-            return mySW.shortcut.getGUIname(self.HTTPnode)
+            return mySW.parameter.getGUIname(self.HTTPnode)
 
     def isHTTP(self):
         if self.HTTPnode != None:
@@ -596,7 +596,7 @@ class HostConfig(QtGui.QDialog):
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNhost =  mySW.parameter.getMNname(selectedHostText)  #e.g. h1
         return mySW.instanceMN.getNode(MNhost)      #object of h1
 
     def pbXtermclicked(self):
@@ -698,7 +698,7 @@ class HostConfig(QtGui.QDialog):
 
         info( '\n****** selectedHostText:', str(selectedHostText), '\n')
 
-        MNhost = mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNhost = mySW.parameter.getMNname(selectedHostText)  #e.g. h1
         info( '\n****** MNhost:', str(MNhost), '\n')
         MNnode = mySW.instanceMN.getNode(MNhost)
         info( '\n****** MNNode:', str(MNnode), '\n')
@@ -777,13 +777,13 @@ class HostConfig(QtGui.QDialog):
 
 # Tab Links:
 ## Connected to
-#        connectionList = mySW.shortcut.getConnectedTo(selectedHostText)
+#        connectionList = mySW.parameter.getConnectedTo(selectedHostText)
 #        print str(connectionList[0])
 #        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
-#                                    str(mySW.shortcut.getMNname(connectionList[0])))   # s1
+#                                    str(mySW.parameter.getMNname(connectionList[0])))   # s1
 ## Link delay (kann nicht aus MiniNet gelesen werden)
 #        srcNode = mySW.instanceMN.getNode(MNhost)
-#        destNode = mySW.shortcut.getMNname(connectionList[0])
+#        destNode = mySW.parameter.getMNname(connectionList[0])
 #        destNode = mySW.instanceMN.getNode(destNode)
 #
 #        mySW.instanceMN.h1s1
@@ -912,7 +912,7 @@ class RouterConfig(QtGui.QDialog):
 
         info( '\n****** selectedRouterText:', str(selectedRouterText), '\n')
 
-        MNrouter = mySW.shortcut.getMNname(selectedRouterText)  #e.g. h1
+        MNrouter = mySW.parameter.getMNname(selectedRouterText)  #e.g. h1
         info( '\n****** MNrouter:', str(MNrouter), '\n')
         MNnode = mySW.instanceMN.getNode(MNrouter)
         info( '\n****** MNRouter:', str(MNnode), '\n')
@@ -1015,7 +1015,7 @@ class LinkConfig(QtGui.QDialog):
         self.LinkNodes[2] = self.sbDelay.value()
         self.LinkNodes[3] = self.sbLoss.value()
         self.LinkNodes[4] = self.sbQueue.value()
-        mySW.shortcut.setGUIlink(self.selectedLinkText, self.LinkNodes)
+        mySW.parameter.setGUIlink(self.selectedLinkText, self.LinkNodes)
 
 
     def currentLinkChanged(self, current, previous):
@@ -1043,7 +1043,7 @@ class LinkConfig(QtGui.QDialog):
         else:
             return
 
-        self.LinkNodes = mySW.shortcut.getLinkSrcDest(self.selectedLinkText)  #e.g. h1
+        self.LinkNodes = mySW.parameter.getLinkSrcDest(self.selectedLinkText)  #e.g. h1
         if self.LinkNodes != None:
             self.source = self.LinkNodes[0]
             self.destination = self.LinkNodes[1]
@@ -1068,8 +1068,8 @@ class LinkConfig(QtGui.QDialog):
         scrObj = mySW.instanceMN.getNode(self.source)
         dstObj = mySW.instanceMN.getNode(self.destination)
 
-        self.leSrcName.setText(mySW.shortcut.getGUIname(scrObj) + ", " + self.source)
-        self.leDstName.setText(mySW.shortcut.getGUIname(dstObj) + ", " + self.destination)
+        self.leSrcName.setText(mySW.parameter.getGUIname(scrObj) + ", " + self.source)
+        self.leDstName.setText(mySW.parameter.getGUIname(dstObj) + ", " + self.destination)
 
         src = mySW.instanceMN.getNode(self.source)
         dst = mySW.instanceMN.getNode(self.destination)
@@ -1122,7 +1122,7 @@ class SwitchConfig(QtGui.QDialog):
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        MNhost =  mySW.shortcut.getMNname(selectedHostText)  #e.g. h1
+        MNhost =  mySW.parameter.getMNname(selectedHostText)  #e.g. h1
         tmpMNhost = mySW.instanceMN.getNode(MNhost)      #object of h1
 
         display, tunnel = tunnelX11( tmpMNhost, None )
@@ -1330,8 +1330,8 @@ class ControlMainWindow(QtGui.QMainWindow):
         uic.loadUi('topo.ui', self)
 
 
-        self.shortcut = Parameter()
-        info( '\n****** shortcut()', str(self.shortcut), '\n')
+        self.parameter = Parameter()
+        info( '\n****** parameter()', str(self.parameter), '\n')
         self.services = Services()
         info( '\n****** services()', str(self.services), '\n')
 
