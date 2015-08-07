@@ -27,7 +27,7 @@ import signal
 #from mainwindow import Ui_MainWindow
 
 class MN():
-    def startMN(self, MAC_random = True):
+    def startMN(self, MAC_random=True):
         self.createNet(MAC_random)
         self.createSwitch()
         self.createRouters()
@@ -42,7 +42,7 @@ class MN():
         mySW.bpStopMN_enabled(True)
 
     def getIP(self, host):
-        tmphost = self.getNode( host )   #e.g. host = h1
+        tmphost = self.getNode(host)   #e.g. host = h1
         try:
             return tmphost.IP()
         except:
@@ -51,7 +51,7 @@ class MN():
         return None
 
     def getMAC(self, host):
-        tmphost = self.getNode( host )   #e.g. host = h1
+        tmphost = self.getNode(host)   #e.g. host = h1
         try:
             return tmphost.MAC()
         except:
@@ -60,31 +60,29 @@ class MN():
         return None
 
     def getNode(self, host):
-        info( '*** host type\n' + str(type(host)) + '\n')
-        info( '*** host details\n' + str(host) + '\n')
+        info('*** host type\n' + str(type(host)) + '\n')
+        info('*** host details\n' + str(host) + '\n')
 
         try:
-            info( '*** host getNodeByName\n' + str(self.net.getNodeByName( host )) + '\n')
-
-            return self.net.getNodeByName( host )   #e.g. host = h1
+            return self.net.getNodeByName(host)   #e.g. host = h1
         except:
             print "Node %s existiert nicht" % host
             return None
 
 
-    def createNet(self, MAC_random = True):
+    def createNet(self, MAC_random=True):
         if MAC_random == True:
-            self.net = Mininet( topo=None,
-                           build=False,
-                           ipBase='10.0.0.0/8')
+            self.net = Mininet(topo=None,
+                               build=False,
+                               ipBase='10.0.0.0/8')
         else:
-            self.net = Mininet( topo=None,
-                           build=False,
-                           autoSetMacs=True,
-                           ipBase='10.0.0.0/8')
+            self.net = Mininet(topo=None,
+                               build=False,
+                               autoSetMacs=True,
+                               ipBase='10.0.0.0/8')
 
     def createSwitch(self):
-        info( '*** Add switches\n')
+        info('*** Add switches\n')
         self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
         self.s2 = self.net.addSwitch('s2', cls=OVSKernelSwitch, failMode='standalone')
 
@@ -105,20 +103,20 @@ class MN():
         self.h4 = self.net.addHost(mySW.parameter.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
         self.h5 = self.net.addHost(mySW.parameter.GUIhosts['Host05'], cls=Host, ip='10.0.1.34/29', defaultRoute='via 10.0.1.33')
         self.h6 = self.net.addHost(mySW.parameter.GUIhosts['Host06'], cls=Host, ip='10.0.1.35/29', defaultRoute='via 10.0.1.33')
-        info( '*** h1 details\n' + str(self.h1) + '\n')
-        info( '*** h1 details\n' + str(type(self.h1)) + '\n')
+        info('*** h1 details\n' + str(self.h1) + '\n')
+        info('*** h1 details\n' + str(type(self.h1)) + '\n')
 #        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
 #        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
 
     def initLinkvalues(self):
         self.defaultDelay = 5
-        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h4s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h5s2 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
-        self.h6s2 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
+        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
+        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
+        self.h4s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
+        self.h5s2 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
+        self.h6s2 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
 
 # Router fehlen noch
 #        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
@@ -129,37 +127,37 @@ class MN():
 # Beispiel für delay
 #        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms'}
 #        self.h1s1 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
-        self.net.addLink(self.h2, self.s1, cls=TCLink , **self.h2s1)
-        self.net.addLink(self.h3, self.s1, cls=TCLink , **self.h3s1)
+        self.net.addLink(self.h1, self.s1, cls=TCLink, **self.h1s1)
+        self.net.addLink(self.h2, self.s1, cls=TCLink, **self.h2s1)
+        self.net.addLink(self.h3, self.s1, cls=TCLink, **self.h3s1)
 
         self.net.addLink(self.s1, self.r1, cls=TCLink)
-        self.r1.setIP('10.0.0.100', prefixLen = 24, intf = 'r1-eth0')
+        self.r1.setIP('10.0.0.100', prefixLen=24, intf='r1-eth0')
         self.net.addLink(self.h4, self.r2, cls=TCLink)
 
-        self.net.addLink(self.h5, self.s2, cls=TCLink , **self.h5s2)
-        self.net.addLink(self.h6, self.s2, cls=TCLink , **self.h6s2)
+        self.net.addLink(self.h5, self.s2, cls=TCLink, **self.h5s2)
+        self.net.addLink(self.h6, self.s2, cls=TCLink, **self.h6s2)
         self.net.addLink(self.s2, self.r3, cls=TCLink)
 
         self.net.addLink(self.r1, self.r2, cls=TCLink)
-        self.r1.setIP('10.0.1.9', prefixLen = 29, intf = 'r1-eth1')
-        self.r2.setIP('10.0.1.10', prefixLen = 29, intf = 'r2-eth1')
+        self.r1.setIP('10.0.1.9', prefixLen=29, intf='r1-eth1')
+        self.r2.setIP('10.0.1.10', prefixLen=29, intf='r2-eth1')
 
-        self.net.addLink( self.r2, self.r3, intfName2='r3-eth1', params2={ 'ip' : '10.0.1.26/29' } )
-        self.r2.setIP('10.0.1.25', prefixLen = 29, intf = 'r2-eth2')
+        self.net.addLink(self.r2, self.r3, intfName2='r3-eth1', params2={'ip' : '10.0.1.26/29'})
+        self.r2.setIP('10.0.1.25', prefixLen=29, intf='r2-eth2')
 #        self.r3.setIP('10.0.1.26', prefixLen = 29, intf = 'r3-eth1')
 
 
-        self.net.addLink( self.r3, self.r4, intfName2='r4-eth0', params2={ 'ip' : '10.0.1.42/29' } ) #doppel zu oben
-        self.r3.setIP('10.0.1.41', prefixLen = 29, intf = 'r3-eth2')
+        self.net.addLink(self.r3, self.r4, intfName2='r4-eth0', params2={'ip' : '10.0.1.42/29'}) #doppel zu oben
+        self.r3.setIP('10.0.1.41', prefixLen=29, intf='r3-eth2')
 #        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')
 
-        self.net.addLink( self.r1, self.r4, intfName2='r4-eth1', params2={ 'ip' : '10.0.1.49/29' } )
+        self.net.addLink(self.r1, self.r4, intfName2='r4-eth1', params2={'ip' : '10.0.1.49/29'})
 #        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
-        self.r1.setIP('10.0.1.50', prefixLen = 29, intf = 'r1-eth2')
+        self.r1.setIP('10.0.1.50', prefixLen=29, intf='r1-eth2')
 
-        self.net.addLink( self.r2, self.r4, intfName2='r4-eth2', params2={ 'ip' : '10.0.1.58/29' } )
-        self.r2.setIP('10.0.1.57', prefixLen = 29, intf = 'r2-eth3')
+        self.net.addLink(self.r2, self.r4, intfName2='r4-eth2', params2={'ip' : '10.0.1.58/29'})
+        self.r2.setIP('10.0.1.57', prefixLen=29, intf='r2-eth3')
 #        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
 
     def createRoutes(self):
@@ -195,12 +193,12 @@ class MN():
         self.net.build()
 
     def startController(self):
-        info( '*** Starting controllers\n')
+        info('*** Starting controllers\n')
         for self.controller in self.net.controllers:
             self.controller.start()
 
     def startSwitch(self):
-        info( '*** Starting switches\n')
+        info('*** Starting switches\n')
         self.net.get('s1').start([])
         self.net.get('s2').start([])
 
@@ -232,25 +230,25 @@ class MN():
 class MNtcp():
     def myNetwork( self, delay=20, loss=5, swin=3 ):
 
-        self.net = Mininet( topo=None,
-                       build=False,
-                       ipBase='10.0.0.0/8')
+        self.net = Mininet(topo=None,
+                           build=False,
+                           ipBase='10.0.0.0/8')
 
-        info( '*** Add switches\n')
+        info('*** Add switches\n')
         self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
 
     #    info( '*** Add hosts\n')
         self.h1 = self.net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
         self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
 
-        info( '*** Add links\n')
+        info('*** Add links\n')
     #    h1s1_delay = str(delay) + 'ms'
         self.h1s1 = {'delay':str(delay) + 'ms','loss':0,'max_queue_size':swin}
         self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
         self.h4s1 = {'delay':str(delay) + 'ms','loss':loss}
         self.net.addLink(self.h4, self.s1, cls=TCLink , **self.h4s1)
 
-        info( '\n*** Starting network\n')
+        info('\n*** Starting network\n')
         self.net.build()
 
         for self.controller in self.net.controllers:
@@ -259,25 +257,25 @@ class MNtcp():
         self.net.get('s1').start([])
 
     # starte httpServer auf h1
-        info( '\n****** execute startHTTPserver on h4\n')
+        info('\n****** execute startHTTPserver on h4\n')
         self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
         print "http ", self.http
 
     # starte wireshark auf h4
-        info( '****** execute wireshark on h4\n')
+        info('****** execute wireshark on h4\n')
         self.display, self.tunnel = tunnelX11( self.h4, None )
     #    ws = h4.popen( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1'], shell=True)
         self.ws = self.h4.cmd( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1 &'], shell=True, printPid=True) #, preexec_fn=os.setsid )
         print "ws ", self.ws
 
 
-    def startDownload( self ):
+    def startDownload(self):
         display, tunnel = tunnelX11( self.h4, None )
 #        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         self.p1 = self.h4.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
 
-    def stopNet( self ):
+    def stopNet(self):
         self.h4.cmd("pkill wireshark")
         # simpleHTTP muss auch beendet werden. Steht in self.http drinnen.
         # muss evtl. generisch über ps -aux |grep SimpleHTTPServer beendet werden.
@@ -418,14 +416,8 @@ class HostConfig(QtGui.QDialog):
         self.currentObj.setStyleSheet("")
         QDialog.reject(self)
 
-    def reject1_not_used(self):
-        print "reject"
-#        self.close()
-        #QDialog.reject()
-
-
     def startSimpleHTTPserver(self, MNnode):
-        info( '\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
+        info('\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
         pid = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
         print "pid http:", pid
 
@@ -441,7 +433,7 @@ class HostConfig(QtGui.QDialog):
         return pid
 
     def startDHCPD(self, MNnode):   #, fresh_daemon_leases = True):
-        info( '\n****** execute DHCP server on %s\n' % MNnode.name)
+        info('\n****** execute DHCP server on %s\n' % MNnode.name)
         print "copy configuration file to /etc/dhcp/dhcpd_mn.conf"
         MNnode.cmd("cp ./dhcpd_mn.conf /etc/dhcp/", printPid=True)
         if mySW.services.fresh_daemon_leases:
@@ -587,16 +579,16 @@ class HostConfig(QtGui.QDialog):
 
 
     def xtermCommand(self, MNnode, title, command):
-        display, tunnel = tunnelX11( MNnode, None )
+        display, tunnel = tunnelX11(MNnode, None)
 #        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-        return MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        return MNnode.popen(['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
     def getSelectedMNnode(self):
         selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        MNhost =  mySW.parameter.getMNname(selectedHostText)  #e.g. h1
+        MNhost = mySW.parameter.getMNname(selectedHostText)  #e.g. h1
         return mySW.instanceMN.getNode(MNhost)      #object of h1
 
     def pbXtermclicked(self):
@@ -619,7 +611,7 @@ class HostConfig(QtGui.QDialog):
 # server services
         counter = 0
         if self.cbSHTTP.isChecked():
-            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % ( MNnode.name, MNnode.IP() )
+            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % (MNnode.name, MNnode.IP())
             counter += 1
 
         if self.cbSFTP.isChecked():
@@ -638,8 +630,8 @@ class HostConfig(QtGui.QDialog):
             wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
 
         if counter >= 1:
-            display, tunnel = tunnelX11( MNnode, None )
-            self.sws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
+            display, tunnel = tunnelX11(MNnode, None)
+            self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
             print "pid wireshark: ", self.sws
 
 
@@ -654,7 +646,7 @@ class HostConfig(QtGui.QDialog):
 # client operations
         counter = 0
         if self.cbDownload.isChecked():
-            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % ( MNnode.name, MNnode.IP() )
+            wsCommand = 'wireshark -i %s-eth0 -k -Y ip.addr==%s &' % (MNnode.name, MNnode.IP())
             counter += 1
 
         if self.cbCFTP.isChecked():
@@ -673,7 +665,7 @@ class HostConfig(QtGui.QDialog):
             wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
 
         if counter >= 1:
-            display, tunnel = tunnelX11( MNnode, None )
+            display, tunnel = tunnelX11(MNnode, None)
             self.cws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
             print "pid wireshark: ", self.cws
 
@@ -692,16 +684,16 @@ class HostConfig(QtGui.QDialog):
     def showHostValues(self):
 
         selectedHost = self.listHost.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
-        info( '\n****** selectedHost:', str(selectedHost), '\n')
+        info('\n****** selectedHost:', str(selectedHost), '\n')
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        info( '\n****** selectedHostText:', str(selectedHostText), '\n')
+        info('\n****** selectedHostText:', str(selectedHostText), '\n')
 
         MNhost = mySW.parameter.getMNname(selectedHostText)  #e.g. h1
-        info( '\n****** MNhost:', str(MNhost), '\n')
+        info('\n****** MNhost:', str(MNhost), '\n')
         MNnode = mySW.instanceMN.getNode(MNhost)
-        info( '\n****** MNNode:', str(MNnode), '\n')
+        info('\n****** MNNode:', str(MNnode), '\n')
 
         IP = mySW.instanceMN.getIP(MNhost)
         self.leIP.setText(IP)
@@ -810,7 +802,7 @@ class HostConfig(QtGui.QDialog):
 
 # Tab: Client   --- nothing to check here ---
 
-    def showDHCPWindow(self, Hostnumber) :
+    def showDHCPWindow(self, Hostnumber):
         myDHCP = DHCPConfig()
 #        info( '\n*** myhost erzeugt\n')
 #        print ("hostconfig vor show")
@@ -860,24 +852,24 @@ class RouterConfig(QtGui.QDialog):
             self.listRouter.addItem(router.objectName())
 
 
-        HEADERS = ( "Link to", "Delay in ms",  "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all' )
+        HEADERS = ("Link to", "Delay in ms", "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all')
 #treeWidget = treeInterfaces
-        self.treeInterfaces.setColumnCount( len(HEADERS) )
-        self.treeInterfaces.setHeaderLabels( HEADERS )
+        self.treeInterfaces.setColumnCount(len(HEADERS))
+        self.treeInterfaces.setHeaderLabels(HEADERS)
 
         # ----------------
         # Add Custom QTreeWidgetItem
         # ----------------
         ## Add Items:
-        for name in [ 'host1', 'host2', 'host3', 'router1', 'router2', 'router4' ]:
+        for name in ['host1', 'host2', 'host3', 'router1', 'router2', 'router4']:
             item = CustomTreeItem( self.treeInterfaces, name )
 
          ## Set Columns Width to match content:
-        for column in range( self.treeInterfaces.columnCount() ):
-            self.treeInterfaces.resizeColumnToContents( column )
+        for column in range( self.treeInterfaces.columnCount()):
+            self.treeInterfaces.resizeColumnToContents(column)
 
 
-        self.ptRoute.setPlainText(mySW.instanceMN.net[ 'r1' ].cmd( 'route' ))
+        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
 #        print net[ 'r0' ].cmd( 'route' )
 
     def accept(self):
@@ -906,24 +898,24 @@ class RouterConfig(QtGui.QDialog):
     def showRouterValues(self):
 
         selectedRouter = self.listRouter.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
-        info( '\n****** selectedRouter:', str(selectedRouter), '\n')
+        info('\n****** selectedRouter:', str(selectedRouter), '\n')
         if selectedRouter != None:
             selectedRouterText = selectedRouter.text()   #e.g. Host03
 
-        info( '\n****** selectedRouterText:', str(selectedRouterText), '\n')
+        info('\n****** selectedRouterText:', str(selectedRouterText), '\n')
 
         MNrouter = mySW.parameter.getMNname(selectedRouterText)  #e.g. h1
-        info( '\n****** MNrouter:', str(MNrouter), '\n')
+        info('\n****** MNrouter:', str(MNrouter), '\n')
         MNnode = mySW.instanceMN.getNode(MNrouter)
-        info( '\n****** MNRouter:', str(MNnode), '\n')
+        info('\n****** MNRouter:', str(MNnode), '\n')
 
 #        IP = mySW.instanceMN.getIP(MNrotuer)
 #        self.leIP.setText(IP)
 #        MAC = mySW.instanceMN.getMAC(MNrouter)
 #        self.leMAC.setText(MAC)
 
-        self.ptRoute.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd( 'route' ))
-        self.ptLinks.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd( 'ip a' ))
+        self.ptRoute.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd('route'))
+        self.ptLinks.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd('ip a'))
 
 
 class LinkConfig(QtGui.QDialog):
@@ -1006,10 +998,16 @@ class LinkConfig(QtGui.QDialog):
 #        print links
         srcLink = links[0][0]   # e.g.  h3-eth0
         dstLink = links[0][1]   # e.g.  s1-eth3
-        srcLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
-        dstLink.config(**{ 'delay' : str(self.sbDelay.value()) + 'ms', 'loss':self.sbLoss.value(), 'max_queue_size':self.sbQueue.value() })
+        srcLink.config(**{'delay' : str(self.sbDelay.value()) + 'ms', \
+                          'loss' : self.sbLoss.value(), \
+                          'max_queue_size' : self.sbQueue.value()})
+        dstLink.config(**{'delay' : str(self.sbDelay.value()) + 'ms', \
+                          'loss' : self.sbLoss.value(), \
+                          'max_queue_size' : self.sbQueue.value()})
 
-#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms','loss':0,'max_queue_size':None}
+#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms',
+#                     'loss':0,
+#                     'max_queue_size':None}
 
 # save new value in parameter Class, too
         self.LinkNodes[2] = self.sbDelay.value()
@@ -1028,8 +1026,6 @@ class LinkConfig(QtGui.QDialog):
         if previous != None:
             previousObj = mySW.TopoArea.findChild(QtGui.QWidget, previous.text())
             previousObj.setStyleSheet("")
-
-
 
     def showLinkValues(self):
 # Link-Werte (delay, loss, ...)  können nicht aus MiniNet gelesen werden
@@ -1122,12 +1118,18 @@ class SwitchConfig(QtGui.QDialog):
         if selectedHost != None:
             selectedHostText = selectedHost.text()   #e.g. Host03
 
-        MNhost =  mySW.parameter.getMNname(selectedHostText)  #e.g. h1
+        MNhost = mySW.parameter.getMNname(selectedHostText)  #e.g. h1
         tmpMNhost = mySW.instanceMN.getNode(MNhost)      #object of h1
 
-        display, tunnel = tunnelX11( tmpMNhost, None )
+        display, tunnel = tunnelX11(tmpMNhost, None)
         Title = '"bash on %s"' % (MNhost)
-        self.p1 = tmpMNhost.popen( ['xterm', '-title', Title , '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        self.p1 = tmpMNhost.popen(['xterm', \
+                                   '-title', Title, \
+                                   '-display ' + display, \
+                                   '-e', 'env TERM=ansi bash'], \
+                                   stdin=subprocess.PIPE, \
+                                   stdout=subprocess.PIPE, \
+                                   shell=True)
 
     def currentSwitchChanged(self, current, previous):
 #        self.showSwitchValues()
@@ -1144,50 +1146,50 @@ class SwitchConfig(QtGui.QDialog):
 # ------------------------------------------------------------------------------
 # Custom QTreeWidgetItem
 # ------------------------------------------------------------------------------
-class CustomTreeItem( QtGui.QTreeWidgetItem ):
+class CustomTreeItem(QtGui.QTreeWidgetItem):
     '''
     Custom QTreeWidgetItem with Widgets
     '''
 
-    def __init__( self, parent, name ):
+    def __init__(self, parent, name):
         '''
         parent (QTreeWidget) : Item's QTreeWidget parent.
         name   (str)         : Item's name. just an example.
         '''
 
         ## Init super class ( QtGui.QTreeWidgetItem )
-        super( CustomTreeItem, self ).__init__( parent )
+        super(CustomTreeItem, self).__init__(parent)
 
         ## Column 0 - Text:
-        self.setText( 0, name )
+        self.setText(0, name)
 
         ## Column 1 - Slider:
-        self.delay1 = QtGui.QSlider( orientation = Qt.Horizontal)
-        self.delay1.setValue( 0 )
-        self.treeWidget().setItemWidget( self, 1, self.delay1 )
+        self.delay1 = QtGui.QSlider(orientation=Qt.Horizontal)
+        self.delay1.setValue(0)
+        self.treeWidget().setItemWidget(self, 1, self.delay1)
 
         ## Column 2 - SpinBox:
         self.delay2 = QtGui.QSpinBox()
-        self.delay2.setValue( 0 )
-        self.treeWidget().setItemWidget( self, 2, self.delay2 )
+        self.delay2.setValue(0)
+        self.treeWidget().setItemWidget(self, 2, self.delay2)
 
         ## Column 3 - Slider:
-        self.loss1 = QtGui.QSlider( orientation = Qt.Horizontal)
-        self.loss1.setValue( 0 )
-        self.treeWidget().setItemWidget( self, 3, self.loss1 )
+        self.loss1 = QtGui.QSlider(orientation=Qt.Horizontal)
+        self.loss1.setValue(0)
+        self.treeWidget().setItemWidget(self, 3, self.loss1)
 
         ## Column 4 - SpinBox:
         self.loss2 = QtGui.QSpinBox()
-        self.loss2.setValue( 0 )
-        self.treeWidget().setItemWidget( self, 4, self.loss2 )
+        self.loss2.setValue(0)
+        self.treeWidget().setItemWidget(self, 4, self.loss2)
 
         ## Column 5 - Button:
         self.button = QtGui.QPushButton()
         self.button.setText( "button %s" %name )
-        self.treeWidget().setItemWidget( self, 5, self.button )
+        self.treeWidget().setItemWidget(self, 5, self.button)
 
         ## Signals
-        self.treeWidget().connect( self.button, QtCore.SIGNAL("clicked()"), self.buttonPressed )
+        self.treeWidget().connect(self.button, QtCore.SIGNAL("clicked()"), self.buttonPressed)
 
     @property
     def name(self):
@@ -1208,8 +1210,8 @@ class CustomTreeItem( QtGui.QTreeWidgetItem ):
         Triggered when Item's button pressed.
         an example of using the Item's own values.
         '''
-        print "This Item name:%s value:%i" %( self.name,
-                                              self.value )
+        print "This Item name:%s value:%i" %(self.name,
+                                             self.value)
 
 
 class Parameter():
@@ -1278,8 +1280,8 @@ class Parameter():
             return None
 
     def getMNname(self, GUIname):
-        info( '\n****** GUIname:', str(GUIname), '\n')
-        info( '\n****** GUIhost\n', str(self.GUIhosts))
+        info('\n****** GUIname:', str(GUIname), '\n')
+        info('\n****** GUIhost\n', str(self.GUIhosts))
         if GUIname in self.GUIhosts.keys():
             return self.GUIhosts[str(GUIname)]
         elif GUIname in self.GUIswitches.keys():
@@ -1331,9 +1333,9 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
         self.parameter = Parameter()
-        info( '\n****** parameter()', str(self.parameter), '\n')
+        info('\n****** parameter()', str(self.parameter), '\n')
         self.services = Services()
-        info( '\n****** services()', str(self.services), '\n')
+        info('\n****** services()', str(self.services), '\n')
 
 #old style
 #        self.connect(self.ui.Host01, QtCore.SIGNAL("clicked()"), self.Host01clicked)
@@ -1405,10 +1407,15 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def StartMNclicked(self):
         self.instanceMN = MN()
-        self.instanceMN.startMN(MAC_random = self.cbRandomMAC.isChecked())
+        self.changeStatus("Start network...")
+        self.instanceMN.startMN(MAC_random=self.cbRandomMAC.isChecked())
+        self.changeStatus("Network started")
+
 
     def StopMNclicked(self):
+        self.changeStatus("Stop network...")
         self.instanceMN.stopNet()
+        self.changeStatus("Network stopped")
 
     def RestartMNclicked(self):
         self.StopMNclicked()
@@ -1455,15 +1462,15 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def debug2clicked(self):
         self.scen = MNtcp()
-        self.scen.myNetwork( delay=20,
-                          loss=3,
-                          swin=3 )
+        self.scen.myNetwork(delay=20,
+                            loss=3,
+                            swin=3)
 
     def debug3clicked(self):
-        self.scen.startDownload( )
+        self.scen.startDownload()
 
     def debug4clicked(self):
-        self.scen.stopNet( )
+        self.scen.stopNet()
 
     def debug5clicked(self):
         pass
@@ -1496,18 +1503,18 @@ class ControlMainWindow(QtGui.QMainWindow):
         for host in self.getNodeList("Host"):
             plist.append(str(host.objectName()))
 
-        clist=['Child 1','Child 2']
+        clist = ['Child 1', 'Child 2']
 #        treeWidget=QtGui.QTreeWidget(self)
 #        treeWidget.setGeometry(QtCore.QRect(50,50,150,140))
         tree.setHeaderLabels(["Host", "PID"])
 
 
         for parent in plist:
-            pitems=QtGui.QTreeWidgetItem(tree)
-            pitems.setText(0,parent)
+            pitems = QtGui.QTreeWidgetItem(tree)
+            pitems.setText(0, parent)
             for child in clist:
-                citems=QtGui.QTreeWidgetItem(pitems)
-                citems.setText(0,child)
+                citems = QtGui.QTreeWidgetItem(pitems)
+                citems.setText(0, child)
 
 
     def pbExitclicked(self):
@@ -1563,12 +1570,12 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         qp.end()
 
-    def showHostWindow(self, Hostnumber) :
+    def showHostWindow(self, Hostnumber):
         myHost = HostConfig()
-        info( '\n*** myhost erzeugt\n')
+        info('\n*** myhost erzeugt\n')
 #        print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
-        info( '\n****** host list auf erste,... gesetzt\n')
+        info('\n****** host list auf erste,... gesetzt\n')
         myHost.showHostValues()
         myHost.exec_()
 #        myHost.show()
@@ -1595,7 +1602,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showRouterWindow(self, Routernumber) :
         myRouter = RouterConfig()
-        print ("routerconfig vor show")
+        print "routerconfig vor show"
         myRouter.listRouter.setCurrentRow(Routernumber - 1)
         myRouter.exec_()
 
@@ -1613,7 +1620,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.showRouterWindow(4)
 
 
-    def showSwitchWindow(self, Switchnumber) :
+    def showSwitchWindow(self, Switchnumber):
         mySwitch = SwitchConfig()
 #        print ("switchconfig vor show")
         mySwitch.listSwitch.setCurrentRow(Switchnumber - 1)
@@ -1627,7 +1634,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
         self.showSwitchWindow(2)
 
-    def showLinkWindow(self, Linknumber) :
+    def showLinkWindow(self, Linknumber):
         myLink = LinkConfig()
 #        print ("linkconfig vor show")
         myLink.listLink.setCurrentRow(Linknumber - 1)
