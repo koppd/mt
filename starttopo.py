@@ -210,13 +210,16 @@ class MN():
         CLI( self.net )
 
     def stopNet( self ):
-        self.h1.cmd("pkill dhcpd")
-        self.h1.cmd("pkill asterisk")
-        self.h1.cmd("pkill vsftp")
+        subprocess.Popen(["pkill", "dhcpd"])
+        subprocess.Popen(["pkill", "asterisk"])
+        subprocess.Popen(["pkill", "vsftp"])
+#        self.h1.cmd("pkill dhcpd")
+#        self.h1.cmd("pkill asterisk")
+#        self.h1.cmd("pkill vsftp")
         try:
             self.net.stop()
         except:
-            print "probleme1"
+#            print "probleme1"
             pass
 
         mySW.bpStartMN_enabled(True)
@@ -290,7 +293,7 @@ class Services():
         self.fresh_daemon_leases = True
         self.fresh_client_leases = True
 
-        print "Klasse Services aufgerufen"
+#        print "Klasse Services aufgerufen"
 
     def setDHCP(self, MNnode):
         self.DHCPnode = MNnode
@@ -1422,22 +1425,28 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.StartMNclicked()
 
     def stopSystemServices(self):
-        return_code = subprocess.call("systemctl is-active NetworkManager", shell=True)
+#        return_code = subprocess.call("systemctl is-active NetworkManager", shell=True)
+        DEVNULL = open(os.devnull, 'w')
+        
+        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "NetworkManager"], stdout=DEVNULL)
         if return_code == 0:
 # needed until this bug is fixed: https://github.com/mininet/mininet/issues/228
             subprocess.call("systemctl stop NetworkManager", shell=True)
             subprocess.call("dhclient eth0", shell=True)
 
 # or disable asterisk at startup
-        return_code = subprocess.call("systemctl is-active asterisk", shell=True)
+#        return_code = subprocess.call("systemctl is-active asterisk", shell=True)
+        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "asterisk"], stdout=DEVNULL)
         if return_code == 0:
             subprocess.call("systemctl stop asterisk", shell=True)
 
 # or disable vsftp at startup
-        return_code = subprocess.call("systemctl is-active vsftpd", shell=True)
+#        return_code = subprocess.call("systemctl is-active vsftpd", shell=True)
+        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "vsftpd"], stdout=DEVNULL)
         if return_code == 0:
             subprocess.call("systemctl stop vsftpd", shell=True)
-
+        
+        DEVNULL.close()
 
     def CLIclicked(self):
 # FIXME: Erzeuge ein Signal, dass dann die CLI aufruft.
@@ -1602,7 +1611,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showRouterWindow(self, Routernumber) :
         myRouter = RouterConfig()
-        print "routerconfig vor show"
+#        print "routerconfig vor show"
         myRouter.listRouter.setCurrentRow(Routernumber - 1)
         myRouter.exec_()
 
