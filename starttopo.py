@@ -32,7 +32,6 @@ class MN():
         self.createSwitch()
         self.createRouters()
         self.createHosts()
-        self.initLinkvalues()
         self.createLinks()
         self.createRoutes()
         self.buildNet()
@@ -108,57 +107,44 @@ class MN():
 #        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
 #        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
-
-    def initLinkvalues(self):
-        self.defaultDelay = 5
-        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-        self.h2s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-        self.h3s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-        self.h4s1 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-        self.h5s2 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-        self.h6s2 = {'delay':str(self.defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-
-# Router fehlen noch
-#        self.h4r2 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-#        self.h5r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-#        self.h6r3 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-
     def createLinks(self):
-# Beispiel für delay
-#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms'}
-#        self.h1s1 = {'delay':str(defaultDelay) + 'ms','loss':0,'max_queue_size':swin}
-        self.net.addLink(self.h1, self.s1, cls=TCLink, **self.h1s1)
-        self.net.addLink(self.h2, self.s1, cls=TCLink, **self.h2s1)
-        self.net.addLink(self.h3, self.s1, cls=TCLink, **self.h3s1)
+        defaultDelay = 5
+        default_link = {'delay':str(defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
 
-        self.net.addLink(self.s1, self.r1, cls=TCLink)
+        self.net.addLink(self.h1, self.s1, cls=TCLink, **default_link)
+        self.net.addLink(self.h2, self.s1, cls=TCLink, **default_link)
+        self.net.addLink(self.h3, self.s1, cls=TCLink, **default_link)
+
+        self.net.addLink(self.s1, self.r1, cls=TCLink, **default_link)
         self.r1.setIP('10.0.0.100', prefixLen=24, intf='r1-eth0')
-        self.net.addLink(self.h4, self.r2, cls=TCLink)
+        self.net.addLink(self.h4, self.r2, cls=TCLink, **default_link)
 
-        self.net.addLink(self.h5, self.s2, cls=TCLink, **self.h5s2)
-        self.net.addLink(self.h6, self.s2, cls=TCLink, **self.h6s2)
-        self.net.addLink(self.s2, self.r3, cls=TCLink)
+        self.net.addLink(self.h5, self.s2, cls=TCLink, **default_link)
+        self.net.addLink(self.h6, self.s2, cls=TCLink, **default_link)
+        self.net.addLink(self.s2, self.r3, cls=TCLink, **default_link)
 
-        self.net.addLink(self.r1, self.r2, cls=TCLink)
+        self.net.addLink(self.r1, self.r2, cls=TCLink, **default_link)
         self.r1.setIP('10.0.1.9', prefixLen=29, intf='r1-eth1')
         self.r2.setIP('10.0.1.10', prefixLen=29, intf='r2-eth1')
 
-        self.net.addLink(self.r2, self.r3, intfName2='r3-eth1', params2={'ip' : '10.0.1.26/29'})
+        tmplink = self.net.addLink(self.r2, self.r3, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.25', prefixLen=29, intf='r2-eth2')
-#        self.r3.setIP('10.0.1.26', prefixLen = 29, intf = 'r3-eth1')
+        tmplink.intf2.setIP('10.0.1.26/29') #entspricht r3-eth1
 
-
-        self.net.addLink(self.r3, self.r4, intfName2='r4-eth0', params2={'ip' : '10.0.1.42/29'}) #doppel zu oben
+        tmplink = self.net.addLink(self.r3, self.r4, cls=TCLink, **default_link)
         self.r3.setIP('10.0.1.41', prefixLen=29, intf='r3-eth2')
-#        self.r4.setIP('10.0.1.42', prefixLen = 29, intf = 'r4-eth0')
+        tmplink.intf2.setIP('10.0.1.42/29') #entspricht r4-eth0 
 
-        self.net.addLink(self.r1, self.r4, intfName2='r4-eth1', params2={'ip' : '10.0.1.49/29'})
-#        self.r4.setIP('10.0.1.49', prefixLen = 29, intf = 'r4-eth2')
+        tmplink = self.net.addLink(self.r1, self.r4, cls=TCLink, **default_link)
         self.r1.setIP('10.0.1.50', prefixLen=29, intf='r1-eth2')
+        tmplink.intf2.setIP('10.0.1.49/29') #entspricht r4-eth1
 
-        self.net.addLink(self.r2, self.r4, intfName2='r4-eth2', params2={'ip' : '10.0.1.58/29'})
+        tmplink = self.net.addLink(self.r2, self.r4, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.57', prefixLen=29, intf='r2-eth3')
-#        self.r4.setIP('10.0.1.58', prefixLen = 29, intf = 'r4-eth3')
+        tmplink.intf2.setIP('10.0.1.58/29') #entspricht r4-eth2
+
+    def modifyLink(self, link, param):
+        pass
 
     def createRoutes(self):
 
@@ -184,10 +170,6 @@ class MN():
         self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57') #C
         self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41') #D
         self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41') #E
-
-
-    def modifyLink(self):
-        pass
 
     def buildNet(self):
         self.net.build()
@@ -1246,17 +1228,17 @@ class Parameter():
         self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link03"] = ["h3", "s1", defaultDelay, 0, None]
-        self.GUIlinks["Link04"] = ("s1", "r1", defaultDelay, 0, None)
+        self.GUIlinks["Link04"] = ["s1", "r1", defaultDelay, 0, None]
 
-        self.GUIlinks["Link05"] = ("h4", "r2", defaultDelay, 0, None)
-        self.GUIlinks["Link06"] = ("h5", "s2", defaultDelay, 0, None)
-        self.GUIlinks["Link07"] = ("h6", "s2", defaultDelay, 0, None)
-        self.GUIlinks["Link08"] = ("r1", "r2", defaultDelay, 0, None)
-        self.GUIlinks["Link09"] = ("r2", "r3", defaultDelay, 0, None)
-        self.GUIlinks["Link10"] = ("r1", "r4", defaultDelay, 0, None)
-        self.GUIlinks["Link11"] = ("r2", "r3", defaultDelay, 0, None)
-        self.GUIlinks["Link12"] = ("r2", "r4", defaultDelay, 0, None)
-        self.GUIlinks["Link13"] = ("s2", "r3", defaultDelay, 0, None)
+        self.GUIlinks["Link05"] = ["h4", "r2", defaultDelay, 0, None]
+        self.GUIlinks["Link06"] = ["h5", "s2", defaultDelay, 0, None]
+        self.GUIlinks["Link07"] = ["h6", "s2", defaultDelay, 0, None]
+        self.GUIlinks["Link08"] = ["r1", "r2", defaultDelay, 0, None]
+        self.GUIlinks["Link09"] = ["r2", "r3", defaultDelay, 0, None]
+        self.GUIlinks["Link10"] = ["r1", "r4", defaultDelay, 0, None]
+        self.GUIlinks["Link11"] = ["r2", "r3", defaultDelay, 0, None]
+        self.GUIlinks["Link12"] = ["r2", "r4", defaultDelay, 0, None]
+        self.GUIlinks["Link13"] = ["s2", "r3", defaultDelay, 0, None]
 
 
 # Nicht unique, d.h. jede Verbindung taucht zweimal auf.
