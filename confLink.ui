@@ -258,6 +258,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>listLink</tabstop>
+  <tabstop>leSrcName</tabstop>
+  <tabstop>leDstName</tabstop>
+  <tabstop>leSrcIP</tabstop>
+  <tabstop>leDstIP</tabstop>
+  <tabstop>leSrcIntf</tabstop>
+  <tabstop>leDstIntf</tabstop>
+  <tabstop>hsDelay</tabstop>
+  <tabstop>sbDelay</tabstop>
+  <tabstop>hsLoss</tabstop>
+  <tabstop>sbLoss</tabstop>
+  <tabstop>hsQueue</tabstop>
+  <tabstop>sbQueue</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

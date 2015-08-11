@@ -307,6 +307,28 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>listHost</tabstop>
+  <tabstop>leIP</tabstop>
+  <tabstop>leMAC</tabstop>
+  <tabstop>leName</tabstop>
+  <tabstop>leInferface</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cbSHTTP</tabstop>
+  <tabstop>cbSFTP</tabstop>
+  <tabstop>cbSDHCP</tabstop>
+  <tabstop>pbSDHCP</tabstop>
+  <tabstop>cbSVOIP</tabstop>
+  <tabstop>pbSWireshark</tabstop>
+  <tabstop>cbDownload</tabstop>
+  <tabstop>cbCFTP</tabstop>
+  <tabstop>cbCDHCP</tabstop>
+  <tabstop>cbCVOIPyate</tabstop>
+  <tabstop>cbCVOIPlinphone</tabstop>
+  <tabstop>pbCWireshark</tabstop>
+  <tabstop>pbXterm</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -90,48 +90,9 @@
            <pointsize>9</pointsize>
           </font>
          </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>_alt</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QTreeWidget" name="treeInterfaces">
-         <property name="columnCount">
-          <number>5</number>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
-         <attribute name="headerDefaultSectionSize">
-          <number>80</number>
-         </attribute>
-         <column>
-          <property name="text">
-           <string notr="true">1</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string notr="true">2</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string notr="true">3</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string notr="true">4</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string notr="true">5</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>
@@ -140,6 +101,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>listRouter</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ptRoute</tabstop>
+  <tabstop>ptLinks</tabstop>
+  <tabstop>pbWireshark</tabstop>
+  <tabstop>pbXterm</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -644,6 +644,40 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>bpStartMN</tabstop>
+  <tabstop>bpStopMN</tabstop>
+  <tabstop>bpRestartMN</tabstop>
+  <tabstop>Host01</tabstop>
+  <tabstop>Host02</tabstop>
+  <tabstop>Host03</tabstop>
+  <tabstop>Host04</tabstop>
+  <tabstop>Host05</tabstop>
+  <tabstop>Host06</tabstop>
+  <tabstop>Switch01</tabstop>
+  <tabstop>Switch02</tabstop>
+  <tabstop>Router01</tabstop>
+  <tabstop>Router02</tabstop>
+  <tabstop>Router03</tabstop>
+  <tabstop>Router04</tabstop>
+  <tabstop>Link01</tabstop>
+  <tabstop>Link02</tabstop>
+  <tabstop>Link03</tabstop>
+  <tabstop>Link04</tabstop>
+  <tabstop>Link08</tabstop>
+  <tabstop>Link05</tabstop>
+  <tabstop>Link09</tabstop>
+  <tabstop>Link13</tabstop>
+  <tabstop>Link06</tabstop>
+  <tabstop>Link07</tabstop>
+  <tabstop>Link11</tabstop>
+  <tabstop>Link10</tabstop>
+  <tabstop>Link12</tabstop>
+  <tabstop>pbExit</tabstop>
+  <tabstop>cbRandomMAC</tabstop>
+  <tabstop>pbCLI</tabstop>
+  <tabstop>runningServices</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
