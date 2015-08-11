@@ -1426,27 +1426,27 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def stopSystemServices(self):
 #        return_code = subprocess.call("systemctl is-active NetworkManager", shell=True)
-        DEVNULL = open(os.devnull, 'w')
-        
-        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "NetworkManager"], stdout=DEVNULL)
-        if return_code == 0:
+        return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "NetworkManager"], stdout=subprocess.PIPE)
+        (stdoutdata, stderrdata) = return_descr.communicate()
+        if stdoutdata == "active\n":
 # needed until this bug is fixed: https://github.com/mininet/mininet/issues/228
+            print "beende NetworkManager"
             subprocess.call("systemctl stop NetworkManager", shell=True)
             subprocess.call("dhclient eth0", shell=True)
 
 # or disable asterisk at startup
 #        return_code = subprocess.call("systemctl is-active asterisk", shell=True)
-        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "asterisk"], stdout=DEVNULL)
-        if return_code == 0:
+        return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "asterisk"], stdout=subprocess.PIPE)
+        (stdoutdata, stderrdata) = return_descr.communicate()
+        if stdoutdata == "active\n":
             subprocess.call("systemctl stop asterisk", shell=True)
 
 # or disable vsftp at startup
 #        return_code = subprocess.call("systemctl is-active vsftpd", shell=True)
-        return_code = subprocess.Popen(["/bin/systemctl", "is-active", "vsftpd"], stdout=DEVNULL)
-        if return_code == 0:
+        return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "vsftpd"], stdout=subprocess.PIPE)
+        (stdoutdata, stderrdata) = return_descr.communicate()
+        if stdoutdata == "active\n":
             subprocess.call("systemctl stop vsftpd", shell=True)
-        
-        DEVNULL.close()
 
     def CLIclicked(self):
 # FIXME: Erzeuge ein Signal, dass dann die CLI aufruft.
