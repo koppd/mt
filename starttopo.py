@@ -26,6 +26,8 @@ import signal
 
 #from mainwindow import Ui_MainWindow
 
+defaultDelay = 5   #5ms default delay at each link (=minimal RTT is 10ms)
+
 class MN():
     def startMN(self, MAC_random=True):
         self.createNet(MAC_random)
@@ -108,7 +110,7 @@ class MN():
 #        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
     def createLinks(self):
-        defaultDelay = 5
+#        defaultDelay = 5
         default_link = {'delay':str(defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
 
         self.net.addLink(self.h1, self.s1, cls=TCLink, **default_link)
@@ -1223,7 +1225,7 @@ class Parameter():
         self.GUIrouter["Router04"] = "r4"
 
         self.GUIlinks = {}
-        defaultDelay = 5   #FIXME
+#        defaultDelay = 5   #FIXME
 #        self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]
         self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
