@@ -104,43 +104,46 @@ class MN():
         self.h4 = self.net.addHost(mySW.parameter.GUIhosts['Host04'], cls=Host, ip='10.0.1.17/29', defaultRoute='via 10.0.1.22')
         self.h5 = self.net.addHost(mySW.parameter.GUIhosts['Host05'], cls=Host, ip='10.0.1.34/29', defaultRoute='via 10.0.1.33')
         self.h6 = self.net.addHost(mySW.parameter.GUIhosts['Host06'], cls=Host, ip='10.0.1.35/29', defaultRoute='via 10.0.1.33')
-        info('*** h1 details\n' + str(self.h1) + '\n')
-        info('*** h1 details\n' + str(type(self.h1)) + '\n')
-#        info( '*** h1 details\n' + str(self.h1.IP()) + '\n')
-#        info( '*** h1 IP\n' + str(self.net.getNodeByName( self.h1 ) ) + '\n')
 
     def createLinks(self):
 #        defaultDelay = 5
         default_link = {'delay':str(defaultDelay) + 'ms', 'loss':0, 'max_queue_size':None}
-
+# Sub-net A: 10.0.0.0/24
         self.net.addLink(self.h1, self.s1, cls=TCLink, **default_link)
         self.net.addLink(self.h2, self.s1, cls=TCLink, **default_link)
         self.net.addLink(self.h3, self.s1, cls=TCLink, **default_link)
-
         self.net.addLink(self.s1, self.r1, cls=TCLink, **default_link)
         self.r1.setIP('10.0.0.100', prefixLen=24, intf='r1-eth0')
+
+# Sub-net C: 10.0.1.16/29
         self.net.addLink(self.h4, self.r2, cls=TCLink, **default_link)
 
+# Sub-net E: 10.0.1.32/29
         self.net.addLink(self.h5, self.s2, cls=TCLink, **default_link)
         self.net.addLink(self.h6, self.s2, cls=TCLink, **default_link)
         self.net.addLink(self.s2, self.r3, cls=TCLink, **default_link)
 
+# Sub-net B: 10.0.1.8/29
         self.net.addLink(self.r1, self.r2, cls=TCLink, **default_link)
         self.r1.setIP('10.0.1.9', prefixLen=29, intf='r1-eth1')
         self.r2.setIP('10.0.1.10', prefixLen=29, intf='r2-eth1')
 
+# Sub-net D: 10.0.1.24/29
         tmplink = self.net.addLink(self.r2, self.r3, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.25', prefixLen=29, intf='r2-eth2')
         tmplink.intf2.setIP('10.0.1.26/29') #entspricht r3-eth1
 
+# Sub-net F: 10.0.1.40/29
         tmplink = self.net.addLink(self.r3, self.r4, cls=TCLink, **default_link)
         self.r3.setIP('10.0.1.41', prefixLen=29, intf='r3-eth2')
         tmplink.intf2.setIP('10.0.1.42/29') #entspricht r4-eth0 
 
+# Sub-net G: 10.0.1.48/29
         tmplink = self.net.addLink(self.r1, self.r4, cls=TCLink, **default_link)
         self.r1.setIP('10.0.1.50', prefixLen=29, intf='r1-eth2')
         tmplink.intf2.setIP('10.0.1.49/29') #entspricht r4-eth1
 
+# Sub-net H: 10.0.1.56/29
         tmplink = self.net.addLink(self.r2, self.r4, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.57', prefixLen=29, intf='r2-eth3')
         tmplink.intf2.setIP('10.0.1.58/29') #entspricht r4-eth2
@@ -150,28 +153,28 @@ class MN():
 
     def createRoutes(self):
 
-        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10') #C
-        self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10') #D
-        self.r1.cmd('ip route add 10.0.1.32/29 via 10.0.1.10') #E
-        self.r1.cmd('ip route add 10.0.1.40/29 via 10.0.1.49') #F
-        self.r1.cmd('ip route add 10.0.1.56/29 via 10.0.1.49') #H
+        self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10') #Sub-net C
+        self.r1.cmd('ip route add 10.0.1.24/29 via 10.0.1.10') #Sub-net D
+        self.r1.cmd('ip route add 10.0.1.32/29 via 10.0.1.10') #Sub-net E
+        self.r1.cmd('ip route add 10.0.1.40/29 via 10.0.1.49') #Sub-net F
+        self.r1.cmd('ip route add 10.0.1.56/29 via 10.0.1.49') #Sub-net H
 
-        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9') #A
-        self.r2.cmd('ip route add 10.0.1.32/29 via 10.0.1.26') #E
-        self.r2.cmd('ip route add 10.0.1.40/29 via 10.0.1.58') #F
-        self.r2.cmd('ip route add 10.0.1.48/29 via 10.0.1.58') #G
+        self.r2.cmd('ip route add 10.0.0.0/24 via 10.0.1.9') #Sub-net A
+        self.r2.cmd('ip route add 10.0.1.32/29 via 10.0.1.26') #Sub-net E
+        self.r2.cmd('ip route add 10.0.1.40/29 via 10.0.1.58') #Sub-net F
+        self.r2.cmd('ip route add 10.0.1.48/29 via 10.0.1.58') #Sub-net G
 
-        self.r3.cmd('ip route add 10.0.1.16/29 via 10.0.1.25') #C
-        self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42') #H
-        self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25') #B
-        self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42') #G
-        self.r3.cmd('ip route add 10.0.0.0/24 via 10.0.1.25') #A
+        self.r3.cmd('ip route add 10.0.1.16/29 via 10.0.1.25') #Sub-net C
+        self.r3.cmd('ip route add 10.0.1.56/29 via 10.0.1.42') #Sub-net H
+        self.r3.cmd('ip route add 10.0.1.8/29 via 10.0.1.25') #Sub-net B
+        self.r3.cmd('ip route add 10.0.1.48/29 via 10.0.1.42') #Sub-net G
+        self.r3.cmd('ip route add 10.0.0.0/24 via 10.0.1.25') #Sub-net A
 
-        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50') #A
-        self.r4.cmd('ip route add 10.0.1.8/29 via 10.0.1.50') #B
-        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57') #C
-        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41') #D
-        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41') #E
+        self.r4.cmd('ip route add 10.0.0.0/24 via 10.0.1.50') #Sub-net A
+        self.r4.cmd('ip route add 10.0.1.8/29 via 10.0.1.50') #Sub-net B
+        self.r4.cmd('ip route add 10.0.1.16/29 via 10.0.1.57') #Sub-net C
+        self.r4.cmd('ip route add 10.0.1.24/29 via 10.0.1.41') #Sub-net D
+        self.r4.cmd('ip route add 10.0.1.32/29 via 10.0.1.41') #Sub-net E
 
     def buildNet(self):
         self.net.build()
@@ -186,10 +189,6 @@ class MN():
         self.net.get('s1').start([])
         self.net.get('s2').start([])
 
-#        info( '*** h1 details2\n' + str(self.h1) + '\n')
-#        info( '*** h1 details2\n' + str(type(self.h1)) + '\n')
-#        info( '*** h1 details2\n' + str(self.h1.IP()) + '\n')
-
     def startCLI(self):
         CLI( self.net )
 
@@ -197,9 +196,7 @@ class MN():
         subprocess.Popen(["pkill", "dhcpd"])
         subprocess.Popen(["pkill", "asterisk"])
         subprocess.Popen(["pkill", "vsftp"])
-#        self.h1.cmd("pkill dhcpd")
-#        self.h1.cmd("pkill asterisk")
-#        self.h1.cmd("pkill vsftp")
+
         try:
             self.net.stop()
         except:
@@ -212,61 +209,6 @@ class MN():
     def sendCmd( self, node, command ):
         return node.cmd(command, shell=True, printPid=True)
 
-
-
-class MNtcp():
-    def myNetwork( self, delay=20, loss=5, swin=3 ):
-
-        self.net = Mininet(topo=None,
-                           build=False,
-                           ipBase='10.0.0.0/8')
-
-        info('*** Add switches\n')
-        self.s1 = self.net.addSwitch('s1', cls=OVSKernelSwitch, failMode='standalone')
-
-    #    info( '*** Add hosts\n')
-        self.h1 = self.net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
-        self.h4 = self.net.addHost('h4', cls=Host, ip='10.0.0.4', defaultRoute=None)
-
-        info('*** Add links\n')
-    #    h1s1_delay = str(delay) + 'ms'
-        self.h1s1 = {'delay':str(delay) + 'ms','loss':0,'max_queue_size':swin}
-        self.net.addLink(self.h1, self.s1, cls=TCLink , **self.h1s1)
-        self.h4s1 = {'delay':str(delay) + 'ms','loss':loss}
-        self.net.addLink(self.h4, self.s1, cls=TCLink , **self.h4s1)
-
-        info('\n*** Starting network\n')
-        self.net.build()
-
-        for self.controller in self.net.controllers:
-            self.controller.start()
-
-        self.net.get('s1').start([])
-
-    # starte httpServer auf h1
-        info('\n****** execute startHTTPserver on h4\n')
-        self.http = self.h1.cmd("python -m SimpleHTTPServer 80 &", printPid=True)
-        print "http ", self.http
-
-    # starte wireshark auf h4
-        info('****** execute wireshark on h4\n')
-        self.display, self.tunnel = tunnelX11( self.h4, None )
-    #    ws = h4.popen( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1'], shell=True)
-        self.ws = self.h4.cmd( ['wireshark -i h4-eth0 -k -Y ip.addr==10.0.0.1 &'], shell=True, printPid=True) #, preexec_fn=os.setsid )
-        print "ws ", self.ws
-
-
-    def startDownload(self):
-        display, tunnel = tunnelX11( self.h4, None )
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-        self.p1 = self.h4.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi wget -O /dev/null 10.0.0.1/smallfile'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-
-
-    def stopNet(self):
-        self.h4.cmd("pkill wireshark")
-        # simpleHTTP muss auch beendet werden. Steht in self.http drinnen.
-        # muss evtl. generisch über ps -aux |grep SimpleHTTPServer beendet werden.
-        self.net.stop()
 
 class Services():
     def __init__(self):
@@ -842,25 +784,25 @@ class RouterConfig(QtGui.QDialog):
             self.listRouter.addItem(router.objectName())
 
 
-        HEADERS = ("Link to", "Delay in ms", "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all')
-#treeWidget = treeInterfaces
-        self.treeInterfaces.setColumnCount(len(HEADERS))
-        self.treeInterfaces.setHeaderLabels(HEADERS)
-
-        # ----------------
-        # Add Custom QTreeWidgetItem
-        # ----------------
-        ## Add Items:
-        for name in ['host1', 'host2', 'host3', 'router1', 'router2', 'router4']:
-            item = CustomTreeItem( self.treeInterfaces, name )
-
-         ## Set Columns Width to match content:
-        for column in range( self.treeInterfaces.columnCount()):
-            self.treeInterfaces.resizeColumnToContents(column)
-
-
-#        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
-#        print net[ 'r0' ].cmd( 'route' )
+#        HEADERS = ("Link to", "Delay in ms", "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all')
+##treeWidget = treeInterfaces
+#        self.treeInterfaces.setColumnCount(len(HEADERS))
+#        self.treeInterfaces.setHeaderLabels(HEADERS)
+#
+#        # ----------------
+#        # Add Custom QTreeWidgetItem
+#        # ----------------
+#        ## Add Items:
+#        for name in ['host1', 'host2', 'host3', 'router1', 'router2', 'router4']:
+#            item = CustomTreeItem( self.treeInterfaces, name )
+#
+#         ## Set Columns Width to match content:
+#        for column in range( self.treeInterfaces.columnCount()):
+#            self.treeInterfaces.resizeColumnToContents(column)
+#
+#
+##        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
+##        print net[ 'r0' ].cmd( 'route' )
 
     def pbXtermclicked(self):
         MNnode = self.getSelectedMNnode()
@@ -1397,34 +1339,13 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.bpRestartMN.clicked.connect(self.RestartMNclicked)
         self.pbCLI.clicked.connect(self.CLIclicked)
         self.actionEnter_CLI.triggered.connect(self.CLIclicked)
-
         self.pbExit.clicked.connect(self.pbExitclicked)
-
-#        self.debug1.clicked.connect(self.debug1clicked)
-#        self.debug2.clicked.connect(self.debug2clicked)
-#        self.debug3.clicked.connect(self.debug3clicked)
-#        self.debug4.clicked.connect(self.debug4clicked)
-#        self.debug5.clicked.connect(self.debug5clicked)
 
         self.updateProcesses()
 
         self.cli_do.connect(self.CLIexecute)
 
-
         self.stopSystemServices()
-
-#        self.drawLinks()
-
-#    def drawLines(self, qp):
-#
-#        pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
-#
-#        qp.setPen(pen)
-#        qp.drawLine(20, 40, 250, 45)
-#
-##        pen.setStyle(QtCore.Qt.DashLine) #DashDotLine  DotLine DashDotDotLine CustomDashLine
-##        qp.setPen(pen)
-##        qp.drawLine(20, 80, 250, 85)
 
 
     def StartMNclicked(self):
@@ -1484,28 +1405,6 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        print "changeStatus1"
         self.statusBar().showMessage(statusMessage)
 #        print "changeStatus2"
-
-    def debug1clicked(self):
-        pass
-
-    def debug2clicked(self):
-        self.scen = MNtcp()
-        self.scen.myNetwork(delay=20,
-                            loss=3,
-                            swin=3)
-
-    def debug3clicked(self):
-        self.scen.startDownload()
-
-    def debug4clicked(self):
-        self.scen.stopNet()
-
-    def debug5clicked(self):
-        pass
-
-    def debug6clicked(self):
-        pass
-
 
     def getNodeList(self, Nodetype):
         """ extract all children of QWidget TopoArea for a
