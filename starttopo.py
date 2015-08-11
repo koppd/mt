@@ -833,6 +833,9 @@ class RouterConfig(QtGui.QDialog):
 #        print "confRouter init...)"
 
         self.listRouter.currentItemChanged.connect(self.currentRouterChanged)
+        self.pbXterm.clicked.connect(self.pbXtermclicked)
+        self.pbWireshark.clicked.connect(self.pbWiresharkclicked)
+
 
 
         for router in mySW.getNodeList("Router"):
@@ -856,8 +859,40 @@ class RouterConfig(QtGui.QDialog):
             self.treeInterfaces.resizeColumnToContents(column)
 
 
-        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
+#        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
 #        print net[ 'r0' ].cmd( 'route' )
+
+    def pbXtermclicked(self):
+        MNnode = self.getSelectedMNnode()
+        if MNnode == None:
+            return
+
+        title = '"bash on %s"' % (MNnode)
+        command = 'env TERM=ansi bash'
+        self.xtermCommand(MNnode, title, command)
+
+    def xtermCommand(self, MNnode, title, command):
+        display, tunnel = tunnelX11(MNnode, None)
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        return MNnode.popen(['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    
+    def pbWiresharkclicked(self):
+        MNnode = self.getSelectedMNnode()
+        if MNnode == None:
+            return
+
+        wsCommand = 'wireshark &'
+        display, tunnel = tunnelX11(MNnode, None)
+        self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
+        print "pid wireshark: ", self.sws
+
+    def getSelectedMNnode(self):
+        selectedRouter = self.listRouter.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
+        if selectedRouter != None:
+            selectedRouterText = selectedRouter.text()   #e.g. Router01
+
+        MNrouter = mySW.parameter.getMNname(selectedRouterText)  #e.g. r1
+        return mySW.instanceMN.getNode(MNrouter)      #object of r1
 
     def accept(self):
 #        print "accept/OK button"
