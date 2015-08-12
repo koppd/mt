@@ -115,7 +115,7 @@
    <item row="2" column="1" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Server">
       <attribute name="title">
@@ -240,24 +240,10 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QCheckBox" name="cbCDHCP">
-            <property name="text">
-             <string>DHCP Client</string>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="1">
            <widget class="QCheckBox" name="cbCVOIPlinphone">
             <property name="text">
              <string>VoIP Softphone Linphone</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2">
-           <widget class="QCheckBox" name="cbDownload">
-            <property name="text">
-             <string>File Download</string>
             </property>
            </widget>
           </item>
@@ -285,6 +271,27 @@
             </property>
             <property name="wordWrap">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="cbDownload">
+            <property name="text">
+             <string>File Download</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="cbCDHCP">
+            <property name="text">
+             <string>DHCP Client</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="cbWWW">
+            <property name="text">
+             <string>View web page in Firefox</string>
             </property>
            </widget>
           </item>
