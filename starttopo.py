@@ -385,16 +385,37 @@ class HostConfig(QtGui.QDialog):
         if mySW.services.isHTTP():
             serverIP = mySW.services.getHTTPip()
         else:
+            mySW.changeStatus("Error: No HTTP server started")            
             return
 
         title = '"Download in progress..."'
         command = 'env TERM=ansi wget -O /dev/null %s/smallfile' % (serverIP)
         self.xtermCommand(MNnode, title, command)
+        mySW.changeStatus("Download started from a HTTP server")
+
+
+    def startWWW(self, MNnode):
+#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        if mySW.services.isHTTP():
+            serverIP = mySW.services.getHTTPip()
+        else:
+            mySW.changeStatus("Error: No HTTP server started")
+            return
+
+        command = 'firefox %s &' % (serverIP)
+
+        pid = mySW.instanceMN.sendCmd(MNnode, command)  #, preexec_fn=os.setsid )
+        print "pid firefox:", pid
+        mySW.changeStatus("View web page in Firefox")
+        return pid
+
 
     def startFTPDownload(self, MNnode):
         if mySW.services.isVSFTP():
             serverIP = mySW.services.getVSFTPip()
         else:
+            mySW.changeStatus("Error: No FTP server started")
             return
 
         title = '"FTP Client"'
@@ -406,6 +427,8 @@ class HostConfig(QtGui.QDialog):
             # -u user
             # -pw password
         self.xtermCommand(MNnode, title, command)
+        mySW.changeStatus("FTP Download started")
+
 
     def startDHCP(self, MNnode):
 #        if fresh_client_leases == True:
@@ -420,6 +443,7 @@ class HostConfig(QtGui.QDialog):
         title = '"Client DHCP"'
         command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
         self.xtermCommand(MNnode, title, command)
+        mySW.changeStatus("DHCP client started")
 
     def startVOIP(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &') #, preexec_fn=os.setsid )
@@ -436,11 +460,13 @@ class HostConfig(QtGui.QDialog):
     def startLinphone(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
         print "pid Linphone:", pid
+        mySW.changeStatus("VoIP softphone \"Linphone\" started")
         return pid
 
     def startYate(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'yate-qt4 &') #, preexec_fn=os.setsid )
         print "pid yate-qt4:", pid
+        mySW.changeStatus("VoIP softphone \"Yate\" started")
         return pid
 
 
@@ -493,17 +519,18 @@ class HostConfig(QtGui.QDialog):
         if self.cbDownload.isChecked():
             self.startDownload(MNnode)
             self.cbDownload.setChecked(False)
-            mySW.changeStatus("Download started from a HTTP server")
+
+        if self.cbWWW.isChecked():
+            self.startWWW(MNnode)
+            self.cbWWW.setChecked(False)
 
         if self.cbCFTP.isChecked():
             self.startFTPDownload(MNnode)
             self.cbCFTP.setChecked(False)
-            mySW.changeStatus("FTP Download started")
 
         if self.cbCDHCP.isChecked():
             self.startDHCP(MNnode)
             self.cbCDHCP.setChecked(False)
-            mySW.changeStatus("DHCP client started")
 
 #        if self.cbCVOIPekiga.isChecked():
 #            self.startEkiga(MNnode)
@@ -512,12 +539,10 @@ class HostConfig(QtGui.QDialog):
         if self.cbCVOIPlinphone.isChecked():
             self.startLinphone(MNnode)
             self.cbCVOIPlinphone.setChecked(False)
-            mySW.changeStatus("VoIP softphone \"Linphone\" started")
 
         if self.cbCVOIPyate.isChecked():
             self.startYate(MNnode)
             self.cbCVOIPyate.setChecked(False)
-            mySW.changeStatus("VoIP softphone \"Yate\" started")
 
 
     def xtermCommand(self, MNnode, title, command):
