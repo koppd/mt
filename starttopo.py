@@ -555,13 +555,12 @@ class HostConfig(QtGui.QDialog):
             wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name)
             counter += 1
 
-        if counter > 1: # don't use any special display filter
+        if counter == 0 or counter >= 2: # don't use any special display filter
             wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
 
-        if counter >= 1:
-            display, tunnel = tunnelX11(MNnode, None)
-            self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
-            print "pid wireshark: ", self.sws
+        display, tunnel = tunnelX11(MNnode, None)
+        self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
+        print "pid wireshark: ", self.sws
 
 
     def pbCFTPclicked(self):
@@ -590,13 +589,12 @@ class HostConfig(QtGui.QDialog):
             wsCommand = 'wireshark -i %s-eth0 -k -Y "sip || rtp" &' % (MNnode.name)
             counter += 1
 
-        if counter > 1: # don't use any special display filter
+        if counter == 0 or counter >= 2: # don't use any special display filter
             wsCommand = 'wireshark -i %s-eth0 -k &' % (MNnode.name)
 
-        if counter >= 1:
-            display, tunnel = tunnelX11(MNnode, None)
-            self.cws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
-            print "pid wireshark: ", self.cws
+        display, tunnel = tunnelX11(MNnode, None)
+        self.cws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
+        print "pid wireshark: ", self.cws
 
 
     def currentHostChanged(self, current, previous):
