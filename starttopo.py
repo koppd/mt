@@ -407,7 +407,11 @@ class HostConfig(QtGui.QDialog):
 
         pid = mySW.instanceMN.sendCmd(MNnode, command)  #, preexec_fn=os.setsid )
         print "pid firefox:", pid
+<<<<<<< HEAD
         mySW.changeStatus("View web page in Firefox")
+=======
+        mySW.changeStatus("View web site in Firefox")
+>>>>>>> da6c7b156b2148f9214e7fc4329f80bc35279a60
         return pid
 
 
