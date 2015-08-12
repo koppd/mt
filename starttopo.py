@@ -452,47 +452,58 @@ class HostConfig(QtGui.QDialog):
 # HTTP
         if self.cbSHTTP.isChecked() and not mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
             self.http = self.startSimpleHTTPserver(MNnode)
+            mySW.changeStatus("A simple HTTP server has been started")
         if not self.cbSHTTP.isChecked() and mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
             print "kill HTTP server...", self.http
             MNnode.cmd("sudo pkill -f \"python -m SimpleHTTPServer 80\"")
             mySW.services.setHTTP(None)
+            mySW.changeStatus("The simple HTTP server has been stopped")
 
 # FTP
         if self.cbSFTP.isChecked() and not mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
             self.vsftp = self.startVSFTP(MNnode)
+            mySW.changeStatus("A FTP server (vsftp) has been started")
         if not self.cbSFTP.isChecked() and mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
 #            print "kill FTP server...", self.vsftp
             MNnode.cmd("pkill vsftp")
             mySW.services.setVSFTP(None)
+            mySW.changeStatus("The FTP server (vsftp) has been stopped")
 
 # DHCP
         if self.cbSDHCP.isChecked() and not mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
             self.dhcpd = self.startDHCPD(MNnode)
+            mySW.changeStatus("A DHCP server (dhcpd) has been started")
         if not self.cbSDHCP.isChecked() and mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
 #            print "kill DHCP server...", self.dhcpd
             MNnode.cmd("pkill dhcpd")
             mySW.services.setDHCP(None)
+            mySW.changeStatus("The DHCP server (dhcpd) has been stopped")
 
 # VoIP
         if self.cbSVOIP.isChecked() and not mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
             self.voip = self.startVOIP(MNnode)
+            mySW.changeStatus("A VoIP server (asterisk) has been started")
         if not self.cbSVOIP.isChecked() and mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
 #            print "kill VoIP server...", self.voip
             MNnode.cmd("pkill asterisk")
             mySW.services.setVOIP(None)
+            mySW.changeStatus("The VoIP server (asterisk) has been stopped")
 
 # client operations
         if self.cbDownload.isChecked():
             self.startDownload(MNnode)
             self.cbDownload.setChecked(False)
+            mySW.changeStatus("Download started from a HTTP server")
 
         if self.cbCFTP.isChecked():
             self.startFTPDownload(MNnode)
             self.cbCFTP.setChecked(False)
+            mySW.changeStatus("FTP Download started")
 
         if self.cbCDHCP.isChecked():
             self.startDHCP(MNnode)
             self.cbCDHCP.setChecked(False)
+            mySW.changeStatus("DHCP client started")
 
 #        if self.cbCVOIPekiga.isChecked():
 #            self.startEkiga(MNnode)
@@ -501,10 +512,12 @@ class HostConfig(QtGui.QDialog):
         if self.cbCVOIPlinphone.isChecked():
             self.startLinphone(MNnode)
             self.cbCVOIPlinphone.setChecked(False)
+            mySW.changeStatus("VoIP softphone \"Linphone\" started")
 
         if self.cbCVOIPyate.isChecked():
             self.startYate(MNnode)
             self.cbCVOIPyate.setChecked(False)
+            mySW.changeStatus("VoIP softphone \"Yate\" started")
 
 
     def xtermCommand(self, MNnode, title, command):
@@ -943,13 +956,13 @@ class LinkConfig(QtGui.QDialog):
     def applyChanges(self):
         if self.selectedLink == None or \
            self.LinkNodes == None:
-            print "linkconfig out1"
+            print "No valid link selected"
             return
 
         if self.delay == self.sbDelay.value() and \
            self.loss == self.sbLoss.value() and \
            self.swin == self.sbQueue.value():
-            print "linkconfig out2"
+            mySW.changeStatus("No values were changed")
             return   #nothing changed
 
 # Link between this and that
@@ -976,6 +989,8 @@ class LinkConfig(QtGui.QDialog):
         self.LinkNodes[3] = self.sbLoss.value()
         self.LinkNodes[4] = self.sbQueue.value()
         mySW.parameter.setGUIlink(self.selectedLinkText, self.LinkNodes)
+        self.showLinkValues()
+        mySW.changeStatus("Link values changed")
 
 
     def currentLinkChanged(self, current, previous):
