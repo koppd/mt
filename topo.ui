@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1270</width>
-    <height>668</height>
+    <width>1076</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,77 +15,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="1">
-     <widget class="QTreeWidget" name="runningServices">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="autoExpandDelay">
-       <number>13</number>
-      </property>
-      <property name="allColumnsShowFocus">
-       <bool>true</bool>
-      </property>
-      <property name="columnCount">
-       <number>2</number>
-      </property>
-      <attribute name="headerDefaultSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="headerMinimumSectionSize">
-       <number>100</number>
-      </attribute>
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">2</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QPushButton" name="bpRestartMN">
+    <item row="4" column="1">
+     <widget class="QPushButton" name="pbStopMN">
       <property name="text">
-       <string>Restart network</string>
+       <string>Stop network</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="6" column="1">
+     <widget class="QPushButton" name="pbCLI">
+      <property name="text">
+       <string>Enter CLI()</string>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
-    <item row="0" column="0" rowspan="10">
+    <item row="0" column="0" rowspan="8">
      <widget class="QWidget" name="TopoArea" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <item row="6" column="8">
@@ -504,65 +448,21 @@
       </layout>
      </widget>
     </item>
-    <item row="10" column="0" colspan="2">
-     <widget class="QPushButton" name="pbExit">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Exit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Running processes:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1">
-     <widget class="QPushButton" name="pbCLI">
-      <property name="text">
-       <string>Enter CLI()</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="bpStartMN">
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pbStartMN">
       <property name="text">
        <string>Start network</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QPushButton" name="bpStopMN">
-      <property name="text">
-       <string>Stop network</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="1">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="4" column="1">
+    <item row="2" column="1">
      <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="title">
        <string>Global configuration</string>
       </property>
@@ -580,6 +480,42 @@
       </layout>
      </widget>
     </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="pbRestartMN">
+      <property name="text">
+       <string>Restart network</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="2">
+     <widget class="QPushButton" name="pbExit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Exit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -587,7 +523,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1270</width>
+     <width>1076</width>
      <height>31</height>
     </rect>
    </property>
@@ -645,9 +581,9 @@
   </action>
  </widget>
  <tabstops>
-  <tabstop>bpStartMN</tabstop>
-  <tabstop>bpStopMN</tabstop>
-  <tabstop>bpRestartMN</tabstop>
+  <tabstop>pbStartMN</tabstop>
+  <tabstop>pbStopMN</tabstop>
+  <tabstop>pbRestartMN</tabstop>
   <tabstop>Host01</tabstop>
   <tabstop>Host02</tabstop>
   <tabstop>Host03</tabstop>
@@ -676,7 +612,6 @@
   <tabstop>pbExit</tabstop>
   <tabstop>cbRandomMAC</tabstop>
   <tabstop>pbCLI</tabstop>
-  <tabstop>runningServices</tabstop>
  </tabstops>
  <resources/>
  <connections>

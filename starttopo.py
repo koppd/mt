@@ -40,8 +40,10 @@ class MN():
         self.buildNet()
         self.startController()
         self.startSwitch()
-        mySW.bpStartMN_enabled(False)
-        mySW.bpStopMN_enabled(True)
+        mySW.pbStartMN_enabled(False)
+        mySW.pbStopMN_enabled(True)
+        mySW.pbRestartMN_enabled(True)
+
 
     def getIP(self, host):
         tmphost = self.getNode(host)   #e.g. host = h1
@@ -211,8 +213,10 @@ class MN():
 #            print "probleme1"
             pass
 
-        mySW.bpStartMN_enabled(True)
-        mySW.bpStopMN_enabled(False)
+        mySW.pbStartMN_enabled(True)
+        mySW.pbStopMN_enabled(False)
+        mySW.pbRestartMN_enabled(False)
+        
 
     def sendCmd( self, node, command ):
         return node.cmd(command, shell=True, printPid=True)
@@ -1429,14 +1433,12 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Link12.clicked.connect(self.Link12clicked)
         self.Link13.clicked.connect(self.Link12clicked)
 
-        self.bpStartMN.clicked.connect(self.StartMNclicked)
-        self.bpStopMN.clicked.connect(self.StopMNclicked)
-        self.bpRestartMN.clicked.connect(self.RestartMNclicked)
+        self.pbStartMN.clicked.connect(self.StartMNclicked)
+        self.pbStopMN.clicked.connect(self.StopMNclicked)
+        self.pbRestartMN.clicked.connect(self.RestartMNclicked)
         self.pbCLI.clicked.connect(self.CLIclicked)
         self.actionEnter_CLI.triggered.connect(self.CLIclicked)
         self.pbExit.clicked.connect(self.pbExitclicked)
-
-        self.updateProcesses()
 
         self.cli_do.connect(self.CLIexecute)
 
@@ -1446,14 +1448,17 @@ class ControlMainWindow(QtGui.QMainWindow):
     def StartMNclicked(self):
         self.instanceMN = MN()
         self.changeStatus("Start network...")
+        QApplication.processEvents()
         self.instanceMN.startMN(MAC_random=self.cbRandomMAC.isChecked())
         self.changeStatus("Network started")
-
-
+        QApplication.processEvents()
+        
     def StopMNclicked(self):
         self.changeStatus("Stop network...")
+        QApplication.processEvents()
         self.instanceMN.stopNet()
         self.changeStatus("Network stopped")
+        QApplication.processEvents()
 
     def RestartMNclicked(self):
         self.StopMNclicked()
@@ -1518,27 +1523,6 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         return listSorted
 
-
-    def updateProcesses(self):
-        tree = self.runningServices  # replace every 'tree' with your QTreeWidget
-        plist = []
-        for host in self.getNodeList("Host"):
-            plist.append(str(host.objectName()))
-
-        clist = ['Child 1', 'Child 2']
-#        treeWidget=QtGui.QTreeWidget(self)
-#        treeWidget.setGeometry(QtCore.QRect(50,50,150,140))
-        tree.setHeaderLabels(["Host", "PID"])
-
-
-        for parent in plist:
-            pitems = QtGui.QTreeWidgetItem(tree)
-            pitems.setText(0, parent)
-            for child in clist:
-                citems = QtGui.QTreeWidgetItem(pitems)
-                citems.setText(0, child)
-
-
     def pbExitclicked(self):
         try:
             self.StopMNclicked()
@@ -1547,12 +1531,14 @@ class ControlMainWindow(QtGui.QMainWindow):
         exit(0)
 
 
-    def bpStartMN_enabled(self, value):
-        self.bpStartMN.setEnabled(value)
+    def pbStartMN_enabled(self, value):
+        self.pbStartMN.setEnabled(value)
 
-    def bpStopMN_enabled(self, value):
-        self.bpStopMN.setEnabled(value)
+    def pbStopMN_enabled(self, value):
+        self.pbStopMN.setEnabled(value)
 
+    def pbRestartMN_enabled(self, value):
+        self.pbRestartMN.setEnabled(value)
 
     def drawLines(self, qp, fromx, fromy, tox, toy):
 
