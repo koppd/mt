@@ -190,6 +190,9 @@ class MN():
         self.net.get('s2').start([])
 
     def startCLI(self):
+        mySW.changeStatus("CLI started. You must end it with \"exit\" before you can user the GUI again!")
+        QApplication.processEvents()
+        
         CLI( self.net )
 
     def stopNet( self ):
