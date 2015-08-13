@@ -1041,7 +1041,11 @@ class LinkConfig(QtGui.QDialog):
         else:
             return
 
+        info('\n****** showLinkValues: self.selectedLinkText :', str(self.selectedLinkText), '\n')        
+
         self.LinkNodes = mySW.parameter.getLinkSrcDest(self.selectedLinkText)  #e.g. h1
+        info('\n****** showLinkValues: self.LinkNodes :', str(self.LinkNodes), '\n')        
+        
         if self.LinkNodes != None:
             self.source = self.LinkNodes[0]
             self.destination = self.LinkNodes[1]
@@ -1063,8 +1067,15 @@ class LinkConfig(QtGui.QDialog):
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
 #            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
+        info('\n****** showLinkValues: self.source:', str(self.source), '\n')
+        info('\n****** showLinkValues: self.destination:', str(self.destination), '\n')
+
+
         scrObj = mySW.instanceMN.getNode(self.source)
         dstObj = mySW.instanceMN.getNode(self.destination)
+        info('\n****** showLinkValues: scrObj:', str(scrObj), '\n')
+        info('\n****** showLinkValues: dstObj:', str(dstObj), '\n')
+
 
         self.leSrcName.setText(mySW.parameter.getGUIname(scrObj) + ", " + self.source)
         self.leDstName.setText(mySW.parameter.getGUIname(dstObj) + ", " + self.destination)
@@ -1074,8 +1085,27 @@ class LinkConfig(QtGui.QDialog):
         srcIntf = src.connectionsTo(dst)[0][0]
         dstIntf = src.connectionsTo(dst)[0][1]
 
-        self.leSrcIP.setText(srcIntf.IP())
-        self.leDstIP.setText(dstIntf.IP())
+        info('\n****** showLinkValues: src:', str(src), '\n')
+        info('\n****** showLinkValues: dst:', str(dst), '\n')
+
+        info('\n****** showLinkValues: srcIntf:', str(srcIntf), '\n')
+        info('\n****** showLinkValues: dstIntf:', str(dstIntf), '\n')
+
+        if srcIntf.IP() != None:
+            srcIP = srcIntf.IP()
+        else:
+            srcIP = ""
+
+        if dstIntf.IP() != None:
+            dstIP = dstIntf.IP()
+        else:
+            dstIP = ""
+
+        info('\n****** showLinkValues: srcIP:', str(srcIP), '\n')
+        info('\n****** showLinkValues: dstIP:', str(dstIP), '\n')
+
+        self.leSrcIP.setText( srcIP )
+        self.leDstIP.setText( dstIP )
 
         self.leSrcIntf.setText(srcIntf.name)
         self.leDstIntf.setText(dstIntf.name)
@@ -1294,6 +1324,7 @@ class Parameter():
             return None
 
     def getGUIname(self, MNnode):
+        info('\n****** getGUIname: MNnode:', str(MNnode), '\n')
         for GUIhost in self.GUIhosts:
             if self.GUIhosts[str(GUIhost)] == MNnode.name:
                 return GUIhost
@@ -1310,16 +1341,34 @@ class Parameter():
         return None
 
     def getLinkSrcDest(self, GUIname):
-        if GUIname in self.GUIlinks:
-            return self.GUIlinks[str(GUIname)]
-        else:
-            return None
+        info('\n****** getLinkSrcDest: GUIname :', str(GUIname), '\n')        
+        info('\n****** getLinkSrcDest: self.GUIlinks :', str(self.GUIlinks), '\n')        
+        for tmpGUIname in self.GUIlinks.keys():
+            if tmpGUIname == GUIname:
+                return self.GUIlinks[str(GUIname)]
+
+        print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
+        return None
+
+#        if GUIname in self.GUIlinks:
+##            return self.GUIlinks[str(GUIname)]
+#            return self.GUIlinks[GUIname]
+#        else:
+#            print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
+#            return None
 
     def getConnectedTo(self, GUIname):
-        if GUIname in self.connections:
-            return self.connections[str(GUIname)]
-        else:
-            return None
+        for tmpGUIname in self.GUIconnections.keys():
+            if tmpGUIname == GUIname:
+                return self.GUIconnections[str(GUIname)]
+
+        print "Diesem GUI Link (%s) ist keinen Interfaces zugeordnet" % GUIname
+        return None
+
+#        if GUIname in self.connections:
+#            return self.connections[str(GUIname)]
+#        else:
+#            return None
 
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -1649,7 +1698,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
- #   setLogLevel( 'info' )
+#    setLogLevel( 'info' )
     mySW = ControlMainWindow()
     mySW.StartMNclicked()
 #    myNode = NodeConfig()
