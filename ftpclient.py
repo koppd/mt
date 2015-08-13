@@ -24,12 +24,12 @@ def connect( host, port):
     print "Verbdungsaufbau... ", host, int(port)
     clientSocket.connect((host, int(port)))
     # FIXME hier das OK pruefen
-    
+
     print "warte auf Begruessungsnachricht..."
     toRecv = clientSocket.recv(1024)
     toRecv = toRecv.decode(encoding='UTF-8')
     print "empfangen nach connect:", toRecv
-    
+
     return clientSocket
 
 def send_user( clientSocket, user):
@@ -49,7 +49,7 @@ def send_user( clientSocket, user):
 
 def send_pass( clientSocket, password):
     """ send the PASS command """
-    
+
     toSend = "PASS " + password + "\r\n"
     clientSocket.send(toSend.encode('UTF-8'))
 
@@ -57,13 +57,13 @@ def send_pass( clientSocket, password):
     # FIXME hier das OK pruefen
     print "empfangen nach PASS:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-    
+
     return 0
 
 
 def send_cwd( clientSocket, directory):
     """ send the CWD command """
-    
+
     toSend = "CWD " + directory + "\r\n"
     clientSocket.send(toSend.encode('UTF-8'))
 
@@ -71,12 +71,12 @@ def send_cwd( clientSocket, directory):
     # FIXME hier das OK pruefen
     print "empfangen nach CWD:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-    
+
     return 0
 
 def send_syst(clientSocket):
     """ send the SYST command """
-    
+
     toSend = "SYST" + "\r\n"
     clientSocket.send(toSend.encode('UTF-8'))
 
@@ -84,12 +84,12 @@ def send_syst(clientSocket):
     # FIXME hier das OK pruefen
     print "empfangen nach SYST:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-    
+
     return 0
 
 def send_type(clientSocket):
     """ send the TYPE command """
-    
+
     toSend = "TYPE I" + "\r\n"
     clientSocket.send(toSend.encode('UTF-8'))
 
@@ -97,18 +97,18 @@ def send_type(clientSocket):
     # FIXME hier das OK pruefen
     print "empfangen nach TYPE I:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-    
+
     return 0
 
 def send_port( clientSocket, localip ):
     """ send the RETR command """
-    
-    send_syst(clientSocket)    
+
+    send_syst(clientSocket)
     send_type(clientSocket)
-    
+
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-# localhost geht nicht. Fehlercode 500, weil angebliche eine NAT aktiv ist.    
+# localhost geht nicht. Fehlercode 500, weil angebliche eine NAT aktiv ist.
     dataSocket.bind((localip, 0))
     dataSocket.listen(1)
 
@@ -116,13 +116,13 @@ def send_port( clientSocket, localip ):
     localport = dataSocket.getsockname()[1]
     print "Chosen local IP:", localIP
     print "Chosen local port:", localport
-    
+
     localIPtext = re.sub('\.', ',', localIP)
     localPortHi = int(localport / 256)
     localPortLow = localport % 256
     localPortText = str(localPortHi) + ',' + str(localPortLow)
     toSend = "PORT " + localIPtext + ',' + localPortText + "\r\n"
-    print "send this PORT command: ", toSend    
+    print "send this PORT command: ", toSend
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
@@ -135,7 +135,7 @@ def send_port( clientSocket, localip ):
 
 def send_retr( clientSocket, dataport, filename):
     """ send the RETR command """
-    
+
     toSend = "RETR " + filename +"\r\n"
     clientSocket.send(toSend.encode('UTF-8'))
 
@@ -143,31 +143,31 @@ def send_retr( clientSocket, dataport, filename):
     # FIXME hier das OK pruefen
     print "empfangen nach RETR Teil 1:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-        
+
 #empfange Datei
     (connectionSocket, connectionSocket_addr) = dataport.accept()
     receivedMessage = ''
 #    connectionSocket.setblocking(0)   #non-blocking
-    connectionSocket.settimeout(1000)    
-    notFinished = True    
+    connectionSocket.settimeout(1000)
+    notFinished = True
     while notFinished:
-        try:        
-            buf = connectionSocket.recv(1000)            
+        try:
+            buf = connectionSocket.recv(1000)
             if len(buf) > 0:
                 receivedMessage += buf
                 print "Bislang erhalten:", len(receivedMessage)
             else:
-                notFinished = False 
+                notFinished = False
         except:
-            notFinished = False            
+            notFinished = False
     print len(receivedMessage)
-    
+
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
     print "empfangen nach RETR Teil 2:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 #  ToDo: FTP-Data Port schließen
-    
+
     return 0
 
 
@@ -177,44 +177,49 @@ def close_connection( clientSocket):
     clientSocket.send(b"QUIT\r\n")
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach QUIT:", toRecv 
+    print "empfangen nach QUIT:", toRecv
     clientSocket.close()
 
 
-def startRealDownload(server, localip, port, user, password):    
+def startRealDownload(server, localip, port, user, password):
 #        display, tunnel = tunnelX11( self.h2, None )
 ##        self.p1 = self.h2.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 #        self.p1 = self.h2.popen( ['xterm', '-title', 'Download_in_progress...', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
- 
+
     if 1==2:
 #        CLI(self.net)
         pass
     else:
 # Erzeuge Socket
-        print "create socket..."
+        raw_input("Press Enter to connect to server. ")
         clientSocket = connect(server, port)
 
 # Verbinde mit FTP-Server
 
 # sende Username
+        raw_input("Press Enter to send user. ")
         send_user(clientSocket, user)
 
 # sende Passwort
+        raw_input("Press Enter to send password. ")
         send_pass(clientSocket, password)
 
 # wechsle Verzeichnis
+        raw_input("Press Enter to change into right folder. ")
         send_cwd(clientSocket, "mininet")
         send_cwd(clientSocket, "demo")
 
 # Download Datei
+        raw_input("Press Enter to download file. ")
         dataport = send_port(clientSocket, localip)
         send_retr(clientSocket, dataport, "ftp_downloadfile")
 
 # Verabschieden und beende Verbindung
+        raw_input("Press Enter to close connection. ")
         close_connection(clientSocket)
-        raw_input("Enter drücken zum Schliessen des Fensters. ")   
-        
+        raw_input("Demo is over. Press Enter to close window. ")
+
         return 0
 
 if __name__ == '__main__':
@@ -260,8 +265,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     exit(startRealDownload(server=args.server,
-                      localip=args.localip,     
+                      localip=args.localip,
                       port=args.port,
                       user=args.user,
                       password=args.password))
-    
