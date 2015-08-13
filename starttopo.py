@@ -418,7 +418,7 @@ class HostConfig(QtGui.QDialog):
 #        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u mininet -pw mininet' % (serverIP, MNnode.IP())
         command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u dom -pw 11111' % (serverIP, MNnode.IP())
             # -s server
-            # -lip local ip   ps: localhost wäre sinnvoll, geht aber nicht.
+            # -lip local ip   PS: localhost would be nice, but it doesn't work.
             # -p port
             # -u user
             # -pw password
@@ -427,19 +427,20 @@ class HostConfig(QtGui.QDialog):
 
 
     def startDHCP(self, MNnode):
-#        if fresh_client_leases == True:
-#            print "delete /var/lib/dhcp/dhclient.leases.mn"
-#            self.h2.cmd("rm /var/lib/dhcp/dhclient.leases.mn", printPid=True)
-#            self.h2.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
-#        else:
-#            print "verwende vorhandene /var/lib/dhcp/dhclient.leases.mn"
-#            self.h2.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+        if mySW.services.fresh_client_leases:
+            print "delete /var/lib/dhcp/dhclient.leases.mn"
+            MNnode.cmd("rm /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+            MNnode.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
+        else:
+            print "verwende vorhandene /var/lib/dhcp/dhclient.leases.mn"
+            MNnode.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
 
+#        MNnode.cmd("ip addr flush dev %s-eth0", printPid=True) % MNnode.name
 
         title = '"Client DHCP"'
         command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
         self.xtermCommand(MNnode, title, command)
-        mySW.changeStatus("DHCP client started")
+        mySW.changeStatus("DHCP client started.")
 
     def startVOIP(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &') #, preexec_fn=os.setsid )

@@ -67,7 +67,7 @@
 Use for the second demonstration
 - No new lease files
 - random MAC addresses
-and then restart network.</string>
+and then stop DHCP server and restart network.</string>
      </property>
     </widget>
    </item>
