@@ -1385,8 +1385,6 @@ class Parameter():
 
 class ControlMainWindow(QtGui.QMainWindow):
 
-    cli_do = pyqtSignal()
-
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
 #        self.ui = Ui_MainWindow()
@@ -1440,8 +1438,6 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.actionEnter_CLI.triggered.connect(self.CLIclicked)
         self.pbExit.clicked.connect(self.pbExitclicked)
 
-        self.cli_do.connect(self.CLIexecute)
-
         self.stopSystemServices()
 
 
@@ -1489,17 +1485,7 @@ class ControlMainWindow(QtGui.QMainWindow):
             subprocess.call("systemctl stop vsftpd", shell=True)
 
     def CLIclicked(self):
-# FIXME: Erzeuge ein Signal, dass dann die CLI aufruft.
-#        self.changeStatus("GUI ist eingefroren bis die CLI mit \"exit\" beendet wurde!")
-#        print "CLIclicked1"
-        self.cli_do.emit()  #geht trotzdem nicht
-# evtl mit postEvent, aber wie?
-#        print "CLIclicked2"
-
-    def CLIexecute(self):
-#        print "CLIexecute1"
         mySW.instanceMN.startCLI()
-#        print "CLIexecute2"
 
     def changeStatus(self, statusMessage):
 #        print "changeStatus1"
