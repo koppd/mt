@@ -151,9 +151,6 @@ class MN():
         self.r2.setIP('10.0.1.57', prefixLen=29, intf='r2-eth3')
         tmplink.intf2.setIP('10.0.1.58/29') #entspricht r4-eth2
 
-    def modifyLink(self, link, param):
-        pass
-
     def createRoutes(self):
 
         self.r1.cmd('ip route add 10.0.1.16/29 via 10.0.1.10') #Sub-net C
@@ -210,7 +207,6 @@ class MN():
         try:
             self.net.stop()
         except:
-#            print "probleme1"
             pass
 
         mySW.pbStartMN_enabled(True)
@@ -230,8 +226,6 @@ class Services():
         self.VOIPnode = None
         self.fresh_daemon_leases = True
         self.fresh_client_leases = True
-
-#        print "Klasse Services aufgerufen"
 
     def setDHCP(self, MNnode):
         self.DHCPnode = MNnode
@@ -288,7 +282,6 @@ class Services():
         else:
             return False
 
-
     def setHTTP(self, MNnode):
         self.HTTPnode = MNnode
 
@@ -307,16 +300,11 @@ class Services():
             return False
 
 
-
 class HostConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(HostConfig, self).__init__(parent)
-#        super(ControlMainWindow, self).__init__(parent)
-#        self.ui = Ui_MainWindow()
-#        self.ui.setupUi(self)
 
         uic.loadUi('confHost.ui', self)
-#        print "hostconfig init...)"
         info( '\n****** erzeuge liste \n')
         for host in mySW.getNodeList("Host"):
             self.listHost.addItem(QListWidgetItem(host.objectName()))
@@ -392,8 +380,6 @@ class HostConfig(QtGui.QDialog):
         return pid
 
     def startDownload(self, MNnode):
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         if mySW.services.isHTTP():
             serverIP = mySW.services.getHTTPip()
         else:
@@ -407,8 +393,6 @@ class HostConfig(QtGui.QDialog):
 
 
     def startWWW(self, MNnode):
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-#            self.p1 = MNnode.popen( ['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         if mySW.services.isHTTP():
             serverIP = mySW.services.getHTTPip()
         else:
@@ -463,11 +447,6 @@ class HostConfig(QtGui.QDialog):
 
         mySW.services.setVOIP(MNnode)
         return pid
-
-#    def startEkiga(self, MNnode):
-#        pid = mySW.instanceMN.sendCmd(MNnode, 'ekiga &') #, preexec_fn=os.setsid )
-#        print "pid Ekiga:", pid
-#        return pid
 
     def startLinphone(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
@@ -544,10 +523,6 @@ class HostConfig(QtGui.QDialog):
             self.startDHCP(MNnode)
             self.cbCDHCP.setChecked(False)
 
-#        if self.cbCVOIPekiga.isChecked():
-#            self.startEkiga(MNnode)
-#            self.cbCVOIPekiga.setChecked(False)
-
         if self.cbCVOIPlinphone.isChecked():
             self.startLinphone(MNnode)
             self.cbCVOIPlinphone.setChecked(False)
@@ -559,7 +534,6 @@ class HostConfig(QtGui.QDialog):
 
     def xtermCommand(self, MNnode, title, command):
         display, tunnel = tunnelX11(MNnode, None)
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         return MNnode.popen(['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
     def getSelectedMNnode(self):
@@ -680,9 +654,7 @@ class HostConfig(QtGui.QDialog):
         INTERFACES = MNnode.intfNames()
         self.leInferface.setText(str(INTERFACES[0]))
 
-
-
-# wenn DHCP läuft nicht
+# DHCP läuft nicht
         if not mySW.services.isDHCP():
             self.cbSDHCP.setEnabled(True)
             self.cbSDHCP.setChecked(False)
@@ -696,7 +668,7 @@ class HostConfig(QtGui.QDialog):
             self.cbSDHCP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# wenn HTTP läuft nicht
+# HTTP läuft nicht
         if not mySW.services.isHTTP():
             self.cbSHTTP.setEnabled(True)
             self.cbSHTTP.setChecked(False)
@@ -710,7 +682,7 @@ class HostConfig(QtGui.QDialog):
             self.cbSHTTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# wenn FTP läuft nicht
+# FTP läuft nicht
         if not mySW.services.isVSFTP():
             self.cbSFTP.setEnabled(True)
             self.cbSFTP.setChecked(False)
@@ -724,7 +696,7 @@ class HostConfig(QtGui.QDialog):
             self.cbSFTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# wenn VOIP läuft nicht
+# VOIP läuft nicht
         if not mySW.services.isVOIP():
             self.cbSVOIP.setEnabled(True)
             self.cbSVOIP.setChecked(False)
@@ -740,55 +712,14 @@ class HostConfig(QtGui.QDialog):
         self.cbDownload.setChecked(False)
         self.cbCFTP.setChecked(False)
         self.cbCDHCP.setChecked(False)
-#        self.cbCVOIPekiga.setChecked(False)
         self.cbCVOIPlinphone.setChecked(False)
         self.cbCVOIPyate.setChecked(False)
 
-# Tab Links:
-## Connected to
-#        connectionList = mySW.parameter.getConnectedTo(selectedHostText)
-#        print str(connectionList[0])
-#        self.leConnectedTo.setText(str(connectionList[0]) + ", " +  #Switch01
-#                                    str(mySW.parameter.getMNname(connectionList[0])))   # s1
-## Link delay (kann nicht aus MiniNet gelesen werden)
-#        srcNode = mySW.instanceMN.getNode(MNhost)
-#        destNode = mySW.parameter.getMNname(connectionList[0])
-#        destNode = mySW.instanceMN.getNode(destNode)
-#
-#        mySW.instanceMN.h1s1
-#
-#
-#
-#        links = srcNode.connectionsTo(destNode)
-#        print links
-#        srcLink = links[0][0]   # e.g.  h3-eth0
-#        dstLink = links[0][1]   # e.g.  s1-eth3
-#
-#        srcLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
-#        dstLink.config(**{ 'bw' : 1, 'delay' : '1ms' })
-
-#        params = mySW.instanceMN.net.linkInfo( srcNode, destNode )
-#        print 'Link Parameters='+str(params)
-
-## Paket loss
-
-## Quere length
-
-
-# Tab: Server services
-
-# Tab: Client   --- nothing to check here ---
 
     def showDHCPWindow(self, Hostnumber):
         myDHCP = DHCPConfig()
-#        info( '\n*** myhost erzeugt\n')
-#        print ("hostconfig vor show")
-#        myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
-#        info( '\n****** host list auf erste,... gesetzt\n')
         myDHCP.showDHCPValues()
         myDHCP.exec_()
-
-
 
 
 class DHCPConfig(QtGui.QDialog):
@@ -815,42 +746,16 @@ class DHCPConfig(QtGui.QDialog):
 class RouterConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(RouterConfig, self).__init__(parent)
-#        super(ControlMainWindow, self).__init__(parent)
-#        self.ui = Ui_MainWindow()
-#        self.ui.setupUi(self)
 
         uic.loadUi('confRouter.ui', self)
-#        print "confRouter init...)"
 
         self.listRouter.currentItemChanged.connect(self.currentRouterChanged)
         self.pbXterm.clicked.connect(self.pbXtermclicked)
         self.pbWireshark.clicked.connect(self.pbWiresharkclicked)
 
-
-
         for router in mySW.getNodeList("Router"):
             self.listRouter.addItem(router.objectName())
 
-
-#        HEADERS = ("Link to", "Delay in ms", "Delay in ms", "Paket loss", "Paket loss", 'Debug: print all')
-##treeWidget = treeInterfaces
-#        self.treeInterfaces.setColumnCount(len(HEADERS))
-#        self.treeInterfaces.setHeaderLabels(HEADERS)
-#
-#        # ----------------
-#        # Add Custom QTreeWidgetItem
-#        # ----------------
-#        ## Add Items:
-#        for name in ['host1', 'host2', 'host3', 'router1', 'router2', 'router4']:
-#            item = CustomTreeItem( self.treeInterfaces, name )
-#
-#         ## Set Columns Width to match content:
-#        for column in range( self.treeInterfaces.columnCount()):
-#            self.treeInterfaces.resizeColumnToContents(column)
-#
-#
-##        self.ptRoute.setPlainText(mySW.instanceMN.net['r1'].cmd('route'))
-##        print net[ 'r0' ].cmd( 'route' )
 
     def pbXtermclicked(self):
         MNnode = self.getSelectedMNnode()
@@ -863,7 +768,6 @@ class RouterConfig(QtGui.QDialog):
 
     def xtermCommand(self, MNnode, title, command):
         display, tunnel = tunnelX11(MNnode, None)
-#        self.p1 = self.h4.popen( ['xterm', '-title', 'BlaBla', '-display ' + display, '-e', 'env TERM=ansi bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         return MNnode.popen(['xterm', '-title', title, '-display ' + display, '-e', command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     
     def pbWiresharkclicked(self):
@@ -933,19 +837,14 @@ class RouterConfig(QtGui.QDialog):
 class LinkConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(LinkConfig, self).__init__(parent)
-#        super(ControlMainWindow, self).__init__(parent)
-#        self.ui = Ui_MainWindow()
-#        self.ui.setupUi(self)
 
         uic.loadUi('confLink.ui', self)
-#        print "linkconfig init...)"
 
         for link in mySW.getNodeList("Link"):
             self.listLink.addItem(link.objectName())
 
         self.listLink.currentItemChanged.connect(self.currentLinkChanged)
 
-#        self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.resetButton)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.applyButton)
         self.hsDelay.valueChanged.connect(self.hsDelayChanged)
         self.sbDelay.valueChanged.connect(self.sbDelayChanged)
@@ -1007,7 +906,6 @@ class LinkConfig(QtGui.QDialog):
         destNode = mySW.instanceMN.getNode(self.destination)
 
         links = srcNode.connectionsTo(destNode)
-#        print links
         srcLink = links[0][0]   # e.g.  h3-eth0
         dstLink = links[0][1]   # e.g.  s1-eth3
         srcLink.config(**{'delay' : str(self.sbDelay.value()) + 'ms', \
@@ -1016,10 +914,6 @@ class LinkConfig(QtGui.QDialog):
         dstLink.config(**{'delay' : str(self.sbDelay.value()) + 'ms', \
                           'loss' : self.sbLoss.value(), \
                           'max_queue_size' : self.sbQueue.value()})
-
-#        self.h1s1 = {'delay':str(self.defaultDelay) + 'ms',
-#                     'loss':0,
-#                     'max_queue_size':None}
 
 # save new value in parameter Class, too
         self.LinkNodes[2] = self.sbDelay.value()
@@ -1068,7 +962,6 @@ class LinkConfig(QtGui.QDialog):
                 self.swin = 99
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
-#            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(True)
         else:
             self.source = ""
             self.destination = ""
@@ -1077,7 +970,6 @@ class LinkConfig(QtGui.QDialog):
             self.swin = 1
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
-#            self.buttonBox.button(QDialogButtonBox.Reset).setEnabled(False)
 
         info('\n****** showLinkValues: self.source:', str(self.source), '\n')
         info('\n****** showLinkValues: self.destination:', str(self.destination), '\n')
@@ -1133,12 +1025,8 @@ class LinkConfig(QtGui.QDialog):
 class SwitchConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(SwitchConfig, self).__init__(parent)
-#        super(ControlMainWindow, self).__init__(parent)
-#        self.ui = Ui_MainWindow()
-#        self.ui.setupUi(self)
 
         uic.loadUi('confSwitch.ui', self)
-#        print "linkSwitch init...)"
 
         for host in mySW.getNodeList("Switch"):
             self.listSwitch.addItem(host.objectName())
@@ -1187,77 +1075,6 @@ class SwitchConfig(QtGui.QDialog):
             previousObj.setStyleSheet("")
 
 
-# ------------------------------------------------------------------------------
-# Custom QTreeWidgetItem
-# ------------------------------------------------------------------------------
-class CustomTreeItem(QtGui.QTreeWidgetItem):
-    '''
-    Custom QTreeWidgetItem with Widgets
-    '''
-
-    def __init__(self, parent, name):
-        '''
-        parent (QTreeWidget) : Item's QTreeWidget parent.
-        name   (str)         : Item's name. just an example.
-        '''
-
-        ## Init super class ( QtGui.QTreeWidgetItem )
-        super(CustomTreeItem, self).__init__(parent)
-
-        ## Column 0 - Text:
-        self.setText(0, name)
-
-        ## Column 1 - Slider:
-        self.delay1 = QtGui.QSlider(orientation=Qt.Horizontal)
-        self.delay1.setValue(0)
-        self.treeWidget().setItemWidget(self, 1, self.delay1)
-
-        ## Column 2 - SpinBox:
-        self.delay2 = QtGui.QSpinBox()
-        self.delay2.setValue(0)
-        self.treeWidget().setItemWidget(self, 2, self.delay2)
-
-        ## Column 3 - Slider:
-        self.loss1 = QtGui.QSlider(orientation=Qt.Horizontal)
-        self.loss1.setValue(0)
-        self.treeWidget().setItemWidget(self, 3, self.loss1)
-
-        ## Column 4 - SpinBox:
-        self.loss2 = QtGui.QSpinBox()
-        self.loss2.setValue(0)
-        self.treeWidget().setItemWidget(self, 4, self.loss2)
-
-        ## Column 5 - Button:
-        self.button = QtGui.QPushButton()
-        self.button.setText( "button %s" %name )
-        self.treeWidget().setItemWidget(self, 5, self.button)
-
-        ## Signals
-        self.treeWidget().connect(self.button, QtCore.SIGNAL("clicked()"), self.buttonPressed)
-
-    @property
-    def name(self):
-        '''
-        Return name ( 1st column text )
-        '''
-        return self.text(0)
-
-    @property
-    def value(self):
-        '''
-        Return value ( 2nd column int)
-        '''
-        return self.delay1.value()
-
-    def buttonPressed(self):
-        '''
-        Triggered when Item's button pressed.
-        an example of using the Item's own values.
-        '''
-        print "This Item name:%s value:%i" %(self.name,
-                                             self.value)
-
-
 class Parameter():
     def __init__(self):
         # Schaffe Verknüpfung zwischen den GUI-Elementen
@@ -1282,7 +1099,6 @@ class Parameter():
         self.GUIrouter["Router04"] = "r4"
 
         self.GUIlinks = {}
-#        defaultDelay = 5   #FIXME
 #        self.GUIlinks["Link01"] = [source, dest, defaultDelay, loss, max_queue_size]
         self.GUIlinks["Link01"] = ["h1", "s1", defaultDelay, 0, None]
         self.GUIlinks["Link02"] = ["h2", "s1", defaultDelay, 0, None]
@@ -1318,7 +1134,7 @@ class Parameter():
         self.connections["Router04"] = ["Router01", "Router02", "Router03"]
 
     def setGUIlink(self, GUIname, param):
-        if GUIname in self.GUIlinks:
+        if GUIname in self.GUIlinks.keys():
             self.GUIlinks[GUIname] = param
         else:
             return None
@@ -1355,43 +1171,42 @@ class Parameter():
     def getLinkSrcDest(self, GUIname):
         info('\n****** getLinkSrcDest: GUIname :', str(GUIname), '\n')        
         info('\n****** getLinkSrcDest: self.GUIlinks :', str(self.GUIlinks), '\n')        
-        for tmpGUIname in self.GUIlinks.keys():
-            if tmpGUIname == GUIname:
-                return self.GUIlinks[str(GUIname)]
+#        for tmpGUIname in self.GUIlinks.keys():
+#            if tmpGUIname == GUIname:
+#                return self.GUIlinks[str(GUIname)]
+#
+#        print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
+#        return None
 
-        print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
-        return None
-
-#        if GUIname in self.GUIlinks:
-##            return self.GUIlinks[str(GUIname)]
-#            return self.GUIlinks[GUIname]
-#        else:
-#            print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
-#            return None
+        if GUIname in self.GUIlinks.keys():
+# For unknown reason the "str" is essential
+            return self.GUIlinks[str(GUIname)]   
+        else:
+            print "This GUI link (%s) has no node-2-node connection stored" % GUIname
+            return None
 
     def getConnectedTo(self, GUIname):
-        for tmpGUIname in self.GUIconnections.keys():
-            if tmpGUIname == GUIname:
-                return self.GUIconnections[str(GUIname)]
+#        for tmpGUIname in self.GUIconnections.keys():
+#            if tmpGUIname == GUIname:
+#                return self.GUIconnections[str(GUIname)]
+#
+#        print "Diesem GUI Link (%s) ist keinen Interfaces zugeordnet" % GUIname
+#        return None
 
-        print "Diesem GUI Link (%s) ist keinen Interfaces zugeordnet" % GUIname
-        return None
-
-#        if GUIname in self.connections:
-#            return self.connections[str(GUIname)]
-#        else:
-#            return None
+        if GUIname in self.connections.keys():
+# For unknown reason the "str" is essential
+            return self.connections[str(GUIname)]
+        else:
+            print "This host/router/switch (%s) has no connection to other nodes" % GUIname
+            return None
 
 
 class ControlMainWindow(QtGui.QMainWindow):
 
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
-#        self.ui = Ui_MainWindow()
-#        self.ui.setupUi(self)
 
         uic.loadUi('topo.ui', self)
-
 
         self.parameter = Parameter()
         info('\n****** parameter()', str(self.parameter), '\n')
@@ -1461,24 +1276,20 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.StartMNclicked()
 
     def stopSystemServices(self):
-#        return_code = subprocess.call("systemctl is-active NetworkManager", shell=True)
         return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "NetworkManager"], stdout=subprocess.PIPE)
         (stdoutdata, stderrdata) = return_descr.communicate()
         if stdoutdata == "active\n":
 # needed until this bug is fixed: https://github.com/mininet/mininet/issues/228
-            print "beende NetworkManager"
             subprocess.call("systemctl stop NetworkManager", shell=True)
             subprocess.call("dhclient eth0", shell=True)
 
 # or disable asterisk at startup
-#        return_code = subprocess.call("systemctl is-active asterisk", shell=True)
         return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "asterisk"], stdout=subprocess.PIPE)
         (stdoutdata, stderrdata) = return_descr.communicate()
         if stdoutdata == "active\n":
             subprocess.call("systemctl stop asterisk", shell=True)
 
 # or disable vsftp at startup
-#        return_code = subprocess.call("systemctl is-active vsftpd", shell=True)
         return_descr = subprocess.Popen(["/bin/systemctl", "is-active", "vsftpd"], stdout=subprocess.PIPE)
         (stdoutdata, stderrdata) = return_descr.communicate()
         if stdoutdata == "active\n":
@@ -1488,9 +1299,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         mySW.instanceMN.startCLI()
 
     def changeStatus(self, statusMessage):
-#        print "changeStatus1"
         self.statusBar().showMessage(statusMessage)
-#        print "changeStatus2"
 
     def getNodeList(self, Nodetype):
         """ extract all children of QWidget TopoArea for a
@@ -1504,8 +1313,6 @@ class ControlMainWindow(QtGui.QMainWindow):
                 anyList.append(i)
 
         listSorted = sorted(anyList, key=lambda temp: temp.objectName())
-#        for node in listSorted:
-#            print node.objectName()
 
         return listSorted
 
@@ -1513,7 +1320,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         try:
             self.StopMNclicked()
         except:
-            print "Mininet konnte nicht richtig beendet werden"
+            print "Mininet could not be stopped properly"
         exit(0)
 
 
@@ -1527,14 +1334,11 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.pbRestartMN.setEnabled(value)
 
     def drawLines(self, qp, fromx, fromy, tox, toy):
-
         pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
         qp.setPen(pen)
         qp.drawLine(fromx, fromy, tox, toy)
 
-
     def getCenter(self, widget):
-#        print widget.geometry(), "left", widget.geometry().left(), "width", widget.geometry().width(), "top", widget.geometry().top(),  "height", widget.geometry().height()
         shiftx = self.TopoArea.geometry().left() + self.centralwidget.geometry().left()
         shifty = self.TopoArea.geometry().top() + self.centralwidget.geometry().top()
         centerx = shiftx + widget.geometry().left() + 0.5 * widget.geometry().width()
@@ -1543,12 +1347,10 @@ class ControlMainWindow(QtGui.QMainWindow):
         return centerx, centery
 
     def drawMultiLinesObj(self, qp, source, *args):
-
         fromx, fromy = self.getCenter(source)
         for dest in args:
             tox, toy = self.getCenter(dest)
             self.drawLines(qp, fromx, fromy, tox, toy)
-
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
@@ -1575,43 +1377,23 @@ class ControlMainWindow(QtGui.QMainWindow):
 #        myHost.show()
 #        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
 
-    def Host01clicked(self):
-        self.showHostWindow(1)
-
-    def Host02clicked(self):
-        self.showHostWindow(2)
-
-    def Host03clicked(self):
-        self.showHostWindow(3)
-
-    def Host04clicked(self):
-        self.showHostWindow(4)
-
-    def Host05clicked(self):
-        self.showHostWindow(5)
-
-    def Host06clicked(self):
-        self.showHostWindow(6)
+    def Host01clicked(self): self.showHostWindow(1)
+    def Host02clicked(self): self.showHostWindow(2)
+    def Host03clicked(self): self.showHostWindow(3)
+    def Host04clicked(self): self.showHostWindow(4)
+    def Host05clicked(self): self.showHostWindow(5)
+    def Host06clicked(self): self.showHostWindow(6)
 
 
     def showRouterWindow(self, Routernumber) :
         myRouter = RouterConfig()
-#        print "routerconfig vor show"
         myRouter.listRouter.setCurrentRow(Routernumber - 1)
         myRouter.exec_()
 
-    def Router01clicked(self):
-#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        self.showRouterWindow(1)
-
-    def Router02clicked(self):
-        self.showRouterWindow(2)
-
-    def Router03clicked(self):
-        self.showRouterWindow(3)
-
-    def Router04clicked(self):
-        self.showRouterWindow(4)
+    def Router01clicked(self): self.showRouterWindow(1)
+    def Router02clicked(self): self.showRouterWindow(2)
+    def Router03clicked(self): self.showRouterWindow(3)
+    def Router04clicked(self): self.showRouterWindow(4)
 
 
     def showSwitchWindow(self, Switchnumber):
@@ -1620,60 +1402,27 @@ class ControlMainWindow(QtGui.QMainWindow):
         mySwitch.listSwitch.setCurrentRow(Switchnumber - 1)
         mySwitch.exec_()
 
-    def Switch01clicked(self):
-#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        self.showSwitchWindow(1)
-
-    def Switch02clicked(self):
-#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        self.showSwitchWindow(2)
+    def Switch01clicked(self): self.showSwitchWindow(1)
+    def Switch02clicked(self): self.showSwitchWindow(2)
 
     def showLinkWindow(self, Linknumber):
         myLink = LinkConfig()
-#        print ("linkconfig vor show")
         myLink.listLink.setCurrentRow(Linknumber - 1)
         myLink.exec_()
 
-    def Link01clicked(self):
-#        QtGui.QMessageBox.information(self, "Hello", "Router 1 clicked!")
-        self.showLinkWindow(1)
-
-    def Link02clicked(self):
-        self.showLinkWindow(2)
-
-    def Link03clicked(self):
-        self.showLinkWindow(3)
-
-    def Link04clicked(self):
-        self.showLinkWindow(4)
-
-    def Link05clicked(self):
-        self.showLinkWindow(5)
-
-    def Link06clicked(self):
-        self.showLinkWindow(6)
-
-    def Link07clicked(self):
-        self.showLinkWindow(7)
-
-    def Link08clicked(self):
-        self.showLinkWindow(8)
-
-    def Link09clicked(self):
-        self.showLinkWindow(9)
-
-    def Link10clicked(self):
-        self.showLinkWindow(10)
-
-    def Link11clicked(self):
-        self.showLinkWindow(11)
-
-    def Link12clicked(self):
-        self.showLinkWindow(12)
-
-    def Link13clicked(self):
-        self.showLinkWindow(13)
-
+    def Link01clicked(self): self.showLinkWindow(1)
+    def Link02clicked(self): self.showLinkWindow(2)
+    def Link03clicked(self): self.showLinkWindow(3)
+    def Link04clicked(self): self.showLinkWindow(4)
+    def Link05clicked(self): self.showLinkWindow(5)
+    def Link06clicked(self): self.showLinkWindow(6)
+    def Link07clicked(self): self.showLinkWindow(7)
+    def Link08clicked(self): self.showLinkWindow(8)
+    def Link09clicked(self): self.showLinkWindow(9)
+    def Link10clicked(self): self.showLinkWindow(10)
+    def Link11clicked(self): self.showLinkWindow(11)
+    def Link12clicked(self): self.showLinkWindow(12)
+    def Link13clicked(self): self.showLinkWindow(13)
 
 
 if __name__ == '__main__':
