@@ -23,6 +23,7 @@ import shlex, subprocess
 import time
 import os
 import signal
+from threading import Thread
 
 #from mainwindow import Ui_MainWindow
 
@@ -189,11 +190,15 @@ class MN():
         self.net.get('s1').start([])
         self.net.get('s2').start([])
 
-    def startCLI(self):
-        mySW.changeStatus("CLI started. You must end it with \"exit\" before you can user the GUI again!")
-        QApplication.processEvents()
-        
+    def threadCLI(self):
         CLI( self.net )
+
+    def startCLI(self):
+        mySW.changeStatus("CLI started. You *must* end it with \"exit\" before you exit the GUI or stop the network!")
+        #QApplication.processEvents()
+        
+        t = Thread(target=self.threadCLI, args=())
+        t.start()
 
     def stopNet( self ):
         subprocess.Popen(["pkill", "dhcpd"])
