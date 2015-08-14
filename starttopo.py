@@ -201,8 +201,16 @@ class MN():
 
     def stopNet( self ):
         subprocess.Popen(["pkill", "dhcpd"])
+        mySW.services.setDHCP(None)
+
         subprocess.Popen(["pkill", "asterisk"])
+        mySW.services.setVOIP(None)
+
         subprocess.Popen(["pkill", "vsftp"])
+        mySW.services.setVSFTP(None)
+
+        subprocess.Popen(["pkill", "--full", "\"python -m SimpleHTTPServer 80\""])
+        mySW.services.setHTTP(None)
 
         try:
             self.net.stop()
