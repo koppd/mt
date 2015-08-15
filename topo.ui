@@ -531,8 +531,6 @@
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionConfigure_Layout"/>
-    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
@@ -541,9 +539,6 @@
     </property>
     <addaction name="actionEnter_CLI"/>
     <addaction name="separator"/>
-    <addaction name="actionShow_debug_log"/>
-    <addaction name="actionCheck_configuration"/>
-    <addaction name="actionCheck_running_services"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuDebug"/>
