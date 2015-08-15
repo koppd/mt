@@ -1264,6 +1264,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.stopSystemServices()
 
+    def close(self):
+        self.pbExitclicked()
 
     def StartMNclicked(self):
         self.instanceMN = MN()
