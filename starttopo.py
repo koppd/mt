@@ -1253,7 +1253,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Link10.clicked.connect(self.Link10clicked)
         self.Link11.clicked.connect(self.Link11clicked)
         self.Link12.clicked.connect(self.Link12clicked)
-        self.Link13.clicked.connect(self.Link12clicked)
+        self.Link13.clicked.connect(self.Link13clicked)
 
         self.pbStartMN.clicked.connect(self.StartMNclicked)
         self.pbStopMN.clicked.connect(self.StopMNclicked)
