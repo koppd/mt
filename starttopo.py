@@ -201,8 +201,16 @@ class MN():
 
     def stopNet( self ):
         subprocess.Popen(["pkill", "dhcpd"])
+        mySW.services.setDHCP(None)
+
         subprocess.Popen(["pkill", "asterisk"])
+        mySW.services.setVOIP(None)
+
         subprocess.Popen(["pkill", "vsftp"])
+        mySW.services.setVSFTP(None)
+
+        subprocess.Popen(["pkill", "--full", "\"python -m SimpleHTTPServer 80\""])
+        mySW.services.setHTTP(None)
 
         try:
             self.net.stop()
@@ -348,7 +356,7 @@ class HostConfig(QtGui.QDialog):
     def startSimpleHTTPserver(self, MNnode):
         info('\n****** execute startHTTPserver on %s\n' % MNnode.name) #selectedHostText)
         pid = mySW.instanceMN.sendCmd(MNnode, "python -m SimpleHTTPServer 80 &")
-        print "pid http:", pid
+#        print "pid http:", pid
 
         mySW.services.setHTTP(MNnode)
 
@@ -356,7 +364,7 @@ class HostConfig(QtGui.QDialog):
 
     def startVSFTP(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &') #, preexec_fn=os.setsid )
-        print "pid vsftpd:", pid
+#        print "pid vsftpd:", pid
 
         mySW.services.setVSFTP(MNnode)
         return pid
@@ -374,7 +382,7 @@ class HostConfig(QtGui.QDialog):
 #FIXME
         MNnode.cmd("ifconfig %s-eth0 192.168.2.1" % MNnode.name, printPid=True)
         pid = MNnode.cmd("dhcpd -d -cf /etc/dhcp/dhcpd_mn.conf  -lf /var/lib/dhcp/dhcpd.leases.mn %s-eth0 &" % MNnode.name, printPid=True)
-        print "pid dhcp: ", pid
+#        print "pid dhcp: ", pid
 
         mySW.services.setDHCP(MNnode)
         return pid
@@ -402,7 +410,7 @@ class HostConfig(QtGui.QDialog):
         command = 'firefox %s &' % (serverIP)
 
         pid = mySW.instanceMN.sendCmd(MNnode, command)  #, preexec_fn=os.setsid )
-        print "pid firefox:", pid
+#        print "pid firefox:", pid
         mySW.changeStatus("View web page in Firefox")
         return pid
 
@@ -444,20 +452,20 @@ class HostConfig(QtGui.QDialog):
 
     def startVOIP(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &') #, preexec_fn=os.setsid )
-        print "pid asterisk:", pid
+#        print "pid asterisk:", pid
 
         mySW.services.setVOIP(MNnode)
         return pid
 
     def startLinphone(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
-        print "pid Linphone:", pid
+#        print "pid Linphone:", pid
         mySW.changeStatus("VoIP softphone \"Linphone\" started")
         return pid
 
     def startYate(self, MNnode):
         pid = mySW.instanceMN.sendCmd(MNnode, 'yate-qt4 &') #, preexec_fn=os.setsid )
-        print "pid yate-qt4:", pid
+#        print "pid yate-qt4:", pid
         mySW.changeStatus("VoIP softphone \"Yate\" started")
         return pid
 
@@ -472,7 +480,7 @@ class HostConfig(QtGui.QDialog):
             self.http = self.startSimpleHTTPserver(MNnode)
             mySW.changeStatus("A simple HTTP server has been started")
         if not self.cbSHTTP.isChecked() and mySW.services.isHTTP() and self.cbSHTTP.isEnabled():
-            print "kill HTTP server...", self.http
+#            print "kill HTTP server...", self.http
             MNnode.cmd("sudo pkill -f \"python -m SimpleHTTPServer 80\"")
             mySW.services.setHTTP(None)
             mySW.changeStatus("The simple HTTP server has been stopped")
@@ -585,7 +593,7 @@ class HostConfig(QtGui.QDialog):
 
         display, tunnel = tunnelX11(MNnode, None)
         self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
-        print "pid wireshark: ", self.sws
+#        print "pid wireshark: ", self.sws
 
 
     def pbCFTPclicked(self):
@@ -619,7 +627,7 @@ class HostConfig(QtGui.QDialog):
 
         display, tunnel = tunnelX11(MNnode, None)
         self.cws = MNnode.cmd( [wsCommand], shell=True, printPid=True)
-        print "pid wireshark: ", self.cws
+#        print "pid wireshark: ", self.cws
 
 
     def currentHostChanged(self, current, previous):
@@ -779,7 +787,7 @@ class RouterConfig(QtGui.QDialog):
         wsCommand = 'wireshark &'
         display, tunnel = tunnelX11(MNnode, None)
         self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
-        print "pid wireshark: ", self.sws
+#        print "pid wireshark: ", self.sws
 
     def getSelectedMNnode(self):
         selectedRouter = self.listRouter.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
@@ -1245,7 +1253,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.Link10.clicked.connect(self.Link10clicked)
         self.Link11.clicked.connect(self.Link11clicked)
         self.Link12.clicked.connect(self.Link12clicked)
-        self.Link13.clicked.connect(self.Link12clicked)
+        self.Link13.clicked.connect(self.Link13clicked)
 
         self.pbStartMN.clicked.connect(self.StartMNclicked)
         self.pbStopMN.clicked.connect(self.StopMNclicked)
@@ -1256,6 +1264,8 @@ class ControlMainWindow(QtGui.QMainWindow):
 
         self.stopSystemServices()
 
+    def close(self):
+        self.pbExitclicked()
 
     def StartMNclicked(self):
         self.instanceMN = MN()

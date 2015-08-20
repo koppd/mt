@@ -236,7 +236,7 @@
           <item row="3" column="0">
            <widget class="QCheckBox" name="cbCVOIPyate">
             <property name="text">
-             <string>VoIP Softphone Yate</string>
+             <string>VoIP Softphone Yate (no mic/bad sound)</string>
             </property>
            </widget>
           </item>
