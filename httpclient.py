@@ -15,7 +15,7 @@ import re
 from subprocess import call
 
 def call_wget(server, filename):
-    call(["wget", "-O", "/dev/null", "%s/%s]) % (server, filename)
+    call(["wget", "-O", "/dev/null", "%s/%s" % (server, filename)])
 
 
 def startRealDownload(server, filename):
@@ -25,7 +25,7 @@ def startRealDownload(server, filename):
         pass
     else:
 # Erzeuge Socket
-        raw_input("Press Enter to download file %s from server %s. ") % (server, filename)
+        raw_input("Press Enter to download file %s from server %s. " % (filename, server))
 
         redownload = True
         while redownload == True:
