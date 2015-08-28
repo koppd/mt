@@ -25,10 +25,10 @@ def connect( host, port):
     clientSocket.connect((host, int(port)))
     # FIXME hier das OK pruefen
 
-    print "warte auf Begruessungsnachricht..."
+    print "wait for welcome message..."
     toRecv = clientSocket.recv(1024)
     toRecv = toRecv.decode(encoding='UTF-8')
-    print "empfangen nach connect:", toRecv
+    print "received after connection established:", toRecv
 
     return clientSocket
 
@@ -40,7 +40,7 @@ def send_user( clientSocket, user):
 
     toRecv = clientSocket.recv(1024)
     toRecv = toRecv.decode(encoding='UTF-8')
-    print "empfangen nach USER:", toRecv
+    print "received after USER:", toRecv
     # FIXME hier das OK pruefen
     if toRecv == "+OK\r\n":
         return 0
@@ -55,7 +55,7 @@ def send_pass( clientSocket, password):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach PASS:", toRecv
+    print "received after PASS:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return 0
@@ -69,7 +69,7 @@ def send_cwd( clientSocket, directory):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach CWD:", toRecv
+    print "received after CWD:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return 0
@@ -82,7 +82,7 @@ def send_syst(clientSocket):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach SYST:", toRecv
+    print "received after SYST:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return 0
@@ -95,7 +95,7 @@ def send_type(clientSocket):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach TYPE I:", toRecv
+    print "received after TYPE I:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return 0
@@ -127,7 +127,7 @@ def send_port( clientSocket, localip ):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach PORT:", toRecv
+    print "received after PORT:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return dataSocket
@@ -141,7 +141,7 @@ def send_retr( clientSocket, dataport, filename):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach RETR Teil 1:", toRecv
+    print "received after RETR part 1:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
 #empfange Datei
@@ -152,10 +152,10 @@ def send_retr( clientSocket, dataport, filename):
     notFinished = True
     while notFinished:
         try:
-            buf = connectionSocket.recv(1000)
+            buf = connectionSocket.recv(10000)
             if len(buf) > 0:
                 receivedMessage += buf
-                print "Bislang erhalten:", len(receivedMessage)
+                print "received so far:", len(receivedMessage)
             else:
                 notFinished = False
         except:
@@ -164,7 +164,7 @@ def send_retr( clientSocket, dataport, filename):
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach RETR Teil 2:", toRecv
+    print "received after RETR part 2:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 #  ToDo: FTP-Data Port schließen
 
@@ -177,7 +177,7 @@ def close_connection( clientSocket):
     clientSocket.send(b"QUIT\r\n")
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "empfangen nach QUIT:", toRecv
+    print "received after QUIT:", toRecv
     clientSocket.close()
 
 
