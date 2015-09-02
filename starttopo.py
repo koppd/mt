@@ -396,7 +396,7 @@ class HostConfig(QtGui.QDialog):
 
         title = '"Download via HTTP in progress..."'
 #        command = 'env TERM=ansi wget -O /dev/null %s/smallfile' % (serverIP)
-        command = 'env TERM=ansi python httpclient.py -s %s -f %s' % (serverIP, "smallfile")
+        command = 'env TERM=ansi python httpclient.py -s %s -f %s' % (serverIP, "bigfile")
             # -s server
             # -f filename
         self.xtermCommand(MNnode, title, command)

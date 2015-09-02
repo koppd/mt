@@ -11,11 +11,17 @@ import signal
 import argparse
 import sys
 from socket import *
-import re
-from subprocess import call
+import subprocess
+
+import shlex
 
 def call_wget(server, filename):
-    call(["wget", "-O", "/dev/null", "%s/%s" % (server, filename)])
+#    call(["wget", "-O", "-", "%s/%s" % (server, filename), "|", "md5sum"])
+    args = shlex.split("wget -O tmp_file %s/%s" % (server, filename))
+    wget = subprocess.call(args)
+    md5sum = subprocess.call(shlex.split("md5sum tmp_file"))
+
+    subprocess.call(shlex.split("rm tmp_file"))
 
 
 def startRealDownload(server, filename):
@@ -24,7 +30,9 @@ def startRealDownload(server, filename):
 #        CLI(self.net)
         pass
     else:
-# Erzeuge Socket
+        print "After every download, md5sum will calculate the md5 hash."
+        print "This will show you the correctness of the file transfer even if the link quality is bad."
+        print ""
         raw_input("Press Enter to download file %s from server %s. " % (filename, server))
 
         redownload = True
