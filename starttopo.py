@@ -237,7 +237,6 @@ class Services():
 
     def setDHCP(self, MNnode):
         self.DHCPnode = MNnode
-        print "DHCPnode gesetzt:", self.DHCPnode
 
     def getDHCPip(self):
         if self.DHCPnode != None:

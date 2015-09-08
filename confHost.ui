@@ -277,7 +277,7 @@
           <item row="0" column="0">
            <widget class="QCheckBox" name="cbDownload">
             <property name="text">
-             <string>File Download</string>
+             <string>HTTP File Download (with &quot;wget&quot;)</string>
             </property>
            </widget>
           </item>
