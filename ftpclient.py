@@ -21,7 +21,7 @@ def connect( host, port):
         returns: a socket that is connected to the server
     """
     clientSocket = socket(AF_INET, SOCK_STREAM)
-    print "Verbdungsaufbau... ", host, int(port)
+    print "Create Connection... ", host, int(port)
     clientSocket.connect((host, int(port)))
     # FIXME hier das OK pruefen
 
@@ -35,12 +35,15 @@ def connect( host, port):
 def send_user( clientSocket, user):
     """ send the USER command """
 
+    raw_input("Press Enter to send user. ")
+
     toSend = "USER " + user + "\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     toRecv = toRecv.decode(encoding='UTF-8')
-    print "received after USER:", toRecv
+    print "received:", toRecv
     # FIXME hier das OK pruefen
     if toRecv == "+OK\r\n":
         return 0
@@ -50,60 +53,60 @@ def send_user( clientSocket, user):
 def send_pass( clientSocket, password):
     """ send the PASS command """
 
+    raw_input("Press Enter to send password. ")
+
     toSend = "PASS " + password + "\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after PASS:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-
-    return 0
-
 
 def send_cwd( clientSocket, directory):
     """ send the CWD command """
+    raw_input("Press Enter to change folder. ")
 
     toSend = "CWD " + directory + "\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after CWD:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-
-    return 0
 
 def send_syst(clientSocket):
     """ send the SYST command """
 
     toSend = "SYST" + "\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after SYST:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-
-    return 0
 
 def send_type(clientSocket):
     """ send the TYPE command """
 
+    raw_input("Press Enter to switch to binary mode. ")
+
     toSend = "TYPE I" + "\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after TYPE I:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-
-    return 0
 
 def send_port( clientSocket, localip ):
     """ send the RETR command """
 
-    send_syst(clientSocket)
+#    send_syst(clientSocket)
     send_type(clientSocket)
 
     dataSocket = socket(AF_INET, SOCK_STREAM)
@@ -114,6 +117,7 @@ def send_port( clientSocket, localip ):
 
     localIP = dataSocket.getsockname()[0]
     localport = dataSocket.getsockname()[1]
+    print "Active mode needs a new TCP-connection:"
     print "Chosen local IP:", localIP
     print "Chosen local port:", localport
 
@@ -121,13 +125,17 @@ def send_port( clientSocket, localip ):
     localPortHi = int(localport / 256)
     localPortLow = localport % 256
     localPortText = str(localPortHi) + ',' + str(localPortLow)
+
+    print "\r"
+    raw_input("Press Enter to send PORT command. ")
+
     toSend = "PORT " + localIPtext + ',' + localPortText + "\r\n"
-    print "send this PORT command: ", toSend
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after PORT:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
     return dataSocket
@@ -136,12 +144,15 @@ def send_port( clientSocket, localip ):
 def send_retr( clientSocket, dataport, filename):
     """ send the RETR command """
 
+    raw_input("Press Enter to start download. ")
+
     toSend = "RETR " + filename +"\r\n"
+    print "sent:", toSend[:-1]
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after RETR part 1:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
 #empfange Datei
@@ -152,32 +163,35 @@ def send_retr( clientSocket, dataport, filename):
     notFinished = True
     while notFinished:
         try:
-            buf = connectionSocket.recv(10000)
+            buf = connectionSocket.recv(20000)
             if len(buf) > 0:
                 receivedMessage += buf
-                print "received so far:", len(receivedMessage)
+                print "downloaded so far:", len(receivedMessage)
             else:
                 notFinished = False
         except:
             notFinished = False
-    print len(receivedMessage)
+    print "download finished:", len(receivedMessage)
 
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after RETR part 2:", toRecv
+    print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 #  ToDo: FTP-Data Port schließen
-
-    return 0
 
 
 def close_connection( clientSocket):
     """ close the connection """
 
-    clientSocket.send(b"QUIT\r\n")
+    raw_input("Press Enter to close connection. ")
+
+    toSend = "QUIT\r\n"
+    print "sent:", toSend[:-1]
+    clientSocket.send(toSend.encode('UTF-8'))
+
     toRecv = clientSocket.recv(1024)
     # FIXME hier das OK pruefen
-    print "received after QUIT:", toRecv
+    print "received:", toRecv
     clientSocket.close()
 
 
@@ -198,25 +212,20 @@ def startRealDownload(server, localip, port, user, password):
 # Verbinde mit FTP-Server
 
 # sende Username
-        raw_input("Press Enter to send user. ")
         send_user(clientSocket, user)
 
 # sende Passwort
-        raw_input("Press Enter to send password. ")
         send_pass(clientSocket, password)
 
 # wechsle Verzeichnis
-        raw_input("Press Enter to change into right folder. ")
         send_cwd(clientSocket, "mininet")
         send_cwd(clientSocket, "demo")
 
 # Download Datei
-        raw_input("Press Enter to download file. ")
         dataport = send_port(clientSocket, localip)
         send_retr(clientSocket, dataport, "ftp_downloadfile")
 
 # Verabschieden und beende Verbindung
-        raw_input("Press Enter to close connection. ")
         close_connection(clientSocket)
         raw_input("Demo is over. Press Enter to close window. ")
 
