@@ -970,7 +970,7 @@ class LinkConfig(QtGui.QDialog):
             self.loss = self.LinkNodes[3]
             self.swin = self.LinkNodes[4]
             if self.swin == None:
-                self.swin = 99
+                self.swin = 9999
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
         else:
