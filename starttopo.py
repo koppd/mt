@@ -247,7 +247,6 @@ class Services():
             return mySW.parameter.getGUIname(self.DHCPnode)
 
     def isDHCP(self):
-#        print "isDHCP", self.DHCPnode
         if self.DHCPnode != None:
             return True
         else:
@@ -736,7 +735,6 @@ class HostConfig(QtGui.QDialog):
 class DHCPConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         super(DHCPConfig, self).__init__(parent)
-        print "confDHCP loaded"
         uic.loadUi('confDHCP.ui', self)
 
 
@@ -789,7 +787,6 @@ class RouterConfig(QtGui.QDialog):
         wsCommand = 'wireshark &'
         display, tunnel = tunnelX11(MNnode, None)
         self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
-#        print "pid wireshark: ", self.sws
 
     def getSelectedMNnode(self):
         selectedRouter = self.listRouter.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
@@ -1382,7 +1379,6 @@ class ControlMainWindow(QtGui.QMainWindow):
     def showHostWindow(self, Hostnumber):
         myHost = HostConfig()
         info('\n*** myhost erzeugt\n')
-#        print ("hostconfig vor show")
         myHost.listHost.setCurrentRow(Hostnumber - 1)  #FIXME
         info('\n****** host list auf erste,... gesetzt\n')
         myHost.showHostValues()
@@ -1411,7 +1407,6 @@ class ControlMainWindow(QtGui.QMainWindow):
 
     def showSwitchWindow(self, Switchnumber):
         mySwitch = SwitchConfig()
-#        print ("switchconfig vor show")
         mySwitch.listSwitch.setCurrentRow(Switchnumber - 1)
         mySwitch.exec_()
 
@@ -1439,6 +1434,7 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 
 if __name__ == '__main__':
+    print "This terminal is needed when you start the debug mode (CLI)"
     app = QtGui.QApplication(sys.argv)
 #    setLogLevel( 'info' )
     mySW = ControlMainWindow()
