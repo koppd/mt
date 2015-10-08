@@ -5,11 +5,11 @@ Created on Thu May 28 08:21:56 2015
 @author: mininet
 """
 
-import time
-import os
-import signal
+#import time
+#import os
+#import signal
 import argparse
-import sys
+#import sys
 from socket import *
 import re
 
@@ -23,7 +23,6 @@ def connect( host, port):
     clientSocket = socket(AF_INET, SOCK_STREAM)
     print "Create Connection... ", host, int(port)
     clientSocket.connect((host, int(port)))
-    # FIXME check OK here
 
     print "wait for welcome message..."
     toRecv = clientSocket.recv(1024)
@@ -44,7 +43,6 @@ def send_user( clientSocket, user):
     toRecv = clientSocket.recv(1024)
     toRecv = toRecv.decode(encoding='UTF-8')
     print "received:", toRecv
-    # FIXME check OK here
     if toRecv == "+OK\r\n":
         return 0
     else:
@@ -60,7 +58,6 @@ def send_pass( clientSocket, password):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -73,7 +70,6 @@ def send_cwd( clientSocket, directory):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -86,7 +82,6 @@ def send_syst(clientSocket):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -100,7 +95,6 @@ def send_type(clientSocket):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -136,7 +130,6 @@ def send_port( clientSocket, localip ):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -153,7 +146,6 @@ def send_retr( clientSocket, dataport, filename):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
 
@@ -176,10 +168,8 @@ def send_retr( clientSocket, dataport, filename):
     print "download finished:", len(receivedMessage)
 
     toRecv = clientSocket.recv(1024)
-    # FIXME check OK here
     print "received:", toRecv
     toRecv = toRecv.decode(encoding='UTF-8')
-#  ToDo: FTP-Data Port schließen
 
 
 def close_connection( clientSocket):
@@ -192,42 +182,37 @@ def close_connection( clientSocket):
     clientSocket.send(toSend.encode('UTF-8'))
 
     toRecv = clientSocket.recv(1024)
-    # FIXME hier das OK pruefen
     print "received:", toRecv
     clientSocket.close()
 
 
 def startRealDownload(server, localip, port, user, password):
 
-    if 1==2:
-#        CLI(self.net)
-        pass
-    else:
 # create socket
-        raw_input("Press Enter to connect to server. ")
-        clientSocket = connect(server, port)
+    raw_input("Press Enter to connect to server. ")
+    clientSocket = connect(server, port)
 
 # connect to FTP server
 
 # send user name
-        send_user(clientSocket, user)
+    send_user(clientSocket, user)
 
 # send passwort
-        send_pass(clientSocket, password)
+    send_pass(clientSocket, password)
 
 # change directory
-        send_cwd(clientSocket, "mininet")
-        send_cwd(clientSocket, "demo")
+    send_cwd(clientSocket, "mininet")
+    send_cwd(clientSocket, "demo")
 
 # download file
-        dataport = send_port(clientSocket, localip)
-        send_retr(clientSocket, dataport, "ftp_downloadfile")
+    dataport = send_port(clientSocket, localip)
+    send_retr(clientSocket, dataport, "ftp_downloadfile")
 
 # quit and close connection
-        close_connection(clientSocket)
-        raw_input("Demo is over. Press Enter to close window. ")
+    close_connection(clientSocket)
+    raw_input("Demo is over. Press Enter to close window. ")
 
-        return 0
+    return 0
 
 if __name__ == '__main__':
     #setLogLevel( 'info' )

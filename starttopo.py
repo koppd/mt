@@ -1,13 +1,9 @@
 #-*- coding: utf-8 -*-
 import sys
-#from PySide import QtGui
-#from PySide import QtCore
 from PyQt4 import QtGui, QtCore
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-#from PyQt4 import uic
-#import TCPloss
 
 from mininet.net import Mininet
 from mininet.node import Controller, RemoteController, OVSController
@@ -18,11 +14,12 @@ from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.link import TCLink, Intf
 from mininet.term import makeTerm, makeTerms, runX11, tunnelX11, cleanUpScreens
-import shlex, subprocess
+#import shlex
+import subprocess
 #import mininet.term
-import time
-import os
-import signal
+#import time
+#import os
+#import signal
 from threading import Thread
 
 #from mainwindow import Ui_MainWindow
@@ -50,7 +47,7 @@ class MN():
         try:
             return tmphost.IP()
         except:
-            print "kein entsprechenden MN Host-IP gefunden"
+            print "no corresponding Mininet host-IP found"
             return None
         return None
 
@@ -59,7 +56,7 @@ class MN():
         try:
             return tmphost.MAC()
         except:
-            print "kein entsprechenden MN Host-MAC gefunden"
+            print "no corresponding Mininet host-MAC found"
             return None
         return None
 
@@ -70,7 +67,7 @@ class MN():
         try:
             return self.net.getNodeByName(host)   #e.g. host = h1
         except:
-            print "Node %s existiert nicht" % host
+            print "Node %s does not exist" % host
             return None
 
 
@@ -134,22 +131,22 @@ class MN():
 # Sub-net D: 10.0.1.24/29
         tmplink = self.net.addLink(self.r2, self.r3, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.25', prefixLen=29, intf='r2-eth2')
-        tmplink.intf2.setIP('10.0.1.26/29') #entspricht r3-eth1
+        tmplink.intf2.setIP('10.0.1.26/29') #corresponds to r3-eth1
 
 # Sub-net F: 10.0.1.40/29
         tmplink = self.net.addLink(self.r3, self.r4, cls=TCLink, **default_link)
         self.r3.setIP('10.0.1.41', prefixLen=29, intf='r3-eth2')
-        tmplink.intf2.setIP('10.0.1.42/29') #entspricht r4-eth0 
+        tmplink.intf2.setIP('10.0.1.42/29') #corresponds to r4-eth0 
 
 # Sub-net G: 10.0.1.48/29
         tmplink = self.net.addLink(self.r1, self.r4, cls=TCLink, **default_link)
         self.r1.setIP('10.0.1.50', prefixLen=29, intf='r1-eth2')
-        tmplink.intf2.setIP('10.0.1.49/29') #entspricht r4-eth1
+        tmplink.intf2.setIP('10.0.1.49/29') #corresponds to r4-eth1
 
 # Sub-net H: 10.0.1.56/29
         tmplink = self.net.addLink(self.r2, self.r4, cls=TCLink, **default_link)
         self.r2.setIP('10.0.1.57', prefixLen=29, intf='r2-eth3')
-        tmplink.intf2.setIP('10.0.1.58/29') #entspricht r4-eth2
+        tmplink.intf2.setIP('10.0.1.58/29') #corresponds to r4-eth2
 
     def createRoutes(self):
 
@@ -329,15 +326,12 @@ class HostConfig(QtGui.QDialog):
         self.pbSWireshark.clicked.connect(self.pbSWiresharkclicked)
         self.pbSDHCP.clicked.connect(self.showDHCPWindow)
 #Client tab
-#        self.pbCFTP.clicked.connect(self.pbCFTPclicked)
         self.pbCWireshark.clicked.connect(self.pbCWiresharkclicked)
 
     def applyButton(self):
-#        print "apply buttton"
         self.applyChanges()
 
     def resetButton(self):
-#        print "reset buttton"
         pass
 
     def accept(self):
@@ -345,7 +339,6 @@ class HostConfig(QtGui.QDialog):
         self.applyChanges()
         self.currentObj.setStyleSheet("")
         QDialog.accept(self)
-#        self.close()
 
     def reject(self):
         self.currentObj.setStyleSheet("")
@@ -361,7 +354,7 @@ class HostConfig(QtGui.QDialog):
         return pid
 
     def startVSFTP(self, MNnode):
-        pid = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &') #, preexec_fn=os.setsid )
+        pid = mySW.instanceMN.sendCmd(MNnode, 'vsftpd &')
 #        print "pid vsftpd:", pid
 
         mySW.services.setVSFTP(MNnode)
@@ -377,10 +370,9 @@ class HostConfig(QtGui.QDialog):
             MNnode.cmd("touch /var/lib/dhcp/dhcpd.leases.mn", printPid=True)
         else:
             print "verwende vorhandene /var/lib/dhcp/dhcpd.leases.mn"
-#FIXME
+
         MNnode.cmd("ifconfig %s-eth0 192.168.2.1" % MNnode.name, printPid=True)
         pid = MNnode.cmd("dhcpd -d -cf /etc/dhcp/dhcpd_mn.conf  -lf /var/lib/dhcp/dhcpd.leases.mn %s-eth0 &" % MNnode.name, printPid=True)
-#        print "pid dhcp: ", pid
 
         mySW.services.setDHCP(MNnode)
         return pid
@@ -393,7 +385,6 @@ class HostConfig(QtGui.QDialog):
             return
 
         title = '"Download via HTTP in progress..."'
-#        command = 'env TERM=ansi wget -O /dev/null %s/smallfile' % (serverIP)
         command = 'env TERM=ansi python httpclient.py -s %s -f %s' % (serverIP, "bigfile")
             # -s server
             # -f filename
@@ -410,8 +401,7 @@ class HostConfig(QtGui.QDialog):
 
         command = 'firefox %s &' % (serverIP)
 
-        pid = mySW.instanceMN.sendCmd(MNnode, command)  #, preexec_fn=os.setsid )
-#        print "pid firefox:", pid
+        pid = mySW.instanceMN.sendCmd(MNnode, command)
         mySW.changeStatus("View web page in Firefox")
         return pid
 
@@ -424,7 +414,6 @@ class HostConfig(QtGui.QDialog):
             return
 
         title = '"FTP Client"'
-#        command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u mininet -pw mininet' % (serverIP, MNnode.IP())
         command = 'env TERM=ansi python ftpclient.py -s %s -lip %s -p 21 -u dom -pw 11111' % (serverIP, MNnode.IP())
             # -s server
             # -lip local ip   PS: localhost would be nice, but it doesn't work.
@@ -444,29 +433,24 @@ class HostConfig(QtGui.QDialog):
             print "verwende vorhandene /var/lib/dhcp/dhclient.leases.mn"
             MNnode.cmd("touch /var/lib/dhcp/dhclient.leases.mn", printPid=True)
 
-#        MNnode.cmd("ip addr flush dev %s-eth0", printPid=True) % MNnode.name
-
         title = '"Client DHCP"'
         command = 'env TERM=ansi dhclient -d -v -lf /var/lib/dhcp/dhclient.leases.mn %s-eth0' % MNnode.name
         self.xtermCommand(MNnode, title, command)
         mySW.changeStatus("DHCP client started.")
 
     def startVOIP(self, MNnode):
-        pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &') #, preexec_fn=os.setsid )
-#        print "pid asterisk:", pid
+        pid = mySW.instanceMN.sendCmd(MNnode, 'asterisk &')
 
         mySW.services.setVOIP(MNnode)
         return pid
 
     def startLinphone(self, MNnode):
-        pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &') #, preexec_fn=os.setsid )
-#        print "pid Linphone:", pid
+        pid = mySW.instanceMN.sendCmd(MNnode, 'linphone &')
         mySW.changeStatus("VoIP softphone \"Linphone\" started")
         return pid
 
     def startYate(self, MNnode):
-        pid = mySW.instanceMN.sendCmd(MNnode, 'yate-qt4 &') #, preexec_fn=os.setsid )
-#        print "pid yate-qt4:", pid
+        pid = mySW.instanceMN.sendCmd(MNnode, 'yate-qt4 &')
         mySW.changeStatus("VoIP softphone \"Yate\" started")
         return pid
 
@@ -491,7 +475,6 @@ class HostConfig(QtGui.QDialog):
             self.vsftp = self.startVSFTP(MNnode)
             mySW.changeStatus("A FTP server (vsftp) has been started")
         if not self.cbSFTP.isChecked() and mySW.services.isVSFTP() and self.cbSFTP.isEnabled():
-#            print "kill FTP server...", self.vsftp
             MNnode.cmd("pkill vsftp")
             mySW.services.setVSFTP(None)
             mySW.changeStatus("The FTP server (vsftp) has been stopped")
@@ -501,7 +484,6 @@ class HostConfig(QtGui.QDialog):
             self.dhcpd = self.startDHCPD(MNnode)
             mySW.changeStatus("A DHCP server (dhcpd) has been started")
         if not self.cbSDHCP.isChecked() and mySW.services.isDHCP() and self.cbSDHCP.isEnabled():
-#            print "kill DHCP server...", self.dhcpd
             MNnode.cmd("pkill dhcpd")
             mySW.services.setDHCP(None)
             mySW.changeStatus("The DHCP server (dhcpd) has been stopped")
@@ -511,7 +493,6 @@ class HostConfig(QtGui.QDialog):
             self.voip = self.startVOIP(MNnode)
             mySW.changeStatus("A VoIP server (asterisk) has been started")
         if not self.cbSVOIP.isChecked() and mySW.services.isVOIP() and self.cbSVOIP.isEnabled():
-#            print "kill VoIP server...", self.voip
             MNnode.cmd("pkill asterisk")
             mySW.services.setVOIP(None)
             mySW.changeStatus("The VoIP server (asterisk) has been stopped")
@@ -594,7 +575,6 @@ class HostConfig(QtGui.QDialog):
 
         display, tunnel = tunnelX11(MNnode, None)
         self.sws = MNnode.cmd([wsCommand], shell=True, printPid=True)
-#        print "pid wireshark: ", self.sws
 
 
     def pbCFTPclicked(self):
@@ -664,57 +644,57 @@ class HostConfig(QtGui.QDialog):
         INTERFACES = MNnode.intfNames()
         self.leInferface.setText(str(INTERFACES[0]))
 
-# DHCP läuft nicht
+# DHCP is not running
         if not mySW.services.isDHCP():
             self.cbSDHCP.setEnabled(True)
             self.cbSDHCP.setChecked(False)
         elif selectedHostText == mySW.services.getDHCPguiHost():
-# DHCP löuft UND auf diesem Host
+# DHCP is running AND on this host
             self.cbSDHCP.setEnabled(True)
             self.cbSDHCP.setChecked(True)
-# DHCP löuft aber nicht diesem Host
+# DHCP is running, but not on this host
         else:
             self.cbSDHCP.setEnabled(False)
             self.cbSDHCP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# HTTP läuft nicht
+# HTTP is not running
         if not mySW.services.isHTTP():
             self.cbSHTTP.setEnabled(True)
             self.cbSHTTP.setChecked(False)
         elif selectedHostText == mySW.services.getHTTPguiHost():
-# HTTP löuft UND auf diesem Host
+# HTTP is running AND on this host
             self.cbSHTTP.setEnabled(True)
             self.cbSHTTP.setChecked(True)
-# HTTP löuft aber nicht diesem Host
+# HTTP is running, but not on this host
         else:
             self.cbSHTTP.setEnabled(False)
             self.cbSHTTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# FTP läuft nicht
+# FTP is not running
         if not mySW.services.isVSFTP():
             self.cbSFTP.setEnabled(True)
             self.cbSFTP.setChecked(False)
         elif selectedHostText == mySW.services.getVSFTPguiHost():
-# FTP löuft UND auf diesem Host
+# FTP is running AND on this host
             self.cbSFTP.setEnabled(True)
             self.cbSFTP.setChecked(True)
-# FTP löuft aber nicht diesem Host
+# FTP is running, but not on this host
         else:
             self.cbSFTP.setEnabled(False)
             self.cbSFTP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
 
 
-# VOIP läuft nicht
+# VOIP is not running
         if not mySW.services.isVOIP():
             self.cbSVOIP.setEnabled(True)
             self.cbSVOIP.setChecked(False)
         elif selectedHostText == mySW.services.getVOIPguiHost():
-# VOIP löuft UND auf diesem Host
+# VOIP is running AND on this host
             self.cbSVOIP.setEnabled(True)
             self.cbSVOIP.setChecked(True)
-# VOIP löuft aber nicht diesem Host
+# VOIP is running, but not on this host
         else:
             self.cbSVOIP.setEnabled(False)
             self.cbSVOIP.setChecked(False) # oder doch True, falls man ein graues Kreuz haben will
@@ -739,7 +719,6 @@ class DHCPConfig(QtGui.QDialog):
 
 
     def accept(self):
-#        print "accept/OK button"
         self.applyChanges()
         QDialog.accept(self)
 
@@ -797,11 +776,8 @@ class RouterConfig(QtGui.QDialog):
         return mySW.instanceMN.getNode(MNrouter)      #object of r1
 
     def accept(self):
-#        print "accept/OK button"
-#        self.applyChanges()
         self.currentObj.setStyleSheet("")
         QDialog.accept(self)
-#        self.close()
 
     def reject(self):
         self.currentObj.setStyleSheet("")
@@ -832,11 +808,6 @@ class RouterConfig(QtGui.QDialog):
         info('\n****** MNrouter:', str(MNrouter), '\n')
         MNnode = mySW.instanceMN.getNode(MNrouter)
         info('\n****** MNRouter:', str(MNnode), '\n')
-
-#        IP = mySW.instanceMN.getIP(MNrotuer)
-#        self.leIP.setText(IP)
-#        MAC = mySW.instanceMN.getMAC(MNrouter)
-#        self.leMAC.setText(MAC)
 
         self.ptRoute.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd('route'))
         self.ptLinks.setPlainText(mySW.instanceMN.net[str(MNrouter)].cmd('ip a'))
@@ -881,15 +852,12 @@ class LinkConfig(QtGui.QDialog):
         self.hsQueue.setValue(self.sbQueue.value())
 
     def applyButton(self):
-#        print "apply button link"
         self.applyChanges()
 
     def resetButton(self):
- #       print "reset buttton link"
         pass
 
     def accept(self):
-#        print "accept/OK button link"
         self.applyChanges()
         QDialog.accept(self)
 
@@ -944,10 +912,10 @@ class LinkConfig(QtGui.QDialog):
             previousObj.setStyleSheet("")
 
     def showLinkValues(self):
-# Link-Werte (delay, loss, ...)  können nicht aus MiniNet gelesen werden
-# man müsste die tc Programme händisch auswerten.
-# Deswegen werde die Soll-Werte aus der Parameter-Klasse geholt und
-# bei Bedarf an Mininet übertragen. Die GUI Anzeige basiert auf den Soll-Werten
+# Link values (delay, loss,...) cannot be read out of Mininet.
+# Instead the tc programms has to be called and parsed.
+# Therefor, we get the should-values from the parameter class and
+# push them to Mininet instead. The GUI values are based on the should-values
 
         self.selectedLink = self.listLink.currentItem()   #e.g <PyQt4.QtGui.QListWidgetItem object at 0x7f0ce01fa0e8>
         if self.selectedLink != None:
@@ -1044,8 +1012,6 @@ class SwitchConfig(QtGui.QDialog):
         self.pbXterm.clicked.connect(self.pbXtermclicked)
 
     def accept(self):
-#        print "accept/OK button link"
-#        self.applyChanges()
         QDialog.accept(self)
 
     def reject(self):
@@ -1072,7 +1038,6 @@ class SwitchConfig(QtGui.QDialog):
                                    shell=True)
 
     def currentSwitchChanged(self, current, previous):
-#        self.showSwitchValues()
 #        print current.text()   #e.g. Host05
 
         self.currentObj = mySW.TopoArea.findChild(QtGui.QWidget, current.text())
@@ -1124,7 +1089,7 @@ class Parameter():
         self.GUIlinks["Link13"] = ["s2", "r3", defaultDelay, 0, None]
 
 
-# Nicht unique, d.h. jede Verbindung taucht zweimal auf.
+# Not unique, that means every connection/node is listed twice
         self.connections = {}
         self.connections["Host01"] = ["Switch01"]
         self.connections["Host02"] = ["Switch01"]
@@ -1173,18 +1138,12 @@ class Parameter():
             if self.GUIrouter[str(GUIroute)] == MNnode.name:
                 return GUIroute
 
-        print "Dieser MN node (%s) ist keinem GUI host zugeordnet" % MNnode
+        print "This Mininet node (%s) has to corresponding GUI host" % MNnode
         return None
 
     def getLinkSrcDest(self, GUIname):
         info('\n****** getLinkSrcDest: GUIname :', str(GUIname), '\n')        
         info('\n****** getLinkSrcDest: self.GUIlinks :', str(self.GUIlinks), '\n')        
-#        for tmpGUIname in self.GUIlinks.keys():
-#            if tmpGUIname == GUIname:
-#                return self.GUIlinks[str(GUIname)]
-#
-#        print "Diesem GUI Link (%s) ist keiner Verbindung zugeordnet" % GUIname
-#        return None
 
         if GUIname in self.GUIlinks.keys():
 # For unknown reason the "str" is essential
@@ -1194,13 +1153,6 @@ class Parameter():
             return None
 
     def getConnectedTo(self, GUIname):
-#        for tmpGUIname in self.GUIconnections.keys():
-#            if tmpGUIname == GUIname:
-#                return self.GUIconnections[str(GUIname)]
-#
-#        print "Diesem GUI Link (%s) ist keinen Interfaces zugeordnet" % GUIname
-#        return None
-
         if GUIname in self.connections.keys():
 # For unknown reason the "str" is essential
             return self.connections[str(GUIname)]
@@ -1383,8 +1335,6 @@ class ControlMainWindow(QtGui.QMainWindow):
         info('\n****** host list auf erste,... gesetzt\n')
         myHost.showHostValues()
         myHost.exec_()
-#        myHost.show()
-#        QtGui.QMessageBox.information(self, "Hello", "Host 1 clicked!")
 
     def Host01clicked(self): self.showHostWindow(1)
     def Host02clicked(self): self.showHostWindow(2)
@@ -1439,7 +1389,5 @@ if __name__ == '__main__':
 #    setLogLevel( 'info' )
     mySW = ControlMainWindow()
     mySW.StartMNclicked()
-#    myNode = NodeConfig()
     mySW.show()
-#    myNode.show()
     sys.exit(app.exec_())
